@@ -1,0 +1,36 @@
+{
+  "hero": {
+    "title": "Pixel Crunch",
+    "subtitle": "Comprime y optimiza imágenes directamente en tu navegador.",
+    "highlight": "100% privado.",
+    "description": "Tus archivos nunca salen de tu dispositivo."
+  },
+  "features": {
+    "noServers": "Sin servidores",
+    "openSource": "Open Source",
+    "offlineFirst": "Offline First"
+  },
+  "status": {
+    "inDevelopment": "En desarrollo",
+    "phase": "Fase 0 completada. Próximamente: UI de upload y compresión."
+  },
+  "benefits": {
+    "title": "¿Por qué Pixel Crunch?",
+    "privacy": {
+      "title": "Privacidad Total",
+      "description": "Tus imágenes nunca se suben a ningún servidor. Todo el procesamiento ocurre en tu navegador."
+    },
+    "fast": {
+      "title": "Rápido y Eficiente",
+      "description": "Compresión de imágenes instantánea usando tecnología web moderna."
+    },
+    "free": {
+      "title": "Gratis y Open Source",
+      "description": "Código abierto, sin límites de uso, sin suscripciones."
+    }
+  },
+  "formats": {
+    "title": "Formatos Soportados",
+    "description": "JPG, PNG, WebP y más"
+  }
+}

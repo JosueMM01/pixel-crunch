@@ -1,23 +1,68 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { 
+	title = 'Pixel Crunch - Optimiza Imágenes en tu Navegador', 
+	description = 'Herramienta gratuita y privada para comprimir imágenes (JPG, PNG, WebP) sin subir archivos a un servidor. Todo el procesamiento ocurre en tu navegador.'
+} = Astro.props;
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="es" class="dark">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="description" content={description} />
+		
+		<!-- SEO Meta Tags -->
+		<meta name="keywords" content="comprimir imágenes, optimizar imágenes, convertir webp, comprimir jpg, comprimir png, herramienta gratuita, privacidad, offline" />
+		<meta name="author" content="Pixel Crunch" />
+		<meta name="robots" content="index, follow" />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:site_name" content="Pixel Crunch" />
+		
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		
+		<!-- Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet" />
+		
+		<!-- Favicons -->
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<link rel="icon" href="/favicon.ico" sizes="any" />
+		
+		<!-- Theme Color -->
+		<meta name="theme-color" content="#272822" />
+		
+		<!-- Generator -->
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		
+		<title>{title}</title>
+		
+		<script is:inline>
+			// Sistema de tema oscuro
+			const theme = localStorage.getItem('theme') || 'dark';
+			if (theme === 'dark') {
+				document.documentElement.classList.add('dark');
+			} else {
+				document.documentElement.classList.remove('dark');
+			}
+		</script>
 	</head>
-	<body>
+	<body class="antialiased font-sans">
 		<slot />
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

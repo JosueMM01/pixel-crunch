@@ -1,5 +1,5 @@
 {
-  "name": "image-optimizer",
+  "name": "pixel-crunch",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -9,6 +9,27 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.17.1"
+    "@astrojs/react": "^4.4.2",
+    "@tailwindcss/vite": "^4.1.18",
+    "@types/react": "^19.2.10",
+    "@types/react-dom": "^19.2.3",
+    "@vite-pwa/astro": "^1.2.0",
+    "astro": "^5.17.1",
+    "browser-image-compression": "^2.0.2",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "file-saver": "^2.0.5",
+    "jszip": "^3.10.1",
+    "lucide-react": "^0.563.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-dropzone": "^14.4.0",
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.4.0",
+    "tailwindcss": "^4.1.18",
+    "vite-plugin-pwa": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/file-saver": "^2.0.7"
   }
 }

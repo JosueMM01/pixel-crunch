@@ -1,14 +1,14 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import LanguageSwitcher from '../components/LanguageSwitcher';
-import translations from '../i18n/es.json';
+import Layout from '../../layouts/Layout.astro';
+import LanguageSwitcher from '../../components/LanguageSwitcher';
+import translations from '../../i18n/en.json';
 
 const t = translations;
 ---
 
 <Layout 
-	title="Pixel Crunch - Optimiza Imágenes en tu Navegador"
-	description="Herramienta gratuita y privada para comprimir imágenes (JPG, PNG, WebP) sin subir archivos a un servidor."
+	title="Pixel Crunch - Optimize Images in Your Browser"
+	description="Free and private tool to compress images (JPG, PNG, WebP) sin subir archivos a un servidor."
 >
 	<LanguageSwitcher client:load />
 	
@@ -38,10 +38,10 @@ const t = translations;
 					<!-- CTAs -->
 					<div class="mt-6 grid grid-cols-1 sm:flex sm:items-center sm:gap-3 sm:justify-center gap-3 w-full max-w-md mx-auto animate-fade-in-up" style="animation-delay: 0.2s">
 						<a href="#features" class="inline-block w-full sm:w-auto text-center bg-monokai-cyan text-monokai-bg font-bold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity">
-							Conocer más
+							Learn More
 						</a>
 						<a href="https://github.com" target="_blank" rel="noopener noreferrer" class="inline-block w-full sm:w-auto text-center font-bold py-3 px-6 rounded-lg border border-monokai-purple text-monokai-purple hover:bg-monokai-purple/10 transition">
-							Ver en GitHub
+							View on GitHub
 						</a>
 					</div>
 

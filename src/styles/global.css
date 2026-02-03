@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@theme {
+	--font-sans: "Fira Code", ui-sans-serif, system-ui, sans-serif;
+	--font-mono: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+	--color-monokai-bg: #272822;
+	--color-monokai-fg: #F8F8F2;
+	--color-monokai-pink: #F92672;
+	--color-monokai-green: #A6E22E;
+	--color-monokai-yellow: #E6DB74;
+	--color-monokai-purple: #AE81FF;
+	--color-monokai-cyan: #66D9EF;
+	--color-monokai-orange: #FD971F;
+
+	--color-brand-blue: #2563EB;
+	--color-brand-cyan: #1EAEDB;
+	--color-brand-cyan-light: #66D9EF;
+	--color-brand-purple: #7C5CE4;
+	--color-brand-purple-light: #AE81FF;
+	--color-brand-pink: #C2175A;
+	--color-brand-pink-light: #F92672;
+	--color-brand-green: #7FBF1E;
+	--color-brand-green-light: #A6E22E;
+	--color-brand-yellow: #E6DB74;
+}
+
+* {
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	background-color: #272822;
+	color: #F8F8F2;
+	transition: background-color 0.3s ease;
+}
+
+body.dark,
+html.dark body {
+background-color: #272822;
+color: #F8F8F2;
+}
+
+/* Animaciones suaves */
+@keyframes fadeInUp {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+@keyframes fadeIn {
+from {
+opacity: 0;
+}
+to {
+opacity: 1;
+}
+}
+
+.animate-fade-in-up {
+animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in {
+animation: fadeIn 0.5s ease-out forwards;
+}
