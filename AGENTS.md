@@ -2,6 +2,50 @@
 
 Este archivo contiene reglas específicas para que los asistentes de IA trabajen de manera consistente con este proyecto.
 
+⚠️ **INSTRUCCIÓN CRÍTICA:** Estás operando en un entorno profesional con ramas protegidas y flujo estricto de GitHub.
+
+## 🛠️ Herramientas MCP Requeridas
+Debes utilizar activamente las herramientas conectadas:
+1.  **GitHub MCP:** Para leer Issues, crear ramas y gestionar Pull Requests.
+2.  **Chrome DevTools MCP:** Para VERIFICAR errores en consola antes de dar una tarea por terminada. **Prohibido adivinar errores.**
+
+## 🔄 Flujo de Trabajo OBLIGATORIO (GitHub Flow)
+
+Tu ciclo de trabajo es autónomo, pero debes seguir estos pasos en orden estricto:
+
+### 1. Inicio de Tarea (Gestión de Issues)
+- **Consulta:** Revisa el tablero del proyecto (Project Board) o lista las Issues abiertas.
+- **Selección:** Si no se te asigna una, toma la siguiente Issue en la columna "To Do".
+- **Lectura:** Lee detenidamente los requisitos de la Issue. Si no son claros, PREGUNTA al usuario antes de escribir código.
+
+### 2. Configuración de Entorno
+- **Ramas Protegidas:** `main` y `development` son DE SÓLO LECTURA. Nunca intentes hacer push directo a ellas.
+- **Crear Rama:** Crea una rama nueva para la tarea específica basándote en la rama `development`.
+  - Formato: `feat/numero-issue-descripcion-corta` o `fix/numero-issue-descripcion`.
+  - Ejemplo: `git checkout -b feat/2-upload-zone`
+
+### 3. Desarrollo y Validación (Ciclo Iterativo)
+- Escribe el código necesario en incrementos pequeños.
+- Haz commits frecuentes usando **Conventional Commits**:
+  - `feat(ui): agregar estructura base`
+  - `style(ui): ajustar sombras con tailwind`
+- **VALIDACIÓN CONTINUA:** USA Chrome DevTools MCP regularmente durante el desarrollo para verificar que no hay errores en consola.
+- **Nota:** No necesitas pedir permiso para cada commit local, pero sí debes informar qué estás haciendo.
+
+### 4. Verificación Final
+- Antes de hacer push y crear el PR:
+  - ✅ Ejecuta `npm run build` para verificar TypeScript
+  - ✅ USA Chrome DevTools MCP para verificar que no hay errores rojos en consola
+  - ✅ Verifica que el código funciona en móvil y desktop
+- Si hay errores, corrígelos. **No entregues código roto.**
+
+### 5. Finalización (Pull Request)
+- Cuando termines los requisitos de la Issue:
+  1. Haz push de tu rama a GitHub.
+  2. Crea el Pull Request usando las herramientas MCP de GitHub.
+  3. **IMPORTANTE:** En la descripción del PR, incluye `Closes #NumeroDeIssue` para que GitHub automatice el tablero.
+  4. Solicita revisión del usuario e informa que el trabajo está listo.
+
 ---
 
 ## 📋 Contexto del Proyecto
@@ -165,10 +209,10 @@ import { clsx } from 'clsx';
 ## 🛠️ Herramientas y Debugging
 
 ### Chrome DevTools (MCP)
-Si el usuario reporta un error:
-1. ✅ Pide usar Chrome DevTools para ver la consola
-2. ✅ Revisa la pestaña Network si hay problemas de carga
-3. ✅ Usa Lighthouse para PWA/Performance
+Durante el desarrollo, usa activamente Chrome DevTools MCP para:
+1. ✅ Verificar que no hay errores en consola (obligatorio antes de cada commit)
+2. ✅ Revisar la pestaña Network si hay problemas de carga
+3. ✅ Usar Lighthouse para verificar PWA/Performance
 4. ❌ **NO adivines errores** - léelos de las herramientas reales
 
 ### Errores Comunes:
@@ -253,11 +297,11 @@ Cuando llegue la fase de testing:
 4. Piensa en responsive design
 5. Considera el modo oscuro
 
-### Cuando encuentres un problema:
-1. ❌ No asumas la causa
-2. ✅ Pide ver la consola del navegador
-3. ✅ Revisa el código relacionado
-4. ✅ Propón una solución con explicación
+### Cuando necesites información adicional:
+1. ✅ Lee los archivos relevantes en `/docs/`
+2. ✅ Revisa el código existente para mantener consistencia
+3. ✅ Usa las herramientas MCP para verificar el estado real
+4. ❌ No asumas causas de errores sin verificar con Chrome DevTools MCP
 
 ---
 

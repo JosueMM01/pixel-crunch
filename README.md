@@ -164,7 +164,7 @@ Este proyecto está bajo licencia **MIT** - ver el archivo [LICENSE](LICENSE) pa
 
 ## 📞 Contacto
 
-¿Preguntas o sugerencias? Abre un [issue](https://github.com/TU_USUARIO/pixel-crunch/issues) o contacta a [@TU_USUARIO](https://github.com/TU_USUARIO).
+¿Preguntas o sugerencias? Abre un [issue](https://github.com/TU_USUARIO/pixel-crunch/issues) o contacta a [@JosueMM01](https://github.com/JosueMM01).
 
 ---
 

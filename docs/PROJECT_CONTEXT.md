@@ -9,6 +9,13 @@ Crear una herramienta web gratuita, open-source y privada que permita a los usua
 3.  **Simplicidad:** "Hacer una cosa y hacerla bien". Sin login, sin bases de datos.
 4.  **Educativo:** El código debe ser claro y comentado, ya que es un proyecto de aprendizaje.
 
+## 🛠️ Herramientas de Desarrollo
+Este proyecto usa herramientas MCP (Model Context Protocol) para automatización:
+- **GitHub MCP:** Gestión de Issues, ramas y Pull Requests
+- **Chrome DevTools MCP:** Validación de errores en consola durante desarrollo
+
+Ver [AGENTS.md](/AGENTS.md) para más detalles del flujo de trabajo.
+
 ## Funcionalidades Core
 - Drag & Drop de imágenes.
 - Conversión masiva a WebP.

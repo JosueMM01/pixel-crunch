@@ -6,6 +6,11 @@
 - **Estilos:** TailwindCSS v4 + `clsx` & `tailwind-merge` para clases dinámicas.
 - **PWA:** `@vite-pwa/astro` (Soporte Offline y Manifest).
 
+## Herramientas de Desarrollo
+- **GitHub MCP:** Para gestión automatizada de Issues, ramas y Pull Requests
+- **Chrome DevTools MCP:** Para validación de errores en tiempo real durante desarrollo
+- Ver [AGENTS.md](/AGENTS.md) para el flujo de trabajo completo
+
 ## Librerías Clave
 1.  **Compresión:** `browser-image-compression` (Abstracción sólida sobre Canvas/Web Workers).
     * *Nota:* Para la V1 usaremos esta por estabilidad. En V2 podemos migrar a `@jsquash/avif` (WASM puro) si necesitamos más potencia, pero `browser-image-compression` ya es excelente.

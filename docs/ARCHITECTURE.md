@@ -311,7 +311,9 @@ export default {
 
 ---
 
-## 🧪 Testing Strategy (Futuro)
+## 🧪 Testing Strategy (Futuro - Fase 5)
+
+> **Nota:** En el MVP (Fases 1-4) no implementaremos tests. Esta sección es referencia para el futuro.
 
 ### Unit Tests (Vitest)
 - Hooks: `useImageCompression`, `useLocalStorage`

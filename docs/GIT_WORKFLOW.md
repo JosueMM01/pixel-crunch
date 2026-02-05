@@ -1,5 +1,7 @@
 # Flujo de Trabajo con Git - Pixel Crunch
 
+> ⚠️ **IMPORTANTE:** Este proyecto usa GitHub Flow con gestión de Issues. Antes de crear una rama, SIEMPRE debe existir una Issue que describe la tarea. Ver [AGENTS.md](/AGENTS.md) para el flujo completo.
+
 ## 📋 Convenciones de Commits (Conventional Commits)
 
 Usamos el formato: `tipo(scope): mensaje`
@@ -31,6 +33,11 @@ chore(deps): update astro to 5.17.2
 - **Siempre estable:** Todo lo que esté aquí debe funcionar
 - **Deploy automático:** Cada push a `main` = deploy a producción
 
+### Branch de Desarrollo: `development`
+- **Protegida:** Solo se mergea vía Pull Request
+- **Base para features:** Todas las ramas de trabajo salen de aquí
+- **Testing e integración:** Se prueba antes de mergear a `main`
+
 ### Branches de Desarrollo:
 
 #### Features
@@ -60,9 +67,9 @@ docs/contributing-guide
 ### Fase 1: UI Base
 
 ```bash
-# 1. Crear branch desde main
-git checkout main
-git pull origin main
+# 1. Crear branch desde development
+git checkout development
+git pull origin development
 git checkout -b feat/ui-base
 
 # 2. Hacer cambios incrementales
@@ -83,12 +90,12 @@ git push origin feat/ui-base
 # - ✅ Theme toggle working
 # - ✅ Responsive layout
 
-# 5. Mergear cuando esté aprobado
+# 5. Mergear cuando esté aprobado (mergea a development)
 # (Usar "Squash and merge" o "Merge commit" según preferencia)
 
 # 6. Actualizar local
-git checkout main
-git pull origin main
+git checkout development
+git pull origin development
 git branch -d feat/ui-base  # Borrar branch local
 ```
 
@@ -115,9 +122,9 @@ git push -u origin main
 
 ### Desarrollo Diario
 ```bash
-# Actualizar main
-git checkout main
-git pull origin main
+# Actualizar development
+git checkout development
+git pull origin development
 
 # Crear feature branch
 git checkout -b feat/nueva-funcionalidad
@@ -224,28 +231,28 @@ git push origin main --tags
 
 ## 🚨 Situaciones Comunes
 
-### "Olvidé hacer un branch y ya commiteé en main"
+### "Olvidé hacer un branch y ya commiteé en development"
 ```bash
 # 1. Crear branch desde donde estás
 git checkout -b feat/mi-feature
 
-# 2. Volver main al estado remoto
-git checkout main
-git reset --hard origin/main
+# 2. Volver development al estado remoto
+git checkout development
+git reset --hard origin/development
 
 # 3. Continuar trabajando en el branch
 git checkout feat/mi-feature
 ```
 
-### "Necesito cambios de main en mi branch"
+### "Necesito cambios de development en mi branch"
 ```bash
 # Opción 1: Rebase (recomendado)
 git checkout feat/mi-feature
-git rebase main
+git rebase development
 
 # Opción 2: Merge
 git checkout feat/mi-feature
-git merge main
+git merge development
 ```
 
 ### "Hice commits con mensajes malos"
