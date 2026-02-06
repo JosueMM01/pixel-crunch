@@ -2,11 +2,11 @@
 // Footer component - Identidad visual completa
 ---
 
-<footer class="border-t border-gray-200 dark:border-brand-blue/30 bg-gray-50 dark:bg-gray-800/50">
-  <div class="container mx-auto px-4 pt-16 pb-8">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+<footer class="mt-16 border-t border-gray-200 dark:border-brand-blue/30 bg-gray-50 dark:bg-gray-800/50">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
       <!-- Columna 1: Logo, Descripción, Copyright y Créditos -->
-      <div class="space-y-6">
+      <div class="space-y-5">
         <!-- Logo y Nombre -->
         <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity group" aria-label="Ir a inicio">
           <img src="/Logo.svg" alt="Pixel Crunch Logo" class="h-8 w-8 transition-transform group-hover:scale-110" />
@@ -16,7 +16,7 @@
         </a>
         
         <!-- Descripción -->
-        <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+        <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed max-w-xs">
           Comprime y optimiza imágenes directamente en tu navegador. 100% privado, gratuito y open source.
         </p>
         
@@ -47,7 +47,7 @@
           <li>
             <a 
               href="/#features" 
-              class="text-sm text-gray-600 dark:text-gray-400 hover:text-brand-cyan dark:hover:text-brand-cyan-light transition-colors inline-block"
+              class="text-sm text-gray-600 dark:text-gray-400 hover:text-brand-cyan dark:hover:text-brand-cyan-light transition-colors inline-flex items-center gap-2"
             >
               Características
             </a>
@@ -57,9 +57,10 @@
               href="https://github.com/JosueMM01/pixel-crunch" 
               target="_blank"
               rel="noopener noreferrer"
-              class="text-sm text-gray-600 dark:text-gray-400 hover:text-brand-cyan dark:hover:text-brand-cyan-light transition-colors inline-block"
+              class="text-sm text-gray-600 dark:text-gray-400 hover:text-brand-cyan dark:hover:text-brand-cyan-light transition-colors inline-flex items-center gap-2"
             >
-              GitHub →
+              <img src="/logos/github.svg" alt="" class="w-4 h-4" aria-hidden="true" />
+              GitHub
             </a>
           </li>
           <li>
@@ -67,8 +68,9 @@
               href="https://github.com/JosueMM01/pixel-crunch/issues" 
               target="_blank"
               rel="noopener noreferrer"
-              class="text-sm text-gray-600 dark:text-gray-400 hover:text-brand-cyan dark:hover:text-brand-cyan-light transition-colors inline-block"
+              class="text-sm text-gray-600 dark:text-gray-400 hover:text-brand-cyan dark:hover:text-brand-cyan-light transition-colors inline-flex items-center gap-2"
             >
+              <img src="/logos/gear.svg" alt="" class="w-4 h-4" aria-hidden="true" />
               Reportar Bug
             </a>
           </li>
@@ -86,8 +88,9 @@
               href="https://astro.build" 
               target="_blank" 
               rel="noopener noreferrer"
-              class="text-sm text-gray-600 dark:text-gray-400 hover:text-brand-purple dark:hover:text-brand-purple-light transition-colors inline-block"
+              class="text-sm text-gray-600 dark:text-gray-400 hover:text-brand-purple dark:hover:text-brand-purple-light transition-colors inline-flex items-center gap-2"
             >
+              <img src="/logos/astro.svg" alt="" class="w-5 h-5" aria-hidden="true" />
               Astro 5.17
             </a>
           </li>
@@ -96,8 +99,9 @@
               href="https://react.dev" 
               target="_blank" 
               rel="noopener noreferrer"
-              class="text-sm text-gray-600 dark:text-gray-400 hover:text-brand-purple dark:hover:text-brand-purple-light transition-colors inline-block"
+              class="text-sm text-gray-600 dark:text-gray-400 hover:text-brand-purple dark:hover:text-brand-purple-light transition-colors inline-flex items-center gap-2"
             >
+              <img src="/logos/react.svg" alt="" class="w-5 h-5" aria-hidden="true" />
               React 19
             </a>
           </li>
@@ -106,8 +110,9 @@
               href="https://tailwindcss.com" 
               target="_blank" 
               rel="noopener noreferrer"
-              class="text-sm text-gray-600 dark:text-gray-400 hover:text-brand-purple dark:hover:text-brand-purple-light transition-colors inline-block"
+              class="text-sm text-gray-600 dark:text-gray-400 hover:text-brand-purple dark:hover:text-brand-purple-light transition-colors inline-flex items-center gap-2"
             >
+              <img src="/logos/tailwind.svg" alt="" class="w-5 h-5" aria-hidden="true" />
               TailwindCSS v4
             </a>
           </li>
