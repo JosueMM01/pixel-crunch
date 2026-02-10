@@ -32,5 +32,15 @@
   "formats": {
     "title": "Formatos Soportados",
     "description": "JPG, PNG, WebP y más"
+  },
+  "upload": {
+    "title": "Sube tus imagenes",
+    "description": "Arrastra imagenes aqui o haz clic para seleccionar.",
+    "idleLabel": "Arrastra imagenes aqui o haz clic para seleccionar",
+    "draggingLabel": "Suelta los archivos para cargarlos",
+    "processingLabel": "Procesando archivos...",
+    "helperLabel": "Formatos soportados: JPG, PNG, WebP, GIF",
+    "sizeErrorLabel": "Archivo muy grande. Maximo 10MB.",
+    "typeErrorLabel": "Formato no soportado. Solo JPG, PNG, WebP, GIF."
   }
 }
