@@ -39,8 +39,8 @@
     "idleLabel": "Arrastra imagenes aqui o haz clic para seleccionar",
     "draggingLabel": "Suelta los archivos para cargarlos",
     "processingLabel": "Procesando archivos...",
-    "helperLabel": "Formatos soportados: JPG, PNG, WebP, GIF",
+    "helperLabel": "Formatos soportados: JPG, PNG, WebP, SVG",
     "sizeErrorLabel": "Archivo muy grande. Maximo 10MB.",
-    "typeErrorLabel": "Formato no soportado. Solo JPG, PNG, WebP, GIF."
+    "typeErrorLabel": "Formato no soportado. Solo JPG, PNG, WebP, SVG."
   }
 }

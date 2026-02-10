@@ -15,7 +15,7 @@ Tu ciclo de trabajo es autónomo, pero debes seguir estos pasos en orden estrict
 
 ### 1. Inicio de Tarea (Gestión de Issues)
 - **Consulta:** Revisa el tablero del proyecto (Project Board) o lista las Issues abiertas.
-- **Selección:** Si no se te asigna una, toma la siguiente Issue en la columna "To Do".
+- **Selección:** Si no se te asigna una, toma la siguiente Issue en la columna "To Do" y muevela a "In progress" para que sepan que estas trabajando en ella.
 - **Lectura:** Lee detenidamente los requisitos de la Issue. Si no son claros, PREGUNTA al usuario antes de escribir código.
 
 ### 2. Configuración de Entorno

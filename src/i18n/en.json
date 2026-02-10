@@ -39,8 +39,8 @@
     "idleLabel": "Drag images here or click to select",
     "draggingLabel": "Drop files to upload",
     "processingLabel": "Processing files...",
-    "helperLabel": "Supported formats: JPG, PNG, WebP, GIF",
+    "helperLabel": "Supported formats: JPG, PNG, WebP, SVG",
     "sizeErrorLabel": "File too large. Max 10MB.",
-    "typeErrorLabel": "Unsupported format. Only JPG, PNG, WebP, GIF."
+    "typeErrorLabel": "Unsupported format. Only JPG, PNG, WebP, SVG."
   }
 }
