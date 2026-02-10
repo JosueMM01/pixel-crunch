@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import LanguageSwitcher from '../components/LanguageSwitcher';
 import translations from '../i18n/es.json';
 
 const t = translations;
@@ -10,11 +9,9 @@ const t = translations;
 	title="Pixel Crunch - Optimiza Imágenes en tu Navegador"
 	description="Herramienta gratuita y privada para comprimir imágenes (JPG, PNG, WebP) sin subir archivos a un servidor."
 >
-	<LanguageSwitcher client:load />
-	
 	<main class="min-h-screen bg-monokai-bg text-monokai-fg">
 		<!-- Hero Section -->
-		<section class="relative px-4 py-20 md:py-32 flex justify-center">
+		<section class="relative px-4 pt-12 pb-20 md:pt-20 md:pb-28 flex justify-center">
 			<div class="w-full max-w-6xl mx-auto text-center">
 					<!-- Icono Principal -->
 					<div class="inline-block mb-8 animate-fade-in">
@@ -135,7 +132,7 @@ const t = translations;
 			<div class="container mx-auto max-w-4xl text-center">
 				<h3 class="text-2xl md:text-3xl font-bold text-monokai-cyan mb-6">{t.formats.title}</h3>
 				<div class="flex gap-4 justify-center flex-wrap">
-					{['JPG', 'PNG', 'WebP', 'GIF'].map((format) => (
+					{['JPG', 'PNG', 'WebP', 'SVG'].map((format) => (
 						<span class="px-6 py-3 bg-monokai-bg/80 text-monokai-purple font-mono font-bold text-lg rounded-lg border-2 border-monokai-purple/60 hover:border-monokai-purple transition-all">
 							{format}
 						</span>

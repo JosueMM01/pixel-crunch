@@ -1,6 +1,5 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import LanguageSwitcher from '../../components/LanguageSwitcher';
 import translations from '../../i18n/en.json';
 
 const t = translations;
@@ -10,11 +9,9 @@ const t = translations;
 	title="Pixel Crunch - Optimize Images in Your Browser"
 	description="Free and private tool to compress images (JPG, PNG, WebP) sin subir archivos a un servidor."
 >
-	<LanguageSwitcher client:load />
-	
 	<main class="min-h-screen bg-monokai-bg text-monokai-fg">
 		<!-- Hero Section -->
-		<section class="relative px-4 py-20 md:py-32 flex justify-center">
+		<section class="relative px-4 pt-12 pb-20 md:pt-20 md:pb-28 flex justify-center">
 			<div class="w-full max-w-6xl mx-auto text-center">
 					<!-- Icono Principal -->
 					<div class="inline-block mb-8 animate-fade-in">

@@ -1,0 +1,41 @@
+---
+import LanguageSwitcher from '../LanguageSwitcher';
+---
+
+<header class="sticky top-0 z-40 w-full border-b border-gray-200 dark:border-white/10 bg-white/80 dark:bg-monokai-bg/80 backdrop-blur-sm">
+  <div class="container mx-auto px-6">
+    <nav class="h-16 flex flex-wrap items-center justify-between gap-4" aria-label="Navegación principal">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity group" aria-label="Ir a inicio">
+        <img src="/Logo.svg" alt="Pixel Crunch Logo" class="w-8 h-8 transition-transform group-hover:scale-110" />
+        <span class="text-xl font-bold text-brand-blue">
+          Pixel Crunch
+        </span>
+      </a>
+
+      <!-- Navegación (desktop) -->
+      <div class="hidden md:flex items-center gap-6">
+        <a 
+          href="/#features" 
+          class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-brand-blue transition-colors"
+        >
+          Características
+        </a>
+        <a 
+          href="https://github.com/JosueMM01/pixel-crunch" 
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-brand-blue transition-colors"
+          aria-label="Ver repositorio en GitHub (abre en nueva pestaña)"
+        >
+          GitHub
+        </a>
+      </div>
+
+      <!-- Language Switcher -->
+      <div class="flex items-center">
+        <LanguageSwitcher client:load />
+      </div>
+    </nav>
+  </div>
+</header>
