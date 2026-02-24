@@ -40,6 +40,7 @@
     "draggingLabel": "Drop files to upload",
     "processingLabel": "Processing files...",
     "helperLabel": "Supported formats: JPG, PNG, WebP, SVG",
+    "successLabel": "{count} image(s) uploaded successfully.",
     "sizeErrorLabel": "File too large. Max 10MB.",
     "typeErrorLabel": "Unsupported format. Only JPG, PNG, WebP, SVG."
   },

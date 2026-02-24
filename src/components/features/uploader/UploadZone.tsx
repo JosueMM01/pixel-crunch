@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from 'react';
 import { useDropzone, type FileRejection } from 'react-dropzone';
 import { ImagePlus, UploadCloud } from 'lucide-react';
-import { toast } from 'sonner';
 import { cn, formatBytes } from '@/lib/utils';
+import { showError, showSuccess } from '@/lib/toast';
 import type { UploadZoneCopy, UploadZoneProps } from '@/types';
 
 const DEFAULT_ACCEPTED_FORMATS = [
@@ -19,6 +19,7 @@ const DEFAULT_COPY: UploadZoneCopy = {
     draggingLabel: 'Suelta los archivos para cargarlos',
     processingLabel: 'Procesando archivos...',
     helperLabel: 'Formatos soportados: JPG, PNG, WebP, SVG',
+    successLabel: '{count} imagen(es) cargada(s) correctamente.',
     sizeErrorLabel: 'Archivo muy grande. Maximo 10MB.',
     typeErrorLabel: 'Formato no soportado. Solo JPG, PNG, WebP, SVG.',
 };
@@ -47,8 +48,14 @@ export const UploadZone = ({
         (files: File[]) => {
             if (files.length === 0) return;
             onFilesSelected?.(files);
+
+            const successMessage = resolvedCopy.successLabel.replace(
+                '{count}',
+                String(files.length)
+            );
+            showSuccess(successMessage);
         },
-        [onFilesSelected]
+        [onFilesSelected, resolvedCopy.successLabel]
     );
 
     const handleRejected = useCallback(
@@ -68,7 +75,7 @@ export const UploadZone = ({
                 });
             });
 
-            messages.forEach((message) => toast.error(message));
+            messages.forEach((message) => showError(message));
         },
         [resolvedCopy]
     );
