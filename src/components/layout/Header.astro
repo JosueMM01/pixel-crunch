@@ -1,5 +1,6 @@
 ---
 import LanguageSwitcher from '../LanguageSwitcher';
+import ThemeToggle from '../ui/ThemeToggle';
 ---
 
 <header class="sticky top-0 z-40 w-full border-b border-gray-200 dark:border-white/10 bg-white/80 dark:bg-monokai-bg/80 backdrop-blur-sm">
@@ -32,8 +33,9 @@ import LanguageSwitcher from '../LanguageSwitcher';
         </a>
       </div>
 
-      <!-- Language Switcher -->
-      <div class="flex items-center">
+      <!-- Theme + Language Switcher -->
+      <div class="flex items-center gap-2">
+        <ThemeToggle client:load />
         <LanguageSwitcher client:load />
       </div>
     </nav>

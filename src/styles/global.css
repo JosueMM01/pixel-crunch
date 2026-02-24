@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
 	--font-sans: "Fira Code", ui-sans-serif, system-ui, sans-serif;
@@ -25,6 +26,28 @@
 	--color-brand-yellow: #E6DB74;
 }
 
+:root {
+	--color-monokai-bg: #f8fafc;
+	--color-monokai-fg: #0f172a;
+	--color-monokai-pink: #be185d;
+	--color-monokai-green: #15803d;
+	--color-monokai-yellow: #a16207;
+	--color-monokai-purple: #7c3aed;
+	--color-monokai-cyan: #0e7490;
+	--color-monokai-orange: #c2410c;
+}
+
+html.dark {
+	--color-monokai-bg: #272822;
+	--color-monokai-fg: #F8F8F2;
+	--color-monokai-pink: #F92672;
+	--color-monokai-green: #A6E22E;
+	--color-monokai-yellow: #E6DB74;
+	--color-monokai-purple: #AE81FF;
+	--color-monokai-cyan: #66D9EF;
+	--color-monokai-orange: #FD971F;
+}
+
 * {
 	box-sizing: border-box;
 }
@@ -34,16 +57,7 @@ scroll-behavior: smooth;
 }
 
 body {
-	/* margin: 0; */
-	background-color: #272822;
-	color: #F8F8F2;
 	transition: background-color 0.3s ease;
-}
-
-body.dark,
-html.dark body {
-background-color: #272822;
-color: #F8F8F2;
 }
 
 /* Animaciones suaves */

@@ -15,7 +15,7 @@ const {
 ---
 
 <!doctype html>
-<html lang="es" class="dark">
+<html lang="es">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -55,13 +55,18 @@ const {
 		<title>{title}</title>
 		
 		<script is:inline>
-			// Sistema de tema oscuro
-			const theme = localStorage.getItem('theme') || 'dark';
-			if (theme === 'dark') {
-				document.documentElement.classList.add('dark');
-			} else {
-				document.documentElement.classList.remove('dark');
-			}
+			(() => {
+				const storageKey = 'theme';
+				const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+				const savedTheme = localStorage.getItem(storageKey);
+				const theme =
+					savedTheme === 'light' || savedTheme === 'dark' || savedTheme === 'system'
+						? savedTheme
+						: 'system';
+
+				const shouldUseDark = theme === 'dark' || (theme === 'system' && mediaQuery.matches);
+				document.documentElement.classList.toggle('dark', shouldUseDark);
+			})();
 		</script>
 	</head>
 	<body class="antialiased font-sans flex flex-col min-h-screen bg-white dark:bg-monokai-bg text-gray-900 dark:text-monokai-fg transition-colors duration-300">
