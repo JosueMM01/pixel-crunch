@@ -40,6 +40,7 @@
     "draggingLabel": "Suelta los archivos para cargarlos",
     "processingLabel": "Procesando archivos...",
     "helperLabel": "Formatos soportados: JPG, PNG, WebP, SVG",
+    "successLabel": "{count} imagen(es) cargada(s) correctamente.",
     "sizeErrorLabel": "Archivo muy grande. Maximo 10MB.",
     "typeErrorLabel": "Formato no soportado. Solo JPG, PNG, WebP, SVG."
   },

@@ -5,6 +5,7 @@ export interface UploadZoneCopy {
   draggingLabel: string;
   processingLabel: string;
   helperLabel: string;
+  successLabel: string;
   sizeErrorLabel: string;
   typeErrorLabel: string;
 }
