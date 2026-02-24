@@ -12,7 +12,7 @@
 
 ---
 
-## 🔄 Fase 1: UI Base (SIGUIENTE)
+## ✅ Fase 1: UI Base (COMPLETADA)
 **Branch:** `feat/ui-base`  
 **Objetivo:** Interfaz funcional sin lógica de compresión.
 
@@ -25,15 +25,15 @@
 6. Solicitar revisión
 
 ### Tareas:
-- [ ] Crear componentes base en `src/components/ui/`
-  - [ ] Button.tsx
-  - [ ] Card.tsx
-  - [ ] Badge.tsx
-- [ ] Layout principal con Header/Footer
-- [ ] Componente `UploadZone.tsx` (react-dropzone)
-- [ ] Componente `ImagePreview.tsx` (mostrar miniaturas)
-- [ ] Sistema de tema oscuro con hook `useTheme.ts`
-- [ ] Sistema de notificaciones con Sonner
+- [x] Crear componentes base en `src/components/ui/`
+  - [x] Button.tsx
+  - [x] Card.tsx
+  - [x] Badge.tsx
+- [x] Layout principal con Header/Footer
+- [x] Componente `UploadZone.tsx` (react-dropzone)
+- [x] Componente `ImagePreview.tsx` (mostrar miniaturas)
+- [x] Sistema de tema oscuro con hook `useTheme.ts`
+- [x] Sistema de notificaciones con Sonner
 
 ### Entregables:
 - Usuario puede arrastrar archivos
