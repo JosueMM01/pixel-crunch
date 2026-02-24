@@ -1,1 +1,7 @@
-export type { UploadZoneCopy, UploadZoneProps } from './upload';
+export type {
+	UploadZoneCopy,
+	UploadZoneProps,
+	ImagePreviewCopy,
+	ImagePreviewProps,
+	UploaderPanelProps,
+} from './upload';

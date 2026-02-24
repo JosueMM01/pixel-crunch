@@ -17,3 +17,21 @@ export interface UploadZoneProps {
   isProcessing?: boolean;
   copy?: Partial<UploadZoneCopy>;
 }
+
+export interface ImagePreviewCopy {
+  title: string;
+  emptyStateLabel: string;
+  removeLabel: string;
+  previewAltPrefix: string;
+}
+
+export interface ImagePreviewProps {
+  files: File[];
+  onRemove: (index: number) => void;
+  copy?: Partial<ImagePreviewCopy>;
+}
+
+export interface UploaderPanelProps {
+  uploadCopy?: Partial<UploadZoneCopy>;
+  previewCopy?: Partial<ImagePreviewCopy>;
+}
