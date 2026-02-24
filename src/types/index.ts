@@ -3,5 +3,7 @@ export type {
 	UploadZoneProps,
 	ImagePreviewCopy,
 	ImagePreviewProps,
+	QualitySliderCopy,
+	QualitySliderProps,
 	UploaderPanelProps,
 } from './upload';
