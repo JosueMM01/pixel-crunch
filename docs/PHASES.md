@@ -12,20 +12,28 @@
 
 ---
 
-## 🔄 Fase 1: UI Base (SIGUIENTE)
+## ✅ Fase 1: UI Base (COMPLETADA)
 **Branch:** `feat/ui-base`  
 **Objetivo:** Interfaz funcional sin lógica de compresión.
 
+### ⚠️ FLUJO OBLIGATORIO:
+1. Crear Issue en GitHub detallando los requisitos
+2. Crear branch desde `development` con formato `feat/numero-issue-descripcion`
+3. Desarrollar con commits atómicos usando Conventional Commits
+4. Verificar con Chrome DevTools MCP que no hay errores
+5. Crear Pull Request con `Closes #NumeroIssue` en la descripción
+6. Solicitar revisión
+
 ### Tareas:
-- [ ] Crear componentes base en `src/components/ui/`
-  - [ ] Button.tsx
-  - [ ] Card.tsx
-  - [ ] Badge.tsx
-- [ ] Layout principal con Header/Footer
-- [ ] Componente `UploadZone.tsx` (react-dropzone)
-- [ ] Componente `ImagePreview.tsx` (mostrar miniaturas)
-- [ ] Sistema de tema oscuro con hook `useTheme.ts`
-- [ ] Sistema de notificaciones con Sonner
+- [x] Crear componentes base en `src/components/ui/`
+  - [x] Button.tsx
+  - [x] Card.tsx
+  - [x] Badge.tsx
+- [x] Layout principal con Header/Footer
+- [x] Componente `UploadZone.tsx` (react-dropzone)
+- [x] Componente `ImagePreview.tsx` (mostrar miniaturas)
+- [x] Sistema de tema oscuro con hook `useTheme.ts`
+- [x] Sistema de notificaciones con Sonner
 
 ### Entregables:
 - Usuario puede arrastrar archivos
@@ -43,6 +51,14 @@
 ## 📦 Fase 2: Compresión Core
 **Branch:** `feat/compression-engine`  
 **Objetivo:** Implementar lógica de procesamiento.
+
+### ⚠️ FLUJO OBLIGATORIO:
+1. Crear Issue en GitHub detallando los requisitos
+2. Crear branch desde `development` con formato `feat/numero-issue-descripcion`
+3. Desarrollar con commits atómicos usando Conventional Commits
+4. Verificar con Chrome DevTools MCP que no hay errores
+5. Crear Pull Request con `Closes #NumeroIssue` en la descripción
+6. Solicitar revisión
 
 ### Tareas:
 - [ ] Hook `useImageCompression.ts` con browser-image-compression
@@ -68,6 +84,14 @@
 **Branch:** `feat/downloads-history`  
 **Objetivo:** Historial local y descarga de archivos.
 
+### ⚠️ FLUJO OBLIGATORIO:
+1. Crear Issue en GitHub detallando los requisitos
+2. Crear branch desde `development` con formato `feat/numero-issue-descripcion`
+3. Desarrollar con commits atómicos usando Conventional Commits
+4. Verificar con Chrome DevTools MCP que no hay errores
+5. Crear Pull Request con `Closes #NumeroIssue` en la descripción
+6. Solicitar revisión
+
 ### Tareas:
 - [ ] Hook `useLocalStorage.ts` para persistencia
 - [ ] Componente `HistoryPanel.tsx` (últimas 5 compresiones)
@@ -91,6 +115,14 @@
 ## 🚀 Fase 4: PWA y Deploy
 **Branch:** `feat/pwa-offline`  
 **Objetivo:** App instalable y producción.
+
+### ⚠️ FLUJO OBLIGATORIO:
+1. Crear Issue en GitHub detallando los requisitos
+2. Crear branch desde `development` con formato `feat/numero-issue-descripcion`
+3. Desarrollar con commits atómicos usando Conventional Commits
+4. Verificar con Chrome DevTools MCP que no hay errores
+5. Crear Pull Request con `Closes #NumeroIssue` en la descripción
+6. Solicitar revisión
 
 ### Tareas:
 - [ ] Configurar Service Worker con vite-plugin-pwa

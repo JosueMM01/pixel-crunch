@@ -12,7 +12,7 @@
   },
   "status": {
     "inDevelopment": "En desarrollo",
-    "phase": "Fase 0 completada. Próximamente: UI de upload y compresión."
+    "phase": "Fase 1 completada. Próximamente: motor de compresión (Fase 2)."
   },
   "benefits": {
     "title": "¿Por qué Pixel Crunch?",
@@ -32,5 +32,22 @@
   "formats": {
     "title": "Formatos Soportados",
     "description": "JPG, PNG, WebP y más"
+  },
+  "upload": {
+    "title": "Sube tus imagenes",
+    "description": "Arrastra imagenes aqui o haz clic para seleccionar.",
+    "idleLabel": "Arrastra imagenes aqui o haz clic para seleccionar",
+    "draggingLabel": "Suelta los archivos para cargarlos",
+    "processingLabel": "Procesando archivos...",
+    "helperLabel": "Formatos soportados: JPG, PNG, WebP, SVG",
+    "successLabel": "{count} imagen(es) cargada(s) correctamente.",
+    "sizeErrorLabel": "Archivo muy grande. Maximo 10MB.",
+    "typeErrorLabel": "Formato no soportado. Solo JPG, PNG, WebP, SVG."
+  },
+  "preview": {
+    "title": "Vista previa de imagenes",
+    "emptyStateLabel": "Aun no hay imagenes cargadas.",
+    "removeLabel": "Eliminar imagen",
+    "previewAltPrefix": "Vista previa de"
   }
 }
