@@ -42,5 +42,11 @@
     "helperLabel": "Supported formats: JPG, PNG, WebP, SVG",
     "sizeErrorLabel": "File too large. Max 10MB.",
     "typeErrorLabel": "Unsupported format. Only JPG, PNG, WebP, SVG."
+  },
+  "preview": {
+    "title": "Image preview",
+    "emptyStateLabel": "No images uploaded yet.",
+    "removeLabel": "Remove image",
+    "previewAltPrefix": "Preview of"
   }
 }
