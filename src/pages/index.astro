@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { UploadZone } from '../components/features/uploader';
+import { UploaderPanel } from '../components/features/uploader';
 import translations from '../i18n/es.json';
 
 const t = translations;
@@ -84,9 +84,10 @@ const t = translations;
 		</section>
 
 		<section class="px-4 pb-16 md:pb-24">
-			<UploadZone
+			<UploaderPanel
 				client:load
-				copy={t.upload}
+				uploadCopy={t.upload}
+				previewCopy={t.preview}
 			/>
 		</section>
 
