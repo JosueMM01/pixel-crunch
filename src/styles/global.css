@@ -34,16 +34,7 @@ scroll-behavior: smooth;
 }
 
 body {
-	/* margin: 0; */
-	background-color: #272822;
-	color: #F8F8F2;
 	transition: background-color 0.3s ease;
-}
-
-body.dark,
-html.dark body {
-background-color: #272822;
-color: #F8F8F2;
 }
 
 /* Animaciones suaves */
