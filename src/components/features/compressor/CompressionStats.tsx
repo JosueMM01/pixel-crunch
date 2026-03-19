@@ -9,14 +9,14 @@ import type {
 } from '@/types';
 
 const DEFAULT_COPY: CompressionStatsCopy = {
-  title: 'Estadisticas de compresion',
-  description: 'Compara el tamano original frente al comprimido.',
-  emptyStateLabel: 'Aun no hay datos de compresion para mostrar.',
+  title: 'Compression stats',
+  description: 'Compare original size against compressed size.',
+  emptyStateLabel: 'No compression data to show yet.',
   originalLabel: 'Original',
-  compressedLabel: 'Comprimido',
-  savingsLabel: 'Ahorro',
-  percentageLabel: 'Reduccion',
-  estimatedLabel: 'Estimado',
+  compressedLabel: 'Compressed',
+  savingsLabel: 'Savings',
+  percentageLabel: 'Reduction',
+  estimatedLabel: 'Estimated',
   errorLabel: 'Error',
 };
 
@@ -25,10 +25,23 @@ interface NormalizedStatsItem extends CompressionStatsItem {
   safeCompressed: number;
   savingsBytes: number;
   savingsPercent: number;
+  isComparable: boolean;
 }
 
 function toNormalizedItem(item: CompressionStatsItem): NormalizedStatsItem {
   const safeOriginal = Math.max(0, item.originalBytes);
+
+  if (item.hasError) {
+    return {
+      ...item,
+      safeOriginal,
+      safeCompressed: 0,
+      savingsBytes: 0,
+      savingsPercent: 0,
+      isComparable: false,
+    };
+  }
+
   const safeCompressed = Math.max(0, item.compressedBytes);
   const savingsBytes = safeOriginal - safeCompressed;
   const savingsPercent = safeOriginal === 0
@@ -41,6 +54,7 @@ function toNormalizedItem(item: CompressionStatsItem): NormalizedStatsItem {
     safeCompressed,
     savingsBytes,
     savingsPercent,
+    isComparable: true,
   };
 }
 
@@ -52,15 +66,15 @@ function getSavingsBadgeVariant(savingsBytes: number): 'success' | 'warning' | '
 
 function formatSignedBytes(value: number): string {
   const absValue = Math.abs(value);
-  if (value > 0) return `-${formatBytes(absValue)}`;
-  if (value < 0) return `+${formatBytes(absValue)}`;
+  if (value > 0) return formatBytes(absValue);
+  if (value < 0) return `-${formatBytes(absValue)}`;
   return formatBytes(0);
 }
 
 function formatSignedPercent(value: number): string {
   const absValue = Math.abs(value).toFixed(1);
-  if (value > 0) return `-${absValue}%`;
-  if (value < 0) return `+${absValue}%`;
+  if (value > 0) return `${absValue}%`;
+  if (value < 0) return `-${absValue}%`;
   return '0.0%';
 }
 
@@ -76,8 +90,9 @@ export function CompressionStats({ items, copy }: CompressionStatsProps) {
   );
 
   const totals = useMemo(() => {
-    const original = normalizedItems.reduce((sum, item) => sum + item.safeOriginal, 0);
-    const compressed = normalizedItems.reduce((sum, item) => sum + item.safeCompressed, 0);
+    const comparableItems = normalizedItems.filter((item) => item.isComparable);
+    const original = comparableItems.reduce((sum, item) => sum + item.safeOriginal, 0);
+    const compressed = comparableItems.reduce((sum, item) => sum + item.safeCompressed, 0);
     const savingsBytes = original - compressed;
     const savingsPercent = original === 0 ? 0 : (savingsBytes / original) * 100;
 
@@ -172,13 +187,13 @@ export function CompressionStats({ items, copy }: CompressionStatsProps) {
                         {resolvedCopy.originalLabel}: {formatBytes(item.safeOriginal)}
                       </span>
                       <span>
-                        {resolvedCopy.compressedLabel}: {formatBytes(item.safeCompressed)}
+                        {resolvedCopy.compressedLabel}: {item.isComparable ? formatBytes(item.safeCompressed) : '--'}
                       </span>
                       <span>
-                        {resolvedCopy.savingsLabel}: {formatSignedBytes(item.savingsBytes)}
+                        {resolvedCopy.savingsLabel}: {item.isComparable ? formatSignedBytes(item.savingsBytes) : '--'}
                       </span>
                       <span>
-                        {resolvedCopy.percentageLabel}: {formatSignedPercent(item.savingsPercent)}
+                        {resolvedCopy.percentageLabel}: {item.isComparable ? formatSignedPercent(item.savingsPercent) : '--'}
                       </span>
                     </div>
                   </div>

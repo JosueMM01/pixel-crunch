@@ -5,9 +5,15 @@ import { CompressionStats, QualitySlider } from '../compressor';
 import type { CompressionStatsItem } from '@/types';
 import type { UploaderPanelProps } from '@/types';
 
+// Heuristic bounds for estimating output size with a normalized quality value.
+const MIN_COMPRESSION_RATIO = 0.35;
+const MAX_COMPRESSION_RATIO = 1;
+
 function estimateCompressedSize(bytes: number, quality: number): number {
   const safeBytes = Math.max(0, bytes);
-  const ratio = 0.35 + (quality * 0.65);
+  const clampedQuality = Math.min(1, Math.max(0, quality));
+  const ratio = MIN_COMPRESSION_RATIO
+    + (MAX_COMPRESSION_RATIO - MIN_COMPRESSION_RATIO) * clampedQuality;
   return Math.round(safeBytes * ratio);
 }
 
