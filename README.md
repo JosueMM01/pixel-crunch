@@ -22,12 +22,14 @@
 
 ## 🚀 Estado del Proyecto
 
-🚧 **En desarrollo activo** - Actualmente en **Fase 0** (Setup completado)
+🚧 **En desarrollo activo** - Actualmente en **Fase 2** (Compresión Core)
+
+📍 **Demo en vivo:** https://pixel-crunch.josuem01.dev/
 
 ### Roadmap:
 - ✅ **Fase 0:** Setup inicial (Astro + React + TailwindCSS)
-- 🔄 **Fase 1:** UI Base (En progreso)
-- ⏳ **Fase 2:** Compresión Core
+- ✅ **Fase 1:** UI Base (Completada)
+- 🔄 **Fase 2:** Compresión Core (En progreso)
 - ⏳ **Fase 3:** Descargas y Historial
 - ⏳ **Fase 4:** PWA y Deploy
 
@@ -62,7 +64,7 @@ Ver [PHASES.md](./docs/PHASES.md) para detalles completos.
 
 ```bash
 # 1. Clonar repositorio
-git clone https://github.com/TU_USUARIO/pixel-crunch.git
+git clone https://github.com/JosueMM01/pixel-crunch.git
 cd pixel-crunch
 
 # 2. Instalar dependencias
@@ -164,7 +166,7 @@ Este proyecto está bajo licencia **MIT** - ver el archivo [LICENSE](LICENSE) pa
 
 ## 📞 Contacto
 
-¿Preguntas o sugerencias? Abre un [issue](https://github.com/TU_USUARIO/pixel-crunch/issues) o contacta a [@JosueMM01](https://github.com/JosueMM01).
+¿Preguntas o sugerencias? Abre un [issue](https://github.com/JosueMM01/pixel-crunch/issues) o contacta a [@JosueMM01](https://github.com/JosueMM01).
 
 ---
 

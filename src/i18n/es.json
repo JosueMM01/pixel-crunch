@@ -46,8 +46,15 @@
   },
   "preview": {
     "title": "Vista previa de imagenes",
-    "emptyStateLabel": "Aun no hay imagenes cargadas.",
+    "emptyStateLabel": "Aún no hay imágenes cargadas.",
     "removeLabel": "Eliminar imagen",
     "previewAltPrefix": "Vista previa de"
+  },
+  "compression": {
+    "quality": {
+      "title": "Calidad de compresión",
+      "description": "Ajusta la calidad de salida antes de comprimir.",
+      "valueLabel": "Calidad"
+    }
   }
 }

@@ -32,7 +32,24 @@ export interface ImagePreviewProps {
   copy?: Partial<ImagePreviewCopy>;
 }
 
+export interface QualitySliderCopy {
+  title: string;
+  description: string;
+  valueLabel: string;
+}
+
+export interface QualitySliderProps {
+  id?: string;
+  value: number;
+  onChange: (value: number) => void;
+  min?: number;
+  max?: number;
+  step?: number;
+  copy?: Partial<QualitySliderCopy>;
+}
+
 export interface UploaderPanelProps {
   uploadCopy?: Partial<UploadZoneCopy>;
   previewCopy?: Partial<ImagePreviewCopy>;
+  qualityCopy?: Partial<QualitySliderCopy>;
 }

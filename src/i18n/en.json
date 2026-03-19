@@ -49,5 +49,12 @@
     "emptyStateLabel": "No images uploaded yet.",
     "removeLabel": "Remove image",
     "previewAltPrefix": "Preview of"
+  },
+  "compression": {
+    "quality": {
+      "title": "Compression quality",
+      "description": "Adjust output quality before compressing.",
+      "valueLabel": "Quality"
+    }
   }
 }
