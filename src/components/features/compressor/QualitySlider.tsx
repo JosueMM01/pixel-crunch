@@ -1,4 +1,4 @@
-import type { ChangeEvent } from 'react';
+import { useId, type ChangeEvent } from 'react';
 import { Card } from '@/components/ui/Card';
 import type { QualitySliderCopy, QualitySliderProps } from '@/types';
 
@@ -13,6 +13,7 @@ function clampValue(value: number, min: number, max: number): number {
 }
 
 export function QualitySlider({
+  id,
   value,
   onChange,
   min = 0.1,
@@ -20,6 +21,8 @@ export function QualitySlider({
   step = 0.1,
   copy,
 }: QualitySliderProps) {
+  const generatedId = useId();
+  const sliderId = id ?? generatedId;
   const resolvedCopy: QualitySliderCopy = { ...DEFAULT_COPY, ...copy };
   const normalizedValue = clampValue(value, min, max);
   const percentage = Math.round(normalizedValue * 100);
@@ -29,7 +32,7 @@ export function QualitySlider({
   };
 
   return (
-    <section className="w-full max-w-5xl mx-auto" aria-live="polite">
+    <section className="w-full max-w-5xl mx-auto">
       <Card
         variant="border"
         className="border-monokai-cyan/40 bg-monokai-bg/50"
@@ -46,7 +49,7 @@ export function QualitySlider({
 
           <div className="space-y-2">
             <label
-              htmlFor="quality-slider"
+              htmlFor={sliderId}
               className="flex items-center justify-between text-sm font-medium text-monokai-fg"
             >
               <span>{resolvedCopy.valueLabel}</span>
@@ -56,7 +59,7 @@ export function QualitySlider({
             </label>
 
             <input
-              id="quality-slider"
+              id={sliderId}
               type="range"
               min={min}
               max={max}

@@ -22,14 +22,14 @@
 
 ## 🚀 Estado del Proyecto
 
-🚧 **En desarrollo activo** - Actualmente en **Fase 1** (UI Base)
+🚧 **En desarrollo activo** - Actualmente en **Fase 2** (Compresión Core)
 
 📍 **Demo en vivo:** https://pixel-crunch.josuem01.dev/
 
 ### Roadmap:
 - ✅ **Fase 0:** Setup inicial (Astro + React + TailwindCSS)
-- 🔄 **Fase 1:** UI Base (En progreso)
-- ⏳ **Fase 2:** Compresión Core
+- ✅ **Fase 1:** UI Base (Completada)
+- 🔄 **Fase 2:** Compresión Core (En progreso)
 - ⏳ **Fase 3:** Descargas y Historial
 - ⏳ **Fase 4:** PWA y Deploy
 

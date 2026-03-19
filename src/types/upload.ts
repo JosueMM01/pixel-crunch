@@ -39,6 +39,7 @@ export interface QualitySliderCopy {
 }
 
 export interface QualitySliderProps {
+  id?: string;
   value: number;
   onChange: (value: number) => void;
   min?: number;

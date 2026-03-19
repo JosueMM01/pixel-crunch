@@ -46,7 +46,7 @@
   },
   "preview": {
     "title": "Vista previa de imagenes",
-    "emptyStateLabel": "Aun no hay imagenes cargadas.",
+    "emptyStateLabel": "Aún no hay imágenes cargadas.",
     "removeLabel": "Eliminar imagen",
     "previewAltPrefix": "Vista previa de"
   },
