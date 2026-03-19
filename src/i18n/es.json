@@ -55,6 +55,17 @@
       "title": "Calidad de compresión",
       "description": "Ajusta la calidad de salida antes de comprimir.",
       "valueLabel": "Calidad"
+    },
+    "stats": {
+      "title": "Estadísticas de compresión",
+      "description": "Comparativa estimada entre tamaño original y comprimido.",
+      "emptyStateLabel": "Aún no hay datos de compresión para mostrar.",
+      "originalLabel": "Original",
+      "compressedLabel": "Comprimido",
+      "savingsLabel": "Ahorro",
+      "percentageLabel": "Reducción",
+      "estimatedLabel": "Estimado",
+      "errorLabel": "Error"
     }
   }
 }
