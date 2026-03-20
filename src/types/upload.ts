@@ -48,8 +48,34 @@ export interface QualitySliderProps {
   copy?: Partial<QualitySliderCopy>;
 }
 
+export interface CompressionStatsCopy {
+  title: string;
+  description: string;
+  emptyStateLabel: string;
+  originalLabel: string;
+  compressedLabel: string;
+  savingsLabel: string;
+  percentageLabel: string;
+  estimatedLabel: string;
+  errorLabel: string;
+}
+
+export interface CompressionStatsItem {
+  id: string;
+  filename: string;
+  originalBytes: number;
+  compressedBytes: number;
+  hasError?: boolean;
+}
+
+export interface CompressionStatsProps {
+  items: CompressionStatsItem[];
+  copy?: Partial<CompressionStatsCopy>;
+}
+
 export interface UploaderPanelProps {
   uploadCopy?: Partial<UploadZoneCopy>;
   previewCopy?: Partial<ImagePreviewCopy>;
   qualityCopy?: Partial<QualitySliderCopy>;
+  compressionStatsCopy?: Partial<CompressionStatsCopy>;
 }
