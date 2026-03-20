@@ -2,9 +2,11 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ImagePreview } from './ImagePreview';
 import { UploadZone } from './UploadZone';
 import { CompressionProgress, CompressionStats, QualitySlider } from '../compressor';
-import type { CompressionStatsItem } from '@/types';
-import type { CompressionProgressStatus } from '@/types';
-import type { UploaderPanelProps } from '@/types';
+import type {
+  CompressionProgressStatus,
+  CompressionStatsItem,
+  UploaderPanelProps,
+} from '@/types';
 
 interface SelectedFileItem {
   id: string;

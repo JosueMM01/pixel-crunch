@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useId, useMemo } from 'react';
 import { Card } from '@/components/ui/Card';
 import type {
   CompressionProgressCopy,
@@ -34,6 +34,8 @@ function getStatusLabel(status: CompressionProgressStatus, copy: CompressionProg
 }
 
 export function CompressionProgress({ progress, status, copy }: CompressionProgressProps) {
+  const statusId = useId();
+
   const resolvedCopy = useMemo<CompressionProgressCopy>(
     () => ({ ...DEFAULT_COPY, ...copy }),
     [copy]
@@ -55,13 +57,20 @@ export function CompressionProgress({ progress, status, copy }: CompressionProgr
             </span>
           </div>
 
-          <p className={`text-sm md:text-base ${STATUS_STYLES[status]}`}>
+          <p
+            id={statusId}
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+            className={`text-sm md:text-base ${STATUS_STYLES[status]}`}
+          >
             {statusLabel}
           </p>
 
           <div
             role="progressbar"
             aria-label={resolvedCopy.progressLabel}
+            aria-describedby={statusId}
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={normalizedProgress}
