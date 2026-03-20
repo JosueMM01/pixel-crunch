@@ -73,9 +73,27 @@ export interface CompressionStatsProps {
   copy?: Partial<CompressionStatsCopy>;
 }
 
+export type CompressionProgressStatus = 'idle' | 'compressing' | 'done' | 'error';
+
+export interface CompressionProgressCopy {
+  title: string;
+  idleLabel: string;
+  compressingLabel: string;
+  doneLabel: string;
+  errorLabel: string;
+  progressLabel: string;
+}
+
+export interface CompressionProgressProps {
+  progress: number;
+  status: CompressionProgressStatus;
+  copy?: Partial<CompressionProgressCopy>;
+}
+
 export interface UploaderPanelProps {
   uploadCopy?: Partial<UploadZoneCopy>;
   previewCopy?: Partial<ImagePreviewCopy>;
   qualityCopy?: Partial<QualitySliderCopy>;
   compressionStatsCopy?: Partial<CompressionStatsCopy>;
+  compressionProgressCopy?: Partial<CompressionProgressCopy>;
 }

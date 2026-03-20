@@ -8,5 +8,8 @@ export type {
 	CompressionStatsCopy,
 	CompressionStatsItem,
 	CompressionStatsProps,
+	CompressionProgressStatus,
+	CompressionProgressCopy,
+	CompressionProgressProps,
 	UploaderPanelProps,
 } from './upload';
