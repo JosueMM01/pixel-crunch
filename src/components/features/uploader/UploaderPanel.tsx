@@ -1,9 +1,12 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ImagePreview } from './ImagePreview';
 import { UploadZone } from './UploadZone';
-import { CompressionStats, QualitySlider } from '../compressor';
-import type { CompressionStatsItem } from '@/types';
-import type { UploaderPanelProps } from '@/types';
+import { CompressionProgress, CompressionStats, QualitySlider } from '../compressor';
+import type {
+  CompressionProgressStatus,
+  CompressionStatsItem,
+  UploaderPanelProps,
+} from '@/types';
 
 interface SelectedFileItem {
   id: string;
@@ -27,9 +30,40 @@ export function UploaderPanel({
   previewCopy,
   qualityCopy,
   compressionStatsCopy,
+  compressionProgressCopy,
 }: UploaderPanelProps) {
   const [files, setFiles] = useState<SelectedFileItem[]>([]);
   const [quality, setQuality] = useState<number>(0.8);
+  const [progress, setProgress] = useState<number>(0);
+  const [progressStatus, setProgressStatus] = useState<CompressionProgressStatus>('idle');
+
+  useEffect(() => {
+    if (files.length === 0) {
+      setProgress(0);
+      setProgressStatus('idle');
+      return;
+    }
+
+    setProgress(0);
+    setProgressStatus('compressing');
+
+    const intervalId = window.setInterval(() => {
+      setProgress((current) => {
+        const next = Math.min(100, current + 10);
+
+        if (next >= 100) {
+          window.clearInterval(intervalId);
+          setProgressStatus('done');
+        }
+
+        return next;
+      });
+    }, 180);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [files]);
 
   const statsItems = useMemo<CompressionStatsItem[]>(() => {
     return files.map(({ id, file }) => ({
@@ -60,6 +94,7 @@ export function UploaderPanel({
     <div className="space-y-8">
       <UploadZone onFilesSelected={handleFilesSelected} copy={uploadCopy} />
       <QualitySlider value={quality} onChange={setQuality} copy={qualityCopy} />
+      <CompressionProgress progress={progress} status={progressStatus} copy={compressionProgressCopy} />
       <CompressionStats items={statsItems} copy={compressionStatsCopy} />
       <ImagePreview files={files.map(({ file }) => file)} onRemove={handleRemove} copy={previewCopy} />
     </div>

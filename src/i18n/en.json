@@ -66,6 +66,14 @@
       "percentageLabel": "Reduction",
       "estimatedLabel": "Estimated",
       "errorLabel": "Error"
+    },
+    "progress": {
+      "title": "Compression progress",
+      "idleLabel": "Waiting to start compression",
+      "compressingLabel": "Compressing images...",
+      "doneLabel": "Compression completed",
+      "errorLabel": "Compression failed",
+      "progressLabel": "Progress"
     }
   }
 }
