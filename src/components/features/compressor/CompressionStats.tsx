@@ -176,9 +176,11 @@ export function CompressionStats({ items, copy }: CompressionStatsProps) {
                             {resolvedCopy.errorLabel}
                           </Badge>
                         )}
-                        <Badge variant={getSavingsBadgeVariant(item.savingsBytes)} size="sm">
-                          {formatSignedPercent(item.savingsPercent)}
-                        </Badge>
+                        {item.isComparable && (
+                          <Badge variant={getSavingsBadgeVariant(item.savingsBytes)} size="sm">
+                            {formatSignedPercent(item.savingsPercent)}
+                          </Badge>
+                        )}
                       </div>
                     </div>
 
