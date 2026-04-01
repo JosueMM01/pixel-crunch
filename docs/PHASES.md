@@ -67,11 +67,15 @@
 - [ ] Componente `CompressionStats.tsx` (mostrar tamaño original vs comprimido)
 - [ ] Configuración de calidad (slider de 0.1 a 1.0)
 - [ ] Soporte multi-formato (JPG, PNG, WebP)
+- [ ] Pruebas unitarias e integración ligera para utilidades, hooks y componentes clave
+- [ ] Workflow de GitHub Actions con build, tests y validación de calidad
 
 ### Entregables:
 - Comprimir imágenes sin bloquear UI
 - Mostrar progreso en tiempo real
 - Comparación lado a lado (antes/después)
+- Suite de pruebas base para evitar regresiones
+- Validación automática en PR con CI
 
 **Criterios de Aceptación:**
 - Compresión funciona para JPG, PNG, WebP

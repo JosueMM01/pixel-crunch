@@ -195,11 +195,19 @@ Antes de hacer Pull Request, verificar:
 - [ ] Hooks tienen documentación JSDoc
 - [ ] No hay duplicación de código
 - [ ] Performance aceptable (sin lag)
+- [ ] Pruebas unitarias o de integración cubren la lógica nueva
+- [ ] `npm run test:coverage` pasa localmente
+- [ ] `npm run audit` revisado si hubo cambios de dependencias
 
 ### ✅ Git
 - [ ] Commits descriptivos
 - [ ] Branch actualizado con main
 - [ ] No hay merge conflicts
+
+### ✅ CI/CD
+- [ ] Workflow de GitHub Actions pasa en el PR
+- [ ] Build, tests y typecheck pasan en la misma validación
+- [ ] El review de Copilot sigue como apoyo, no como único control de calidad
 
 ---
 

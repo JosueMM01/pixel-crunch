@@ -5,6 +5,7 @@
 - **UI:** React 19 (Islands Architecture).
 - **Estilos:** TailwindCSS v4 + `clsx` & `tailwind-merge` para clases dinámicas.
 - **PWA:** `@vite-pwa/astro` (Soporte Offline y Manifest).
+- **Testing:** Vitest + Testing Library para pruebas unitarias e integración ligera.
 
 ## Herramientas de Desarrollo
 - **GitHub MCP:** Para gestión automatizada de Issues, ramas y Pull Requests
@@ -18,9 +19,15 @@
 3.  **Descargas:** `jszip` (Empaquetado) + `file-saver`.
 4.  **Estado Persistente:** `localStorage` (Custom Hook `useLocalStorage` para el historial).
 5.  **Iconos:** `lucide-react`.
+6.  **Pruebas:** `vitest`, `@testing-library/react`, `@testing-library/user-event`, `happy-dom`.
 
 ## Requerimientos Funcionales V1
 - **Offline First:** Debe funcionar sin internet tras la primera carga (Service Workers).
 - **Privacidad:** NINGUNA imagen sale del dispositivo del usuario.
 - **Historial:** Guardar metadatos de las últimas 5 compresiones (Nombre, fecha, % ahorrado) en localStorage.
 - **UX:** Feedback visual de progreso (Loading Bars) y notificaciones (Toasts) de éxito.
+
+## Calidad y Seguridad
+- **Dependencias:** Preferir código propio para utilidades pequeñas cuando la complejidad sea baja.
+- **PRs:** No se considera listo un cambio sin build y pruebas locales.
+- **Auditoría:** Revisar `npm audit` cuando cambien dependencias y antes de relajar el flujo de revisión.
