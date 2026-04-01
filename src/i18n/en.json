@@ -31,7 +31,7 @@
   },
   "formats": {
     "title": "Supported Formats",
-    "description": "JPG, PNG, WebP and more"
+    "description": "JPG/JPEG/JFIF, PNG, WebP"
   },
   "upload": {
     "title": "Upload your images",
@@ -39,10 +39,10 @@
     "idleLabel": "Drag images here or click to select",
     "draggingLabel": "Drop files to upload",
     "processingLabel": "Processing files...",
-    "helperLabel": "Supported formats: JPG, PNG, WebP, SVG",
+    "helperLabel": "Supported formats: JPG/JPEG/JFIF, PNG, WebP",
     "successLabel": "{count} image(s) uploaded successfully.",
     "sizeErrorLabel": "File too large. Max 10MB.",
-    "typeErrorLabel": "Unsupported format. Only JPG, PNG, WebP, SVG."
+    "typeErrorLabel": "Unsupported format. Only JPG/JPEG/JFIF, PNG and WebP."
   },
   "preview": {
     "title": "Image preview",
