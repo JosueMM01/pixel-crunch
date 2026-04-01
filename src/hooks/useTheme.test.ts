@@ -51,9 +51,10 @@ describe('useTheme', () => {
     const { result } = renderHook(() => useTheme());
 
     await waitFor(() => {
-      expect(result.current.theme).toBe('system');
+      expect(document.documentElement.classList.contains('dark')).toBe(true);
     });
 
+    expect(result.current.theme).toBe('system');
     expect(result.current.resolvedTheme).toBe('dark');
     expect(document.documentElement.classList.contains('dark')).toBe(true);
   });

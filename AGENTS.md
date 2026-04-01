@@ -330,7 +330,7 @@ Ver [docs/TESTING_STRATEGY.md](/docs/TESTING_STRATEGY.md) y [docs/DEPENDENCY_POL
 ## ✅ Checklist Final
 
 Antes de entregar código, verifica:
-- [ ] TypeScript sin errores (`npm run build`)
+- [ ] TypeScript sin errores (`npm run typecheck` o `npm run verify`)
 - [ ] Pruebas pasando (`npm run test:coverage`)
 - [ ] Cobertura mínima cumplida
 - [ ] Auditoría de dependencias revisada si cambió `package.json`
