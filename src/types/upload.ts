@@ -12,7 +12,7 @@ export interface UploadZoneCopy {
 
 export interface UploadZoneProps {
   onFilesSelected?: (files: File[]) => void;
-  acceptedFormats?: string[];
+  acceptedFormats?: readonly string[];
   maxFileSize?: number;
   multiple?: boolean;
   isProcessing?: boolean;

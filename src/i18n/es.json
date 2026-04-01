@@ -31,7 +31,7 @@
   },
   "formats": {
     "title": "Formatos Soportados",
-    "description": "JPG, PNG, WebP y más"
+    "description": "JPG/JPEG/JFIF, PNG, WebP"
   },
   "upload": {
     "title": "Sube tus imagenes",
@@ -39,10 +39,10 @@
     "idleLabel": "Arrastra imagenes aqui o haz clic para seleccionar",
     "draggingLabel": "Suelta los archivos para cargarlos",
     "processingLabel": "Procesando archivos...",
-    "helperLabel": "Formatos soportados: JPG, PNG, WebP, SVG",
+    "helperLabel": "Formatos soportados: JPG/JPEG/JFIF, PNG, WebP",
     "successLabel": "{count} imagen(es) cargada(s) correctamente.",
     "sizeErrorLabel": "Archivo muy grande. Maximo 10MB.",
-    "typeErrorLabel": "Formato no soportado. Solo JPG, PNG, WebP, SVG."
+    "typeErrorLabel": "Formato no soportado. Solo JPG/JPEG/JFIF, PNG y WebP."
   },
   "preview": {
     "title": "Vista previa de imagenes",

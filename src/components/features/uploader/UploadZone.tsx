@@ -1,16 +1,13 @@
 import { useCallback, useMemo } from 'react';
 import { useDropzone, type FileRejection } from 'react-dropzone';
 import { ImagePlus, UploadCloud } from 'lucide-react';
+import {
+    DEFAULT_ACCEPTED_FORMATS,
+    getDropzoneAcceptMap,
+} from '@/lib/formats';
 import { cn, formatBytes } from '@/lib/utils';
 import { showError, showSuccess } from '@/lib/toast';
 import type { UploadZoneCopy, UploadZoneProps } from '@/types';
-
-const DEFAULT_ACCEPTED_FORMATS = [
-    'image/jpeg',
-    'image/png',
-    'image/webp',
-    'image/svg+xml',
-];
 
 const DEFAULT_COPY: UploadZoneCopy = {
     title: 'Sube tus imagenes',
@@ -18,10 +15,10 @@ const DEFAULT_COPY: UploadZoneCopy = {
     idleLabel: 'Arrastra imagenes aqui o haz clic para seleccionar',
     draggingLabel: 'Suelta los archivos para cargarlos',
     processingLabel: 'Procesando archivos...',
-    helperLabel: 'Formatos soportados: JPG, PNG, WebP, SVG',
+    helperLabel: 'Formatos soportados: JPG/JPEG/JFIF, PNG, WebP',
     successLabel: '{count} imagen(es) cargada(s) correctamente.',
     sizeErrorLabel: 'Archivo muy grande. Maximo 10MB.',
-    typeErrorLabel: 'Formato no soportado. Solo JPG, PNG, WebP, SVG.',
+    typeErrorLabel: 'Formato no soportado. Solo JPG/JPEG/JFIF, PNG y WebP.',
 };
 
 export const UploadZone = ({
@@ -37,12 +34,10 @@ export const UploadZone = ({
         [copy]
     );
 
-    const accept = useMemo<Record<string, string[]>>(() => {
-        return acceptedFormats.reduce<Record<string, string[]>>((acc, format) => {
-            acc[format] = [];
-            return acc;
-        }, {});
-    }, [acceptedFormats]);
+    const accept = useMemo<Record<string, string[]>>(
+        () => getDropzoneAcceptMap(acceptedFormats),
+        [acceptedFormats]
+    );
 
     const handleDrop = useCallback(
         (files: File[]) => {
