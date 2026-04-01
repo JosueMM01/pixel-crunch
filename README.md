@@ -57,7 +57,7 @@ Ver [PHASES.md](./docs/PHASES.md) para detalles completos.
 ## 📦 Instalación
 
 ### Requisitos Previos
-- **Node.js** 18.x o superior
+- **Node.js** 24.x o superior
 - **npm** / **pnpm** / **yarn**
 
 ### Pasos
@@ -84,6 +84,9 @@ Abre [http://localhost:4321](http://localhost:4321) en tu navegador.
 | :--------------------- | :------------------------------------------------- |
 | `npm install`          | Instala dependencias                               |
 | `npm run dev`          | Inicia servidor local en `localhost:4321`          |
+| `npm run typecheck`    | Valida tipos y archivos Astro con `astro check`    |
+| `npm run test:coverage`| Ejecuta pruebas con cobertura                       |
+| `npm run verify`       | Ejecuta typecheck + tests + build                  |
 | `npm run build`        | Genera build de producción en `./dist/`            |
 | `npm run preview`      | Previsualiza build local antes de deploy           |
 | `npm run astro ...`    | Ejecuta comandos de Astro CLI (`astro add`, etc)  |
