@@ -22,6 +22,8 @@ const DEFAULT_OPTIONS: CompressionOptions = {
   quality: 0.8,
 };
 
+const CANCELLED_MESSAGE = 'Compression cancelled.';
+
 function clampProgress(progress: number): number {
   if (!Number.isFinite(progress)) {
     return 0;
@@ -137,6 +139,20 @@ export function useImageCompression(): UseImageCompressionReturn {
     batchJobsRef.current.delete(batchId);
   }, []);
 
+  const cancelPendingJobs = useCallback((reasonMessage: string, batchId?: string) => {
+    const pendingEntries = Array.from(pendingJobsRef.current.entries());
+
+    pendingEntries.forEach(([jobId, pendingJob]) => {
+      if (batchId && pendingJob.batchId !== batchId) {
+        return;
+      }
+
+      pendingJob.reject(new Error(reasonMessage));
+      pendingJobsRef.current.delete(jobId);
+      jobProgressRef.current.delete(jobId);
+    });
+  }, []);
+
   const handleWorkerMessage = useCallback(
     (event: MessageEvent<CompressionWorkerResponse>) => {
       const message = event.data;
@@ -227,18 +243,29 @@ export function useImageCompression(): UseImageCompressionReturn {
   }, [handleWorkerMessage]);
 
   const terminate = useCallback(() => {
+    const activeBatchId = activeBatchIdRef.current;
+    cancelPendingJobs(CANCELLED_MESSAGE);
+
+    if (activeBatchId) {
+      clearBatchState(activeBatchId);
+    }
+
     if (workerRef.current) {
       workerRef.current.removeEventListener('message', handleWorkerMessage as EventListener);
       workerRef.current.terminate();
       workerRef.current = null;
     }
 
+    activeBatchIdRef.current = null;
     pendingJobsRef.current.clear();
     batchJobsRef.current.clear();
     jobProgressRef.current.clear();
-    activeBatchIdRef.current = null;
+    setResults([]);
+    setProgress(0);
+    setError(null);
+    setStatus('idle');
     setIsCompressing(false);
-  }, [handleWorkerMessage]);
+  }, [cancelPendingJobs, clearBatchState, handleWorkerMessage]);
 
   const reset = useCallback(() => {
     setResults([]);
@@ -326,38 +353,48 @@ export function useImageCompression(): UseImageCompressionReturn {
       };
 
       const batchId = createId();
+
+      if (activeBatchIdRef.current) {
+        cancelPendingJobs(CANCELLED_MESSAGE, activeBatchIdRef.current);
+        clearBatchState(activeBatchIdRef.current);
+      }
+
       activeBatchIdRef.current = batchId;
       setIsCompressing(true);
       setProgress(0);
+      setResults([]);
       setError(null);
       setStatus('compressing');
 
-      const tasks = files.map(async (file, index) => {
-        try {
-          return await compressFile(file, mergedOptions, batchId, index);
-        } catch (reason) {
-          return toFailedResult(file, reason);
+      try {
+        const tasks = files.map(async (file, index) => {
+          try {
+            return await compressFile(file, mergedOptions, batchId, index);
+          } catch (reason) {
+            return toFailedResult(file, reason);
+          }
+        });
+
+        const resolvedResults = await Promise.all(tasks);
+
+        if (activeBatchIdRef.current !== batchId) {
+          return resolvedResults;
         }
-      });
 
-      const resolvedResults = await Promise.all(tasks);
+        const firstError = resolvedResults.find((result) => typeof result.error === 'string');
 
-      if (activeBatchIdRef.current !== batchId) {
+        setResults(resolvedResults);
+        setIsCompressing(false);
+        setProgress(100);
+        setStatus(firstError ? 'error' : 'done');
+        setError(firstError?.error ?? null);
+
         return resolvedResults;
+      } finally {
+        clearBatchState(batchId);
       }
-
-      const firstError = resolvedResults.find((result) => typeof result.error === 'string');
-
-      setResults(resolvedResults);
-      setIsCompressing(false);
-      setProgress(100);
-      setStatus(firstError ? 'error' : 'done');
-      setError(firstError?.error ?? null);
-      clearBatchState(batchId);
-
-      return resolvedResults;
     },
-    [clearBatchState, compressFile, reset]
+    [cancelPendingJobs, clearBatchState, compressFile, reset]
   );
 
   const compressOne = useCallback(

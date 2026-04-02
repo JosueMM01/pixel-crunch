@@ -20,7 +20,7 @@ type WorkerMessageListener = (event: MessageEvent<CompressionWorkerResponse>) =>
 const OriginalWorker = globalThis.Worker;
 
 class MockCompressionWorker {
-  static mode: 'success' | 'error' | 'empty-error' = 'success';
+  static mode: 'success' | 'error' | 'empty-error' | 'hang' = 'success';
   static terminatedCount = 0;
   static constructorCount = 0;
 
@@ -91,6 +91,10 @@ class MockCompressionWorker {
             message: '',
           },
         });
+        return;
+      }
+
+      if (MockCompressionWorker.mode === 'hang') {
         return;
       }
 
@@ -259,6 +263,57 @@ describe('useImageCompression', () => {
     expect(result.current.progress).toBe(0);
     expect(result.current.results).toEqual([]);
     expect(result.current.error).toBeNull();
+  });
+
+  it('clears previous results when starting a new batch', async () => {
+    const { result } = renderHook(() => useImageCompression());
+    const firstFile = new File([new Uint8Array(64)], 'first.jpg', { type: 'image/jpeg' });
+
+    await act(async () => {
+      await result.current.compressOne(firstFile, { quality: 0.8 });
+    });
+
+    expect(result.current.results).toHaveLength(1);
+
+    MockCompressionWorker.mode = 'hang';
+    const secondFile = new File([new Uint8Array(64)], 'second.jpg', { type: 'image/jpeg' });
+
+    await act(async () => {
+      void result.current.compressOne(secondFile, { quality: 0.8 });
+      await Promise.resolve();
+    });
+
+    expect(result.current.status).toBe('compressing');
+    expect(result.current.results).toEqual([]);
+
+    act(() => {
+      result.current.terminate();
+    });
+  });
+
+  it('settles an in-flight batch when terminate is called', async () => {
+    MockCompressionWorker.mode = 'hang';
+
+    const { result } = renderHook(() => useImageCompression());
+    const file = new File([new Uint8Array(64)], 'pending.jpg', { type: 'image/jpeg' });
+
+    let pendingPromise!: Promise<CompressionResult>;
+
+    await act(async () => {
+      pendingPromise = result.current.compressOne(file, { quality: 0.8 });
+      await Promise.resolve();
+    });
+
+    act(() => {
+      result.current.terminate();
+    });
+
+    const settled = await pendingPromise;
+
+    expect(settled.error).toBe('Compression cancelled.');
+    expect(result.current.status).toBe('idle');
+    expect(result.current.progress).toBe(0);
+    expect(result.current.isCompressing).toBe(false);
   });
 
   it('terminates the worker instance when requested', async () => {

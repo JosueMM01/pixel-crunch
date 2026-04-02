@@ -43,10 +43,12 @@ export function UploaderPanel({
     reset,
     results,
     status,
+    terminate,
   } = useImageCompression();
 
   useEffect(() => {
     if (files.length === 0) {
+      terminate();
       reset();
       return;
     }
@@ -55,7 +57,7 @@ export function UploaderPanel({
       files.map(({ file }) => file),
       { quality }
     );
-  }, [compressMany, files, quality, reset]);
+  }, [compressMany, files, quality, reset, terminate]);
 
   useEffect(() => {
     if (!error) {
