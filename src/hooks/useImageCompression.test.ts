@@ -209,6 +209,25 @@ describe('useImageCompression', () => {
     expect(result.current.progress).toBe(100);
   });
 
+  it('returns unsupported format error without creating a worker', async () => {
+    const { result } = renderHook(() => useImageCompression());
+    const file = new File([new Uint8Array(48)], 'animated.gif', { type: 'image/gif' });
+
+    let output!: CompressionResult;
+
+    await act(async () => {
+      output = await result.current.compressOne(file, { quality: 0.5 });
+    });
+
+    await waitFor(() => {
+      expect(result.current.status).toBe('error');
+    });
+
+    expect(output.error).toBe('Unsupported format. Use JPG/JPEG/JFIF, PNG, or WebP.');
+    expect(result.current.error).toBe('Unsupported format. Use JPG/JPEG/JFIF, PNG, or WebP.');
+    expect(MockCompressionWorker.constructorCount).toBe(0);
+  });
+
   it('uses default error message when worker sends empty error text', async () => {
     MockCompressionWorker.mode = 'empty-error';
 

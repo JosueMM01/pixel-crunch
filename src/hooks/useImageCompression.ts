@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import imageCompression from 'browser-image-compression';
+import { DEFAULT_ACCEPTED_FORMATS } from '@/lib/formats';
 import type {
   CompressionOptions,
   CompressionResult,
@@ -23,6 +24,7 @@ const DEFAULT_OPTIONS: CompressionOptions = {
 };
 
 const CANCELLED_MESSAGE = 'Compression cancelled.';
+const UNSUPPORTED_FORMAT_MESSAGE = 'Unsupported format. Use JPG/JPEG/JFIF, PNG, or WebP.';
 
 function clampProgress(progress: number): number {
   if (!Number.isFinite(progress)) {
@@ -95,6 +97,11 @@ function toFailedResult(file: File, error: unknown): CompressionResult {
     savingPercent: 0,
     error: toErrorMessage(error),
   };
+}
+
+function isSupportedInputFile(file: File): boolean {
+  const normalizedType = file.type.toLowerCase();
+  return DEFAULT_ACCEPTED_FORMATS.some((supportedType) => supportedType === normalizedType);
 }
 
 export function useImageCompression(): UseImageCompressionReturn {
@@ -368,6 +375,10 @@ export function useImageCompression(): UseImageCompressionReturn {
 
       try {
         const tasks = files.map(async (file, index) => {
+          if (!isSupportedInputFile(file)) {
+            return toFailedResult(file, new Error(UNSUPPORTED_FORMAT_MESSAGE));
+          }
+
           try {
             return await compressFile(file, mergedOptions, batchId, index);
           } catch (reason) {
