@@ -5,7 +5,7 @@ import type {
   CompressionWorkerRequest,
   CompressionWorkerResponse,
 } from '@/types';
-import { useImageCompression } from './useImageCompression';
+import { UNSUPPORTED_FORMAT_MESSAGE, useImageCompression } from './useImageCompression';
 
 const { compressionMock } = vi.hoisted(() => ({
   compressionMock: vi.fn(),
@@ -207,6 +207,25 @@ describe('useImageCompression', () => {
     expect(output.error).toBe('Compression worker failed.');
     expect(result.current.error).toBe('Compression worker failed.');
     expect(result.current.progress).toBe(100);
+  });
+
+  it('returns unsupported format error without creating a worker', async () => {
+    const { result } = renderHook(() => useImageCompression());
+    const file = new File([new Uint8Array(48)], 'animated.gif', { type: 'image/gif' });
+
+    let output!: CompressionResult;
+
+    await act(async () => {
+      output = await result.current.compressOne(file, { quality: 0.5 });
+    });
+
+    await waitFor(() => {
+      expect(result.current.status).toBe('error');
+    });
+
+    expect(output.error).toBe(UNSUPPORTED_FORMAT_MESSAGE);
+    expect(result.current.error).toBe(UNSUPPORTED_FORMAT_MESSAGE);
+    expect(MockCompressionWorker.constructorCount).toBe(0);
   });
 
   it('uses default error message when worker sends empty error text', async () => {
