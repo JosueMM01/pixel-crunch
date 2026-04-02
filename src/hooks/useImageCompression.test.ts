@@ -5,7 +5,7 @@ import type {
   CompressionWorkerRequest,
   CompressionWorkerResponse,
 } from '@/types';
-import { useImageCompression } from './useImageCompression';
+import { UNSUPPORTED_FORMAT_MESSAGE, useImageCompression } from './useImageCompression';
 
 const { compressionMock } = vi.hoisted(() => ({
   compressionMock: vi.fn(),
@@ -223,8 +223,8 @@ describe('useImageCompression', () => {
       expect(result.current.status).toBe('error');
     });
 
-    expect(output.error).toBe('Unsupported format. Use JPG/JPEG/JFIF, PNG, or WebP.');
-    expect(result.current.error).toBe('Unsupported format. Use JPG/JPEG/JFIF, PNG, or WebP.');
+    expect(output.error).toBe(UNSUPPORTED_FORMAT_MESSAGE);
+    expect(result.current.error).toBe(UNSUPPORTED_FORMAT_MESSAGE);
     expect(MockCompressionWorker.constructorCount).toBe(0);
   });
 

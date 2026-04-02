@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import imageCompression from 'browser-image-compression';
-import { DEFAULT_ACCEPTED_FORMATS } from '@/lib/formats';
+import { DEFAULT_ACCEPTED_FORMATS, DEFAULT_ACCEPTED_FORMATS_LABEL } from '@/lib/formats';
 import type {
   CompressionOptions,
   CompressionResult,
@@ -24,7 +24,7 @@ const DEFAULT_OPTIONS: CompressionOptions = {
 };
 
 const CANCELLED_MESSAGE = 'Compression cancelled.';
-const UNSUPPORTED_FORMAT_MESSAGE = 'Unsupported format. Use JPG/JPEG/JFIF, PNG, or WebP.';
+export const UNSUPPORTED_FORMAT_MESSAGE = `Unsupported format. Use ${DEFAULT_ACCEPTED_FORMATS_LABEL}.`;
 
 function clampProgress(progress: number): number {
   if (!Number.isFinite(progress)) {
