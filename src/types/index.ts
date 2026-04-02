@@ -13,3 +13,11 @@ export type {
 	CompressionProgressProps,
 	UploaderPanelProps,
 } from './upload';
+
+export type {
+	CompressionOptions,
+	CompressionResult,
+	CompressionWorkerRequest,
+	CompressionWorkerResponse,
+	UseImageCompressionReturn,
+} from './compression';
