@@ -2,8 +2,9 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ImagePreview } from './ImagePreview';
 import { UploadZone } from './UploadZone';
 import { CompressionProgress, CompressionStats, QualitySlider } from '../compressor';
+import { useImageCompression } from '@/hooks/useImageCompression';
+import { showError } from '@/lib/toast';
 import type {
-  CompressionProgressStatus,
   CompressionStatsItem,
   UploaderPanelProps,
 } from '@/types';
@@ -34,45 +35,46 @@ export function UploaderPanel({
 }: UploaderPanelProps) {
   const [files, setFiles] = useState<SelectedFileItem[]>([]);
   const [quality, setQuality] = useState<number>(0.8);
-  const [progress, setProgress] = useState<number>(0);
-  const [progressStatus, setProgressStatus] = useState<CompressionProgressStatus>('idle');
+  const {
+    compressMany,
+    error,
+    isCompressing,
+    progress,
+    reset,
+    results,
+    status,
+  } = useImageCompression();
 
   useEffect(() => {
     if (files.length === 0) {
-      setProgress(0);
-      setProgressStatus('idle');
+      reset();
       return;
     }
 
-    setProgress(0);
-    setProgressStatus('compressing');
+    void compressMany(
+      files.map(({ file }) => file),
+      { quality }
+    );
+  }, [compressMany, files, quality, reset]);
 
-    const intervalId = window.setInterval(() => {
-      setProgress((current) => {
-        const next = Math.min(100, current + 10);
+  useEffect(() => {
+    if (!error) {
+      return;
+    }
 
-        if (next >= 100) {
-          window.clearInterval(intervalId);
-          setProgressStatus('done');
-        }
-
-        return next;
-      });
-    }, 180);
-
-    return () => {
-      window.clearInterval(intervalId);
-    };
-  }, [files]);
+    showError(error);
+  }, [error]);
 
   const statsItems = useMemo<CompressionStatsItem[]>(() => {
-    return files.map(({ id, file }) => ({
+    return files.map(({ id, file }, index) => ({
       id,
       filename: file.name,
       originalBytes: file.size,
-      compressedBytes: estimateCompressedSize(file.size, quality),
+      compressedBytes: results[index]?.compressedSize
+        ?? estimateCompressedSize(file.size, quality),
+      hasError: Boolean(results[index]?.error),
     }));
-  }, [files, quality]);
+  }, [files, quality, results]);
 
   const handleFilesSelected = useCallback((incomingFiles: File[]) => {
     setFiles((previousFiles) => [
@@ -92,9 +94,13 @@ export function UploaderPanel({
 
   return (
     <div className="space-y-8">
-      <UploadZone onFilesSelected={handleFilesSelected} copy={uploadCopy} />
+      <UploadZone
+        onFilesSelected={handleFilesSelected}
+        isProcessing={isCompressing}
+        copy={uploadCopy}
+      />
       <QualitySlider value={quality} onChange={setQuality} copy={qualityCopy} />
-      <CompressionProgress progress={progress} status={progressStatus} copy={compressionProgressCopy} />
+      <CompressionProgress progress={progress} status={status} copy={compressionProgressCopy} />
       <CompressionStats items={statsItems} copy={compressionStatsCopy} />
       <ImagePreview files={files.map(({ file }) => file)} onRemove={handleRemove} copy={previewCopy} />
     </div>
