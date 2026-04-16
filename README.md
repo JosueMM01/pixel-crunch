@@ -17,8 +17,8 @@
 - 🌙 **Modo Oscuro** - Tema claro/oscuro automático
 - 📱 **PWA** - Instálalo como app y úsalo offline
 - 🧩 **Flujo Dual en Home** - Modo Compressor y modo Converter en una sola experiencia
-- 🎯 **Múltiples Formatos (Compresión)** - Soporta JPG/JPEG/JFIF, PNG, WebP y SVG
-- 🔄 **Conversión en Cliente** - Convierte JPG/PNG/WebP/SVG/GIF a JPG/PNG/WebP/AVIF
+- 🎯 **Múltiples Formatos (Compresión)** - Soporta JPG/JPEG/JFIF, PNG, WebP, GIF y SVG
+- 🔄 **Conversión en Cliente** - Convierte HEIC/JPG/PNG/WebP/GIF/BMP/TIFF/AVIF/ICO a JPG/PNG/WebP/AVIF
 
 ---
 
@@ -35,9 +35,9 @@
 - ✅ **Fase 0:** Setup inicial (Astro + React + TailwindCSS)
 - ✅ **Fase 1:** UI Base (Completada)
 - 🔄 **Fase 2:** Compresión Core + UX/UI Home con Flujo Dual (En progreso avanzado)
-  - ✅ Compresión JPG/PNG/WebP/SVG funcional.
+  - ✅ Compresión JPG/PNG/WebP/GIF/SVG funcional.
   - ✅ Descarga individual y ZIP (Corregido).
-  - ✅ Motor de conversión inicial funcional (incluye estrategia GIF estático/animado por primer fotograma).
+  - ✅ Motor de conversión inicial funcional (HEIC/JPG/PNG/WebP/GIF/BMP/TIFF/AVIF/ICO -> JPG/PNG/WebP/AVIF, con estrategia GIF estático/animado por primer fotograma).
 - ⏳ **Fase 3:** Persistencia e Historial
 - ✅ **Fase 4:** PWA e Infraestructura de Deploy (activa)
 

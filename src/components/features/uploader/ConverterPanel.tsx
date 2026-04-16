@@ -36,7 +36,7 @@ const DEFAULT_UPLOAD_COPY: UploadZoneCopy = {
   idleLabel: 'Arrastra imágenes aquí para convertir',
   draggingLabel: 'Suelta los archivos para convertir',
   processingLabel: 'Convirtiendo archivos...',
-  helperLabel: 'Formatos compatibles: JPG/JPEG/JFIF, PNG, WebP, SVG y GIF',
+  helperLabel: 'Formatos compatibles: HEIC, JPG/JPEG/JFIF, PNG, WebP, GIF, BMP, TIFF, AVIF e ICO',
   addMoreLabel: 'Agregar',
   clearAllLabel: 'Borrar',
   compressLabel: 'Convertir',

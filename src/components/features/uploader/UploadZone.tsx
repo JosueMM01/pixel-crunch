@@ -16,7 +16,7 @@ const DEFAULT_COPY: UploadZoneCopy = {
     idleLabel: 'Arrastra imágenes aquí',
     draggingLabel: 'Suelta los archivos para cargarlos',
     processingLabel: 'Procesando archivos...',
-    helperLabel: 'Formatos compatibles: JPG/JPEG/JFIF, PNG, WebP y SVG',
+    helperLabel: 'Formatos compatibles: JPG/JPEG/JFIF, PNG, WebP, GIF y SVG',
     addMoreLabel: 'Agregar',
     clearAllLabel: 'Borrar',
     compressLabel: 'Comprimir',
@@ -24,7 +24,7 @@ const DEFAULT_COPY: UploadZoneCopy = {
     savingLabel: 'Guardando...',
     successLabel: '{count} imagen(es) cargada(s) correctamente.',
     sizeErrorLabel: 'Archivo demasiado grande. Máximo 10 MB.',
-    typeErrorLabel: 'Formato no compatible. Solo JPG/JPEG/JFIF, PNG, WebP y SVG.',
+    typeErrorLabel: 'Formato no compatible. Solo JPG/JPEG/JFIF, PNG, WebP, GIF y SVG.',
 };
 
 export const UploadZone = ({

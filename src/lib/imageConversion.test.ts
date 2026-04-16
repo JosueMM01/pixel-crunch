@@ -138,8 +138,17 @@ afterEach(() => {
 });
 
 describe('imageConversion constants', () => {
-  it('exposes converter formats including gif input and avif output', () => {
+  it('exposes converter formats for heic/jpg/png/webp/gif/bmp/tiff/avif/ico and avif output', () => {
+    expect(CONVERTER_INPUT_FORMATS).toContain('image/heic');
+    expect(CONVERTER_INPUT_FORMATS).toContain('image/jpeg');
+    expect(CONVERTER_INPUT_FORMATS).toContain('image/png');
+    expect(CONVERTER_INPUT_FORMATS).toContain('image/webp');
     expect(CONVERTER_INPUT_FORMATS).toContain('image/gif');
+    expect(CONVERTER_INPUT_FORMATS).toContain('image/bmp');
+    expect(CONVERTER_INPUT_FORMATS).toContain('image/tiff');
+    expect(CONVERTER_INPUT_FORMATS).toContain('image/avif');
+    expect(CONVERTER_INPUT_FORMATS).toContain('image/x-icon');
+    expect(CONVERTER_INPUT_FORMATS).not.toContain('image/svg+xml');
     expect(CONVERTER_OUTPUT_FORMATS.map((item) => item.mimeType)).toContain('image/avif');
   });
 });
@@ -200,13 +209,25 @@ describe('gif helpers', () => {
 
 describe('isSupportedConverterInput', () => {
   it('accepts supported mime types directly', () => {
-    const file = new File([new Uint8Array([1])], 'photo.jpg', { type: 'image/jpeg' });
+    const files = [
+      new File([new Uint8Array([1])], 'photo.heic', { type: 'image/heic' }),
+      new File([new Uint8Array([1])], 'photo.jpg', { type: 'image/jpeg' }),
+      new File([new Uint8Array([1])], 'photo.png', { type: 'image/png' }),
+      new File([new Uint8Array([1])], 'photo.webp', { type: 'image/webp' }),
+      new File([new Uint8Array([1])], 'photo.gif', { type: 'image/gif' }),
+      new File([new Uint8Array([1])], 'photo.bmp', { type: 'image/bmp' }),
+      new File([new Uint8Array([1])], 'photo.tiff', { type: 'image/tiff' }),
+      new File([new Uint8Array([1])], 'photo.avif', { type: 'image/avif' }),
+      new File([new Uint8Array([1])], 'photo.ico', { type: 'image/x-icon' }),
+    ];
 
-    expect(isSupportedConverterInput(file)).toBe(true);
+    files.forEach((file) => {
+      expect(isSupportedConverterInput(file)).toBe(true);
+    });
   });
 
   it('accepts unknown mime type only when extension is supported', () => {
-    const good = new File([new Uint8Array([1])], 'graphic.gif', {
+    const good = new File([new Uint8Array([1])], 'graphic.ico', {
       type: 'application/octet-stream',
     });
 

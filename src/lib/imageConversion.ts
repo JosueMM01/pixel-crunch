@@ -4,11 +4,19 @@ const GIF_MIME_TYPE = 'image/gif';
 const UNKNOWN_INPUT_MIME_TYPES = new Set(['', 'application/octet-stream']);
 
 export const CONVERTER_INPUT_FORMATS = [
+  'image/heic',
+  'image/heif',
   'image/jpeg',
   'image/png',
   'image/webp',
-  'image/svg+xml',
   GIF_MIME_TYPE,
+  'image/bmp',
+  'image/x-ms-bmp',
+  'image/tiff',
+  'image/avif',
+  'image/x-icon',
+  'image/vnd.microsoft.icon',
+  'image/ico',
 ] as const;
 
 export const CONVERTER_OUTPUT_FORMATS = [

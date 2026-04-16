@@ -31,7 +31,7 @@
   },
   "formats": {
     "title": "Supported Formats",
-    "description": "JPG/JPEG/JFIF, PNG, WebP, SVG"
+    "description": "JPG/JPEG/JFIF, PNG, WebP, GIF, SVG"
   },
   "upload": {
     "title": "Upload your images",
@@ -39,7 +39,7 @@
     "idleLabel": "Drag images here",
     "draggingLabel": "Drop files to upload",
     "processingLabel": "Processing files...",
-    "helperLabel": "Supported formats: JPG/JPEG/JFIF, PNG, WebP, and SVG",
+    "helperLabel": "Supported formats: JPG/JPEG/JFIF, PNG, WebP, GIF, and SVG",
     "addMoreLabel": "Add",
     "clearAllLabel": "Clear",
     "compressLabel": "Compress",
@@ -48,7 +48,7 @@
     "savingLabel": "Saving...",
     "successLabel": "{count} image(s) uploaded successfully.",
     "sizeErrorLabel": "File is too large. Maximum size: 10 MB.",
-    "typeErrorLabel": "Unsupported format. Only JPG/JPEG/JFIF, PNG, WebP, and SVG are allowed."
+    "typeErrorLabel": "Unsupported format. Only JPG/JPEG/JFIF, PNG, WebP, GIF, and SVG are allowed."
   },
   "converter": {
     "upload": {
@@ -57,7 +57,7 @@
       "idleLabel": "Drag images here to convert",
       "draggingLabel": "Drop files to convert",
       "processingLabel": "Converting files...",
-      "helperLabel": "Supported formats: JPG/JPEG/JFIF, PNG, WebP, SVG, and GIF",
+      "helperLabel": "Supported formats: HEIC, JPG/JPEG/JFIF, PNG, WebP, GIF, BMP, TIFF, AVIF, and ICO",
       "addMoreLabel": "Add",
       "clearAllLabel": "Clear",
       "compressLabel": "Convert",
