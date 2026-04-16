@@ -1,4 +1,4 @@
-# 🤖 Instrucciones para Agentes IA (GitHub Copilot, Claude, etc.)
+# 🤖 Instrucciones para Agentes IA 
 
 Este archivo contiene reglas específicas para que los asistentes de IA trabajen de manera consistente con este proyecto.
 
