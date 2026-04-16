@@ -10,7 +10,7 @@
 
 ## Estado Técnico Actual
 - Pipeline de compresión funcional en cliente con soporte de worker.
-- Soporte de entrada validado para JPG/JPEG/JFIF, PNG y WebP.
+- Soporte de entrada validado para JPG/JPEG/JFIF, PNG, WebP y SVG.
 - Home con dos modos de experiencia (Compressor y Converter) en la misma página.
 - Pipeline de conversión completa: en planificación de siguiente etapa.
 
@@ -19,6 +19,7 @@
 - JPG/JPEG/JFIF
 - PNG
 - WebP
+- SVG
 
 ## Herramientas de Desarrollo y Calidad
 - **GitHub Actions:** workflow `quality.yml` con typecheck, test:coverage y build.
