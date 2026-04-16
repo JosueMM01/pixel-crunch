@@ -10,6 +10,7 @@ const ACCEPT_EXTENSIONS_BY_MIME: Record<string, string[]> = {
   'image/png': ['.png'],
   'image/webp': ['.webp'],
   'image/svg+xml': ['.svg'],
+  'image/gif': ['.gif'],
 };
 
 const EXTENSION_DISPLAY_LABELS: Record<string, string> = {
@@ -19,6 +20,7 @@ const EXTENSION_DISPLAY_LABELS: Record<string, string> = {
   png: 'PNG',
   webp: 'WebP',
   svg: 'SVG',
+  gif: 'GIF',
 };
 
 function toDisplayExtensionLabel(extension: string): string {

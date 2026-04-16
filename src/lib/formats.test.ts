@@ -26,6 +26,12 @@ describe('getDropzoneAcceptMap', () => {
     expect(accept['image/webp']).toEqual(['.webp']);
     expect(accept['image/svg+xml']).toEqual(['.svg']);
   });
+
+  it('supports gif extension hints for converter pipelines', () => {
+    const accept = getDropzoneAcceptMap(['image/gif']);
+
+    expect(accept['image/gif']).toEqual(['.gif']);
+  });
 });
 
 describe('DEFAULT_ACCEPTED_FORMATS_LABEL', () => {

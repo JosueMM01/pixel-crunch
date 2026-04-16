@@ -12,7 +12,8 @@
 - Pipeline de compresión funcional en cliente con soporte de worker.
 - Soporte de entrada validado para JPG/JPEG/JFIF, PNG, WebP y SVG.
 - Home con dos modos de experiencia (Compressor y Converter) en la misma página.
-- Pipeline de conversión completa: en planificación de siguiente etapa.
+- Pipeline de conversión cliente activo para JPG, PNG, WebP, SVG y GIF con salida a JPG, PNG, WebP y AVIF.
+- Estrategia GIF en conversión: si el GIF es estático se convierte de forma normal; si es animado se exporta el primer fotograma para mantener compatibilidad de salida.
 
 ## Formatos
 ### Compresión implementada
@@ -20,6 +21,11 @@
 - PNG
 - WebP
 - SVG
+
+### Conversión implementada
+- Entradas: JPG/JPEG/JFIF, PNG, WebP, SVG y GIF.
+- Salidas: JPG, PNG, WebP y AVIF (dependiente de soporte del navegador).
+- GIF animado: conversión por primer frame (estrategia documentada de compatibilidad).
 
 ## Herramientas de Desarrollo y Calidad
 - **GitHub Actions:** workflow `quality.yml` con typecheck, test:coverage y build.

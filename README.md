@@ -18,6 +18,7 @@
 - 📱 **PWA** - Instálalo como app y úsalo offline
 - 🧩 **Flujo Dual en Home** - Modo Compressor y modo Converter en una sola experiencia
 - 🎯 **Múltiples Formatos (Compresión)** - Soporta JPG/JPEG/JFIF, PNG, WebP y SVG
+- 🔄 **Conversión en Cliente** - Convierte JPG/PNG/WebP/SVG/GIF a JPG/PNG/WebP/AVIF
 
 ---
 
@@ -36,7 +37,7 @@
 - 🔄 **Fase 2:** Compresión Core + UX/UI Home con Flujo Dual (En progreso avanzado)
   - ✅ Compresión JPG/PNG/WebP/SVG funcional.
   - ✅ Descarga individual y ZIP (Corregido).
-  - ⏳ Motor de conversión real (Scaffold de UX listo).
+  - ✅ Motor de conversión inicial funcional (incluye estrategia GIF estático/animado por primer fotograma).
 - ⏳ **Fase 3:** Persistencia e Historial
 - ✅ **Fase 4:** PWA e Infraestructura de Deploy (activa)
 

@@ -26,8 +26,8 @@ Documento actualizado en abril 2026 con estado real del repositorio.
 - [x] Pruebas base con Vitest + cobertura.
 - [x] **Pipeline de Calidad:** GitHub Actions (`quality.yml`) configurado para ejecutar `typecheck`, `test` y `build` en cada PR.
 - [x] Integración de SVG sin romper el pipeline raster.
-- [ ] Motor real de conversión para el modo Converter.
-- [ ] Soporte de conversión GIF (registrado en backlog de conversión).
+- [x] Motor real de conversión inicial para el modo Converter (JPG/PNG/WebP/SVG/GIF -> JPG/PNG/WebP/AVIF).
+- [x] Soporte de conversión GIF con estrategia para GIF animado (exportación de primer fotograma).
 
 ## Fase 3: Persistencia E Historial
 

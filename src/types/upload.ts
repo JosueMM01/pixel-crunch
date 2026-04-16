@@ -135,3 +135,32 @@ export interface UploaderPanelProps {
   compressionStatsCopy?: Partial<CompressionStatsCopy>;
   compressionProgressCopy?: Partial<CompressionProgressCopy>;
 }
+
+export interface ConverterPanelCopy {
+  outputLabel: string;
+  convertLabel: string;
+  convertingLabel: string;
+  saveAllLabel: string;
+  savingLabel: string;
+  convertedBadgeLabel: string;
+  pendingBadgeLabel: string;
+  noPendingLabel: string;
+  successLabel: string;
+  partialErrorLabel: string;
+  saveSuccessLabel: string;
+  saveErrorLabel: string;
+  animatedGifWarningLabel: string;
+  gifStrategyLabel: string;
+  outputFormats: {
+    jpg: string;
+    png: string;
+    webp: string;
+    avif: string;
+  };
+}
+
+export interface ConverterPanelProps {
+  uploadCopy?: Partial<UploadZoneCopy>;
+  previewCopy?: Partial<ImagePreviewCopy>;
+  converterCopy?: Partial<ConverterPanelCopy>;
+}

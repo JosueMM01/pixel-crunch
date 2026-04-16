@@ -171,6 +171,7 @@ export function ImagePreview({
                   0,
                   Math.round(Math.abs(compressionMetaByIndex?.[index]?.savingsPercent ?? 0))
                 );
+                const shouldShowSavingsOverlay = isCompressed && savingsPercent > 0;
 
                 return (
                   <div
@@ -228,7 +229,7 @@ export function ImagePreview({
                         loading="lazy"
                       />
 
-                      {isCompressed ? (
+                      {shouldShowSavingsOverlay ? (
                         <span className="pointer-events-none absolute inset-0 flex items-center justify-center text-4xl font-black text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
                           -{savingsPercent}%
                         </span>
