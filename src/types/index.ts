@@ -2,6 +2,7 @@ export type {
 	UploadZoneCopy,
 	UploadZoneProps,
 	ImagePreviewCopy,
+	ImagePreviewCompressionMeta,
 	ImagePreviewProps,
 	QualitySliderCopy,
 	QualitySliderProps,

@@ -34,21 +34,27 @@
     "description": "JPG/JPEG/JFIF, PNG, WebP"
   },
   "upload": {
-    "title": "Sube tus imagenes",
-    "description": "Arrastra imagenes aqui o haz clic para seleccionar.",
-    "idleLabel": "Arrastra imagenes aqui o haz clic para seleccionar",
+    "title": "Sube tus imágenes",
+    "description": "Arrastra imágenes aquí para seleccionar.",
+    "idleLabel": "Arrastra imágenes aquí",
     "draggingLabel": "Suelta los archivos para cargarlos",
     "processingLabel": "Procesando archivos...",
-    "helperLabel": "Formatos soportados: JPG/JPEG/JFIF, PNG, WebP",
+    "helperLabel": "Formatos compatibles: JPG/JPEG/JFIF, PNG y WebP",
+    "addMoreLabel": "Agregar",
+    "clearAllLabel": "Borrar",
+    "compressLabel": "Comprimir",
+    "saveLabel": "Guardar",
+    "saveAllLabel": "Guardar todo",
+    "savingLabel": "Guardando...",
     "successLabel": "{count} imagen(es) cargada(s) correctamente.",
-    "sizeErrorLabel": "Archivo muy grande. Maximo 10MB.",
-    "typeErrorLabel": "Formato no soportado. Solo JPG/JPEG/JFIF, PNG y WebP."
+    "sizeErrorLabel": "Archivo demasiado grande. Máximo 10 MB.",
+    "typeErrorLabel": "Formato no compatible. Solo JPG/JPEG/JFIF, PNG y WebP."
   },
   "preview": {
-    "title": "Vista previa de imagenes",
     "emptyStateLabel": "Aún no hay imágenes cargadas.",
     "removeLabel": "Eliminar imagen",
-    "previewAltPrefix": "Vista previa de"
+    "previewAltPrefix": "Vista previa de",
+    "saveSingleLabel": "Guardar"
   },
   "compression": {
     "quality": {
@@ -65,7 +71,10 @@
       "savingsLabel": "Ahorro",
       "percentageLabel": "Reducción",
       "estimatedLabel": "Estimado",
-      "errorLabel": "Error"
+      "errorLabel": "Error",
+      "openDetailsLabel": "Ver detalles de compresión",
+      "closeDetailsLabel": "Cerrar",
+      "detailsTitle": "Detalles de compresión"
     },
     "progress": {
       "title": "Progreso de compresión",

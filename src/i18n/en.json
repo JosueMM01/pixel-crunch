@@ -35,20 +35,26 @@
   },
   "upload": {
     "title": "Upload your images",
-    "description": "Drag images here or click to select.",
-    "idleLabel": "Drag images here or click to select",
+    "description": "Drag images here to select.",
+    "idleLabel": "Drag images here",
     "draggingLabel": "Drop files to upload",
     "processingLabel": "Processing files...",
-    "helperLabel": "Supported formats: JPG/JPEG/JFIF, PNG, WebP",
+    "helperLabel": "Supported formats: JPG/JPEG/JFIF, PNG, and WebP",
+    "addMoreLabel": "Add",
+    "clearAllLabel": "Clear",
+    "compressLabel": "Compress",
+    "saveLabel": "Save",
+    "saveAllLabel": "Save all",
+    "savingLabel": "Saving...",
     "successLabel": "{count} image(s) uploaded successfully.",
-    "sizeErrorLabel": "File too large. Max 10MB.",
-    "typeErrorLabel": "Unsupported format. Only JPG/JPEG/JFIF, PNG and WebP."
+    "sizeErrorLabel": "File is too large. Maximum size: 10 MB.",
+    "typeErrorLabel": "Unsupported format. Only JPG/JPEG/JFIF, PNG, and WebP are allowed."
   },
   "preview": {
-    "title": "Image preview",
     "emptyStateLabel": "No images uploaded yet.",
     "removeLabel": "Remove image",
-    "previewAltPrefix": "Preview of"
+    "previewAltPrefix": "Preview of",
+    "saveSingleLabel": "Save"
   },
   "compression": {
     "quality": {
@@ -65,7 +71,10 @@
       "savingsLabel": "Savings",
       "percentageLabel": "Reduction",
       "estimatedLabel": "Estimated",
-      "errorLabel": "Error"
+      "errorLabel": "Error",
+      "openDetailsLabel": "View compression details",
+      "closeDetailsLabel": "Close",
+      "detailsTitle": "Compression details"
     },
     "progress": {
       "title": "Compression progress",
