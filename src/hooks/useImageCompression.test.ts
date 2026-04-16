@@ -228,6 +228,103 @@ describe('useImageCompression', () => {
     expect(MockCompressionWorker.constructorCount).toBe(0);
   });
 
+  it('compresses svg as supported format without worker/raster fallback', async () => {
+    const { result } = renderHook(() => useImageCompression());
+    const file = new File(
+      [
+        '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">\n'
+          + '  <!-- remove me -->\n'
+          + '  <path d="M 0.0000 0.0000 L 10.0000 10.0000 Z" fill="#000000"></path>\n'
+          + '</svg>',
+      ],
+      'vector.svg',
+      { type: 'image/svg+xml' }
+    );
+
+    let output!: CompressionResult;
+
+    await act(async () => {
+      output = await result.current.compressOne(file, { quality: 0.5 });
+    });
+
+    await waitFor(() => {
+      expect(result.current.status).toBe('done');
+    });
+
+    expect(output.error).toBeUndefined();
+    expect(output.outputFile).toBeInstanceOf(File);
+    expect((output.outputFile as File).name).toBe('vector.svg');
+    expect(output.compressedSize).toBeLessThan(file.size);
+    expect(output.savingPercent).toBeGreaterThan(0);
+    expect(compressionMock).not.toHaveBeenCalled();
+    expect(MockCompressionWorker.constructorCount).toBe(0);
+  });
+
+  it('accepts svg files by extension when mime type is missing', async () => {
+    const { result } = renderHook(() => useImageCompression());
+    const file = new File(['<svg xmlns="http://www.w3.org/2000/svg"></svg>'], 'diagram.svg', {
+      type: '',
+    });
+
+    let output!: CompressionResult;
+
+    await act(async () => {
+      output = await result.current.compressOne(file, { quality: 0.5 });
+    });
+
+    await waitFor(() => {
+      expect(result.current.status).toBe('done');
+    });
+
+    expect(output.error).toBeUndefined();
+    expect(output.outputFile).toBeInstanceOf(File);
+    expect(output.compressedSize).toBeLessThanOrEqual(file.size);
+    expect(compressionMock).not.toHaveBeenCalled();
+    expect(MockCompressionWorker.constructorCount).toBe(0);
+  });
+
+  it('accepts extension fallback when mime type is generic octet-stream', async () => {
+    const { result } = renderHook(() => useImageCompression());
+    const file = new File(['<svg xmlns="http://www.w3.org/2000/svg"></svg>'], 'diagram.svg', {
+      type: 'application/octet-stream',
+    });
+
+    let output!: CompressionResult;
+
+    await act(async () => {
+      output = await result.current.compressOne(file, { quality: 0.5 });
+    });
+
+    await waitFor(() => {
+      expect(result.current.status).toBe('done');
+    });
+
+    expect(output.error).toBeUndefined();
+    expect(output.outputFile).toBeInstanceOf(File);
+    expect(compressionMock).not.toHaveBeenCalled();
+    expect(MockCompressionWorker.constructorCount).toBe(0);
+  });
+
+  it('rejects extension fallback when mime type is explicitly unsupported', async () => {
+    const { result } = renderHook(() => useImageCompression());
+    const file = new File(['GIF89a'], 'spoofed.svg', { type: 'image/gif' });
+
+    let output!: CompressionResult;
+
+    await act(async () => {
+      output = await result.current.compressOne(file, { quality: 0.5 });
+    });
+
+    await waitFor(() => {
+      expect(result.current.status).toBe('error');
+    });
+
+    expect(output.error).toBe(UNSUPPORTED_FORMAT_MESSAGE);
+    expect(result.current.error).toBe(UNSUPPORTED_FORMAT_MESSAGE);
+    expect(compressionMock).not.toHaveBeenCalled();
+    expect(MockCompressionWorker.constructorCount).toBe(0);
+  });
+
   it('uses default error message when worker sends empty error text', async () => {
     MockCompressionWorker.mode = 'empty-error';
 

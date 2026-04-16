@@ -19,13 +19,13 @@ Documento actualizado en abril 2026 con estado real del repositorio.
 - [x] Hook `useImageCompression.ts`.
 - [x] Worker `compression.worker.ts`.
 - [x] Componentes `CompressionProgress`, `CompressionStats`, `QualitySlider`, `ImageComparison`.
-- [x] Soporte de compresión raster: JPG/JPEG/JFIF, PNG, WebP.
+- [x] Soporte de compresión de entrada: JPG/JPEG/JFIF, PNG, WebP y SVG.
 - [x] Home con flujo dual (Compressor + Converter) sincronizado entre Hero, panel de carga y bloque informativo.
 - [x] Scaffold UX del modo Converter en Home (zona de carga, acciones, selección de formato y CTA).
 - [x] Descarga individual y masiva en ZIP.
 - [x] Pruebas base con Vitest + cobertura.
 - [x] **Pipeline de Calidad:** GitHub Actions (`quality.yml`) configurado para ejecutar `typecheck`, `test` y `build` en cada PR.
-- [ ] Integración de SVG sin romper el pipeline raster.
+- [x] Integración de SVG sin romper el pipeline raster.
 - [ ] Motor real de conversión para el modo Converter.
 - [ ] Soporte de conversión GIF (registrado en backlog de conversión).
 

@@ -17,7 +17,7 @@
 - 🌙 **Modo Oscuro** - Tema claro/oscuro automático
 - 📱 **PWA** - Instálalo como app y úsalo offline
 - 🧩 **Flujo Dual en Home** - Modo Compressor y modo Converter en una sola experiencia
-- 🎯 **Múltiples Formatos (Compresión)** - Soporta JPG/JPEG/JFIF, PNG y WebP
+- 🎯 **Múltiples Formatos (Compresión)** - Soporta JPG/JPEG/JFIF, PNG, WebP y SVG
 
 ---
 
@@ -34,7 +34,7 @@
 - ✅ **Fase 0:** Setup inicial (Astro + React + TailwindCSS)
 - ✅ **Fase 1:** UI Base (Completada)
 - 🔄 **Fase 2:** Compresión Core + UX/UI Home con Flujo Dual (En progreso avanzado)
-  - ✅ Compresión JPG/PNG/WebP funcional.
+  - ✅ Compresión JPG/PNG/WebP/SVG funcional.
   - ✅ Descarga individual y ZIP (Corregido).
   - ⏳ Motor de conversión real (Scaffold de UX listo).
 - ⏳ **Fase 3:** Persistencia e Historial

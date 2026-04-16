@@ -7,6 +7,7 @@ import { UploadZone } from './UploadZone';
 import { CompressionStats, ImageComparison, QualitySlider } from '../compressor';
 import { Button } from '@/components/ui/Button';
 import { useImageCompression } from '@/hooks/useImageCompression';
+import { compressSvgFile, isSvgFile } from '@/lib/svgCompression';
 import { showError, showSuccess } from '@/lib/toast';
 import type { CompressionResult } from '@/types/compression';
 import type {
@@ -153,10 +154,14 @@ export function UploaderPanel({
 
     let isCancelled = false;
     const timeoutId = window.setTimeout(() => {
-      void imageCompression(activeFile.file, {
-        useWebWorker: false,
-        initialQuality: draftQuality,
-      })
+      const previewPromise = isSvgFile(activeFile.file)
+        ? compressSvgFile(activeFile.file, draftQuality)
+        : imageCompression(activeFile.file, {
+            useWebWorker: false,
+            initialQuality: draftQuality,
+          });
+
+      void previewPromise
         .then((outputFile) => {
           if (isCancelled) {
             return;
