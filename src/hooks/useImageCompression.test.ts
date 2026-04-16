@@ -228,6 +228,52 @@ describe('useImageCompression', () => {
     expect(MockCompressionWorker.constructorCount).toBe(0);
   });
 
+  it('processes svg as supported passthrough without worker or raster compression', async () => {
+    const { result } = renderHook(() => useImageCompression());
+    const file = new File(['<svg xmlns="http://www.w3.org/2000/svg"></svg>'], 'vector.svg', {
+      type: 'image/svg+xml',
+    });
+
+    let output!: CompressionResult;
+
+    await act(async () => {
+      output = await result.current.compressOne(file, { quality: 0.5 });
+    });
+
+    await waitFor(() => {
+      expect(result.current.status).toBe('done');
+    });
+
+    expect(output.error).toBeUndefined();
+    expect(output.outputFile).toBe(file);
+    expect(output.compressedSize).toBe(file.size);
+    expect(output.savingPercent).toBe(0);
+    expect(compressionMock).not.toHaveBeenCalled();
+    expect(MockCompressionWorker.constructorCount).toBe(0);
+  });
+
+  it('accepts svg files by extension when mime type is missing', async () => {
+    const { result } = renderHook(() => useImageCompression());
+    const file = new File(['<svg xmlns="http://www.w3.org/2000/svg"></svg>'], 'diagram.svg', {
+      type: '',
+    });
+
+    let output!: CompressionResult;
+
+    await act(async () => {
+      output = await result.current.compressOne(file, { quality: 0.5 });
+    });
+
+    await waitFor(() => {
+      expect(result.current.status).toBe('done');
+    });
+
+    expect(output.error).toBeUndefined();
+    expect(output.outputFile).toBe(file);
+    expect(compressionMock).not.toHaveBeenCalled();
+    expect(MockCompressionWorker.constructorCount).toBe(0);
+  });
+
   it('uses default error message when worker sends empty error text', async () => {
     MockCompressionWorker.mode = 'empty-error';
 

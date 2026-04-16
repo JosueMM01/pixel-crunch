@@ -18,17 +18,18 @@ describe('getFileExtension', () => {
 });
 
 describe('getDropzoneAcceptMap', () => {
-  it('adds extension hints for accepted formats including jfif for jpeg', () => {
+  it('adds extension hints for accepted formats including jfif for jpeg and svg', () => {
     const accept = getDropzoneAcceptMap(DEFAULT_ACCEPTED_FORMATS);
 
     expect(accept['image/jpeg']).toEqual(['.jpg', '.jpeg', '.jfif']);
     expect(accept['image/png']).toEqual(['.png']);
     expect(accept['image/webp']).toEqual(['.webp']);
+    expect(accept['image/svg+xml']).toEqual(['.svg']);
   });
 });
 
 describe('DEFAULT_ACCEPTED_FORMATS_LABEL', () => {
   it('is derived from accepted formats and extensions map', () => {
-    expect(DEFAULT_ACCEPTED_FORMATS_LABEL).toBe('JPG/JPEG/JFIF, PNG, WebP');
+    expect(DEFAULT_ACCEPTED_FORMATS_LABEL).toBe('JPG/JPEG/JFIF, PNG, WebP, SVG');
   });
 });

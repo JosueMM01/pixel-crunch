@@ -2,12 +2,14 @@ export const DEFAULT_ACCEPTED_FORMATS = [
   'image/jpeg',
   'image/png',
   'image/webp',
+  'image/svg+xml',
 ] as const;
 
 const ACCEPT_EXTENSIONS_BY_MIME: Record<string, string[]> = {
   'image/jpeg': ['.jpg', '.jpeg', '.jfif'],
   'image/png': ['.png'],
   'image/webp': ['.webp'],
+  'image/svg+xml': ['.svg'],
 };
 
 const EXTENSION_DISPLAY_LABELS: Record<string, string> = {
@@ -16,6 +18,7 @@ const EXTENSION_DISPLAY_LABELS: Record<string, string> = {
   jfif: 'JFIF',
   png: 'PNG',
   webp: 'WebP',
+  svg: 'SVG',
 };
 
 function toDisplayExtensionLabel(extension: string): string {
