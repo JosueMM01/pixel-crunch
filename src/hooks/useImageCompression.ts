@@ -4,6 +4,7 @@ import {
   DEFAULT_ACCEPTED_FORMATS,
   DEFAULT_ACCEPTED_FORMATS_LABEL,
   getFileExtension,
+  getDropzoneAcceptMap,
 } from '@/lib/formats';
 import { compressSvgFile, isSvgFile } from '@/lib/svgCompression';
 import type {
@@ -28,9 +29,18 @@ const DEFAULT_OPTIONS: CompressionOptions = {
   quality: 0.8,
 };
 
-const SUPPORTED_EXTENSIONS = new Set(['jpg', 'jpeg', 'jfif', 'png', 'webp', 'svg']);
+const UNKNOWN_INPUT_MIME_TYPES = new Set(['', 'application/octet-stream']);
+const SUPPORTED_EXTENSIONS = new Set(
+  Object.values(getDropzoneAcceptMap(DEFAULT_ACCEPTED_FORMATS))
+    .flat()
+    .map((extension) => extension.replace('.', '').toLowerCase())
+);
 const CANCELLED_MESSAGE = 'Compression cancelled.';
 export const UNSUPPORTED_FORMAT_MESSAGE = `Unsupported format. Use ${DEFAULT_ACCEPTED_FORMATS_LABEL}.`;
+
+function isUnknownInputMimeType(mimeType: string): boolean {
+  return UNKNOWN_INPUT_MIME_TYPES.has(mimeType);
+}
 
 function clampProgress(progress: number): number {
   if (!Number.isFinite(progress)) {
@@ -106,9 +116,13 @@ function toFailedResult(file: File, error: unknown): CompressionResult {
 }
 
 function isSupportedInputFile(file: File): boolean {
-  const normalizedType = file.type.toLowerCase();
+  const normalizedType = file.type.toLowerCase().trim();
   if (DEFAULT_ACCEPTED_FORMATS.some((supportedType) => supportedType === normalizedType)) {
     return true;
+  }
+
+  if (!isUnknownInputMimeType(normalizedType)) {
+    return false;
   }
 
   const extension = getFileExtension(file.name);
