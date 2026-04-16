@@ -101,7 +101,12 @@
     "quality": {
       "title": "Calidad de compresión",
       "description": "Ajusta la calidad de salida antes de comprimir.",
-      "valueLabel": "Calidad"
+      "valueLabel": "Calidad",
+      "gifTitle": "Colores GIF",
+      "gifDescription": "Reduce colores por frame para comprimir GIF animado sin perder animación.",
+      "gifValueLabel": "Colores",
+      "gifUnitLabel": "colores",
+      "gifFramesLabel": "Frames"
     },
     "stats": {
       "title": "Estadísticas de compresión",

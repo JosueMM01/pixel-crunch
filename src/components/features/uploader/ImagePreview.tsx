@@ -11,6 +11,7 @@ const DEFAULT_COPY: ImagePreviewCopy = {
   removeLabel: 'Eliminar imagen',
   previewAltPrefix: 'Vista previa de',
 };
+const SHOULD_REVOKE_OBJECT_URLS = !import.meta.env.DEV;
 
 interface PreviewItem {
   key: string;
@@ -49,22 +50,58 @@ export function ImagePreview({
     [copy]
   );
   const [internalActiveIndex, setInternalActiveIndex] = useState(0);
+  const [previews, setPreviews] = useState<PreviewItem[]>([]);
   const stripRef = useRef<HTMLDivElement | null>(null);
   const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const previewUrlCacheRef = useRef<Map<string, string>>(new Map());
 
-  const previews = useMemo<PreviewItem[]>(() => {
-    return files.map((file, index) => ({
-      key: `${file.name}-${file.lastModified}-${index}`,
-      url: URL.createObjectURL(file),
-      file,
-    }));
+  useEffect(() => {
+    const nextPreviews = files.map((file, index) => {
+      const key = `${file.name}-${file.lastModified}-${file.size}-${index}`;
+      const existingUrl = previewUrlCacheRef.current.get(key);
+
+      if (existingUrl) {
+        return {
+          key,
+          url: existingUrl,
+          file,
+        };
+      }
+
+      const createdUrl = URL.createObjectURL(file);
+      previewUrlCacheRef.current.set(key, createdUrl);
+
+      return {
+        key,
+        url: createdUrl,
+        file,
+      };
+    });
+
+    setPreviews(nextPreviews);
+
+    const activeKeys = new Set(nextPreviews.map((preview) => preview.key));
+
+    previewUrlCacheRef.current.forEach((url, key) => {
+      if (activeKeys.has(key)) {
+        return;
+      }
+
+      if (SHOULD_REVOKE_OBJECT_URLS) {
+        URL.revokeObjectURL(url);
+      }
+      previewUrlCacheRef.current.delete(key);
+    });
   }, [files]);
 
   useEffect(() => {
     return () => {
-      previews.forEach((preview) => URL.revokeObjectURL(preview.url));
+      if (SHOULD_REVOKE_OBJECT_URLS) {
+        previewUrlCacheRef.current.forEach((url) => URL.revokeObjectURL(url));
+      }
+      previewUrlCacheRef.current.clear();
     };
-  }, [previews]);
+  }, []);
 
   const maxIndex = previews.length - 1;
   const isControlled = typeof activeIndex === 'number';

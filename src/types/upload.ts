@@ -60,6 +60,11 @@ export interface QualitySliderCopy {
   title: string;
   description: string;
   valueLabel: string;
+  gifTitle?: string;
+  gifDescription?: string;
+  gifValueLabel?: string;
+  gifUnitLabel?: string;
+  gifFramesLabel?: string;
 }
 
 export interface QualitySliderProps {
@@ -77,6 +82,13 @@ export interface QualitySliderProps {
   onApply?: () => void;
   applyLabel?: string;
   applyDisabled?: boolean;
+  valueMode?: 'percent' | 'number';
+  valueSuffix?: string;
+  showRawValue?: boolean;
+  showMinLabel?: boolean;
+  showMaxLabel?: boolean;
+  minLabel?: string;
+  maxLabel?: string;
 }
 
 export interface CompressionStatsCopy {
