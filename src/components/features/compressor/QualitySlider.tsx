@@ -29,6 +29,13 @@ export function QualitySlider({
   onApply,
   applyLabel = 'OK',
   applyDisabled = false,
+  valueMode = 'percent',
+  valueSuffix,
+  showRawValue = true,
+  showMinLabel = true,
+  showMaxLabel = true,
+  minLabel,
+  maxLabel,
 }: QualitySliderProps) {
   const generatedId = useId();
   const sliderId = id ?? generatedId;
@@ -36,6 +43,17 @@ export function QualitySlider({
   const normalizedValue = clampValue(value, min, max);
   const percentage = Math.round(normalizedValue * 100);
   const isVertical = orientation === 'vertical';
+  const roundedNumericValue = Math.round(normalizedValue);
+
+  const resolvedValueText = valueMode === 'percent'
+    ? (showRawValue ? `${normalizedValue.toFixed(1)} / ${percentage}%` : `${percentage}%`)
+    : `${roundedNumericValue}${valueSuffix ? ` ${valueSuffix}` : ''}`;
+
+  const resolvedMinLabel = minLabel
+    ?? (valueMode === 'percent' ? `${Math.round(min * 100)}%` : `${Math.round(min)}`);
+
+  const resolvedMaxLabel = maxLabel
+    ?? (valueMode === 'percent' ? `${Math.round(max * 100)}%` : `${Math.round(max)}`);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onChange(Number(event.target.value));
@@ -79,7 +97,7 @@ export function QualitySlider({
             >
               <span>{resolvedCopy.valueLabel}</span>
               <span className="font-semibold text-monokai-purple">
-                {normalizedValue.toFixed(1)} / {percentage}%
+                {resolvedValueText}
               </span>
             </label>
 
@@ -99,7 +117,7 @@ export function QualitySlider({
                   aria-valuemin={min}
                   aria-valuemax={max}
                   aria-valuenow={normalizedValue}
-                  aria-valuetext={`${normalizedValue.toFixed(1)} (${percentage}%)`}
+                  aria-valuetext={resolvedValueText}
                 />
               </div>
             ) : (
@@ -116,14 +134,23 @@ export function QualitySlider({
                 aria-valuemin={min}
                 aria-valuemax={max}
                 aria-valuenow={normalizedValue}
-                aria-valuetext={`${normalizedValue.toFixed(1)} (${percentage}%)`}
+                aria-valuetext={resolvedValueText}
               />
             )}
 
-            <div className={cn('text-xs text-monokai-fg/60', isVertical ? 'space-y-1 text-center' : 'flex justify-between')}>
-              <span>{min.toFixed(1)} ({Math.round(min * 100)}%)</span>
-              <span>{max.toFixed(1)} ({Math.round(max * 100)}%)</span>
-            </div>
+            {(showMinLabel || showMaxLabel) ? (
+              <div
+                className={cn(
+                  'text-xs text-monokai-fg/60',
+                  isVertical
+                    ? 'space-y-1 text-center'
+                    : (showMinLabel && showMaxLabel ? 'flex justify-between' : 'flex justify-center')
+                )}
+              >
+                {showMinLabel ? <span>{resolvedMinLabel}</span> : null}
+                {showMaxLabel ? <span>{resolvedMaxLabel}</span> : null}
+              </div>
+            ) : null}
 
             {showApplyButton ? (
               <div className={cn(isVertical ? 'pt-1 flex justify-center' : 'pt-1 flex justify-end')}>

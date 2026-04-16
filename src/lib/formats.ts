@@ -2,6 +2,7 @@ export const DEFAULT_ACCEPTED_FORMATS = [
   'image/jpeg',
   'image/png',
   'image/webp',
+  'image/gif',
   'image/svg+xml',
 ] as const;
 
@@ -9,16 +10,34 @@ const ACCEPT_EXTENSIONS_BY_MIME: Record<string, string[]> = {
   'image/jpeg': ['.jpg', '.jpeg', '.jfif'],
   'image/png': ['.png'],
   'image/webp': ['.webp'],
+  'image/gif': ['.gif'],
   'image/svg+xml': ['.svg'],
+  'image/heic': ['.heic', '.heif'],
+  'image/heif': ['.heif', '.heic'],
+  'image/bmp': ['.bmp'],
+  'image/x-ms-bmp': ['.bmp'],
+  'image/tiff': ['.tif', '.tiff'],
+  'image/avif': ['.avif'],
+  'image/x-icon': ['.ico'],
+  'image/vnd.microsoft.icon': ['.ico'],
+  'image/ico': ['.ico'],
 };
 
 const EXTENSION_DISPLAY_LABELS: Record<string, string> = {
+  heic: 'HEIC',
+  heif: 'HEIF',
   jpg: 'JPG',
   jpeg: 'JPEG',
   jfif: 'JFIF',
   png: 'PNG',
   webp: 'WebP',
   svg: 'SVG',
+  gif: 'GIF',
+  bmp: 'BMP',
+  tif: 'TIF',
+  tiff: 'TIFF',
+  avif: 'AVIF',
+  ico: 'ICO',
 };
 
 function toDisplayExtensionLabel(extension: string): string {

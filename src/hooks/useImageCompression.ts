@@ -6,6 +6,7 @@ import {
   getFileExtension,
   getDropzoneAcceptMap,
 } from '@/lib/formats';
+import { compressGifFile, isGifFile } from '@/lib/gifCompression';
 import { compressSvgFile, isSvgFile } from '@/lib/svgCompression';
 import type {
   CompressionOptions,
@@ -75,14 +76,20 @@ function toErrorMessage(error: unknown): string {
 }
 
 function toCompressionOptions(
+  file: File,
   options: CompressionOptions,
   onProgress: (progress: number) => void
 ): CompressionLibraryOptions {
+  const clampedQuality = Math.min(1, Math.max(0.01, options.quality));
+  const aggressiveQuality = Math.pow(clampedQuality, 1.25);
+  const sourceSizeMB = file.size / (1024 * 1024);
+  const derivedMaxSizeMB = Math.max(0.001, sourceSizeMB * (0.2 + (clampedQuality * 0.8)));
+
   return {
     useWebWorker: false,
-    initialQuality: options.quality,
+    initialQuality: aggressiveQuality,
     maxWidthOrHeight: options.maxWidthOrHeight,
-    maxSizeMB: options.maxSizeMB,
+    maxSizeMB: options.maxSizeMB ?? derivedMaxSizeMB,
     fileType: options.fileType,
     onProgress,
   };
@@ -101,6 +108,18 @@ function toSuccessfulResult(file: File, outputFile: File): CompressionResult {
     originalSize,
     compressedSize,
     savingPercent,
+  };
+}
+
+function toSuccessfulGifResult(
+  file: File,
+  outputFile: File,
+  gifMetadata: NonNullable<CompressionResult['gifMetadata']>
+): CompressionResult {
+  const baseResult = toSuccessfulResult(file, outputFile);
+  return {
+    ...baseResult,
+    gifMetadata,
   };
 }
 
@@ -209,7 +228,14 @@ export function useImageCompression(): UseImageCompressionReturn {
       }
 
       if (message.type === 'done') {
-        const { jobId, outputFile, originalSize, compressedSize, savingPercent } = message.payload;
+        const {
+          jobId,
+          outputFile,
+          originalSize,
+          compressedSize,
+          savingPercent,
+          gifMetadata,
+        } = message.payload;
         const job = pendingJobsRef.current.get(jobId);
         if (!job) {
           return;
@@ -225,6 +251,7 @@ export function useImageCompression(): UseImageCompressionReturn {
           originalSize,
           compressedSize,
           savingPercent,
+          gifMetadata,
         };
 
         job.resolve(result);
@@ -313,9 +340,28 @@ export function useImageCompression(): UseImageCompressionReturn {
       batchId: string,
       jobId: string
     ): Promise<CompressionResult> => {
+      if (isGifFile(file)) {
+        const { outputFile, metadata } = await compressGifFile(file, {
+          colors: options.gifColors,
+          onProgress: (currentProgress) => {
+            jobProgressRef.current.set(jobId, clampProgress(currentProgress));
+            if (batchId === activeBatchIdRef.current) {
+              updateBatchProgress(batchId);
+            }
+          },
+        });
+
+        jobProgressRef.current.set(jobId, 100);
+        if (batchId === activeBatchIdRef.current) {
+          updateBatchProgress(batchId);
+        }
+
+        return toSuccessfulGifResult(file, outputFile, metadata);
+      }
+
       const outputFile = await imageCompression(
         file,
-        toCompressionOptions(options, (currentProgress) => {
+        toCompressionOptions(file, options, (currentProgress) => {
           jobProgressRef.current.set(jobId, clampProgress(currentProgress));
           if (batchId === activeBatchIdRef.current) {
             updateBatchProgress(batchId);
@@ -323,12 +369,14 @@ export function useImageCompression(): UseImageCompressionReturn {
         })
       );
 
+      const normalizedOutputFile = outputFile.size < file.size ? outputFile : file;
+
       jobProgressRef.current.set(jobId, 100);
       if (batchId === activeBatchIdRef.current) {
         updateBatchProgress(batchId);
       }
 
-      return toSuccessfulResult(file, outputFile);
+      return toSuccessfulResult(file, normalizedOutputFile);
     },
     [updateBatchProgress]
   );
@@ -407,7 +455,8 @@ export function useImageCompression(): UseImageCompressionReturn {
           if (isSvgFile(file)) {
             try {
               const outputFile = await compressSvgFile(file, mergedOptions.quality);
-              return toSuccessfulResult(file, outputFile);
+              const normalizedOutputFile = outputFile.size < file.size ? outputFile : file;
+              return toSuccessfulResult(file, normalizedOutputFile);
             } catch (reason) {
               return toFailedResult(file, reason);
             }

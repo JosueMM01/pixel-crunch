@@ -209,7 +209,7 @@ describe('useImageCompression', () => {
     expect(result.current.progress).toBe(100);
   });
 
-  it('returns unsupported format error without creating a worker', async () => {
+  it('accepts gif input and processes it with worker compression pipeline', async () => {
     const { result } = renderHook(() => useImageCompression());
     const file = new File([new Uint8Array(48)], 'animated.gif', { type: 'image/gif' });
 
@@ -220,12 +220,13 @@ describe('useImageCompression', () => {
     });
 
     await waitFor(() => {
-      expect(result.current.status).toBe('error');
+      expect(result.current.status).toBe('done');
     });
 
-    expect(output.error).toBe(UNSUPPORTED_FORMAT_MESSAGE);
-    expect(result.current.error).toBe(UNSUPPORTED_FORMAT_MESSAGE);
-    expect(MockCompressionWorker.constructorCount).toBe(0);
+    expect(output.error).toBeUndefined();
+    expect(output.outputFile).toBeInstanceOf(File);
+    expect(result.current.error).toBeNull();
+    expect(MockCompressionWorker.constructorCount).toBe(1);
   });
 
   it('compresses svg as supported format without worker/raster fallback', async () => {
@@ -307,7 +308,7 @@ describe('useImageCompression', () => {
 
   it('rejects extension fallback when mime type is explicitly unsupported', async () => {
     const { result } = renderHook(() => useImageCompression());
-    const file = new File(['GIF89a'], 'spoofed.svg', { type: 'image/gif' });
+    const file = new File(['GIF89a'], 'spoofed.gif', { type: 'application/pdf' });
 
     let output!: CompressionResult;
 

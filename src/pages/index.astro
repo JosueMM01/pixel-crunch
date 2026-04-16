@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { UploaderPanel } from '../components/features/uploader';
+import { ConverterPanel, UploaderPanel } from '../components/features/uploader';
 import translations from '../i18n/es.json';
 
 const t = translations;
@@ -8,7 +8,7 @@ const t = translations;
 
 <Layout 
 	title="Pixel Crunch - Optimiza Imágenes en tu Navegador"
-	description="Herramienta gratuita y privada para comprimir imágenes (JPG, PNG, WebP, SVG) sin subir archivos a un servidor."
+	description="Herramienta gratuita y privada para comprimir imágenes (JPG, PNG, WebP, GIF, SVG) sin subir archivos a un servidor."
 >
 	<main class="min-h-screen bg-monokai-bg text-monokai-fg">
 		<section class="px-4 pt-8 pb-8 md:pt-12 md:pb-10">
@@ -18,7 +18,7 @@ const t = translations;
 						Comprime y optimiza imágenes directamente en tu navegador.
 					</h1>
 					<p class="mt-4 text-base md:text-xl text-monokai-fg/85 max-w-5xl mx-auto">
-						Comprime y optimiza imágenes JPG, PNG, WebP y SVG directamente en tu navegador. Sin anuncios, sin subidas a servidor y con control de calidad.
+						Comprime y optimiza imágenes JPG, PNG, WebP, GIF y SVG directamente en tu navegador. Sin anuncios, sin subidas a servidor y con control de calidad.
 					</p>
 
 					<ul class="mt-7 max-w-4xl mx-auto text-left text-base md:text-lg text-monokai-fg/90 space-y-2">
@@ -27,7 +27,7 @@ const t = translations;
 					</ul>
 
 					<div class="mt-6 flex flex-wrap items-center justify-center gap-2">
-						{['JPG/JPEG/JFIF', 'PNG', 'WebP', 'SVG'].map((format) => (
+						{['JPG/JPEG/JFIF', 'PNG', 'WebP', 'GIF', 'SVG'].map((format) => (
 							<span class="px-3 py-1.5 text-xs md:text-sm font-semibold rounded-md border border-monokai-cyan/30 text-monokai-cyan bg-monokai-bg/80">
 								{format}
 							</span>
@@ -38,12 +38,12 @@ const t = translations;
 				<div data-hero-panel="converter" class="hidden text-center">
 					<h1 class="text-4xl md:text-5xl font-bold text-monokai-pink">Convertir imágenes en línea</h1>
 					<p class="mt-5 text-base md:text-xl text-monokai-fg/85 max-w-5xl mx-auto">
-						Herramienta gratuita basada en navegador que convierte imágenes HEIC, JPG, PNG, WebP, GIF, BMP, TIFF, AVIF e ICO a JPG, PNG, WebP o AVIF. Sin subida al servidor - la conversión ocurre en tu navegador. Rápido, seguro y privado.
+						Herramienta gratuita basada en navegador que convierte imágenes HEIC, JPG, PNG, WebP, GIF, BMP, TIFF, AVIF e ICO a JPG, PNG, WebP o AVIF. Sin subida al servidor: la conversión ocurre en tu navegador. Rápido, seguro y privado.
 					</p>
 
 					<ul class="mt-7 max-w-4xl mx-auto text-left text-base md:text-lg text-monokai-fg/90 space-y-2">
-						<li class="flex gap-2"><span class="text-monokai-cyan">•</span><span>Arrastra o selecciona imágenes - hasta 20 archivos a la vez.</span></li>
-						<li class="flex gap-2"><span class="text-monokai-cyan">•</span><span>Elige el formato de salida, haz clic en CONVERTIR y luego guarda cada archivo.</span></li>
+						<li class="flex gap-2"><span class="text-monokai-cyan">•</span><span>Arrastra o selecciona imágenes y elige formato de salida.</span></li>
+						<li class="flex gap-2"><span class="text-monokai-cyan">•</span><span>Para GIF animado se exporta el primer fotograma en el formato elegido.</span></li>
 					</ul>
 				</div>
 			</div>
@@ -89,47 +89,12 @@ const t = translations;
 						data-upload-panel="converter"
 						class="pointer-events-none overflow-hidden transition-[max-height,opacity,transform] duration-300 ease-out opacity-0 -translate-y-2 max-h-0"
 					>
-						<div class="mx-auto w-full max-w-5xl rounded-2xl border border-monokai-fg/15 bg-monokai-bg/60 p-4 md:p-6">
-							<div class="mb-3 flex flex-wrap justify-start gap-2">
-								<button
-									type="button"
-									class="rounded-lg border border-monokai-cyan/35 px-3 py-1.5 text-sm font-semibold text-monokai-cyan hover:bg-monokai-cyan/10"
-								>
-									Agregar
-								</button>
-								<button
-									type="button"
-									class="rounded-lg border border-monokai-pink/35 px-3 py-1.5 text-sm font-semibold text-monokai-pink hover:bg-monokai-pink/10"
-								>
-									Borrar
-								</button>
-							</div>
-
-							<div class="rounded-xl border-2 border-dashed border-monokai-cyan/35 bg-monokai-bg/70 px-4 py-10 text-center">
-								<p class="text-base md:text-lg font-semibold text-monokai-fg">Arrastra tus imágenes aquí para convertir</p>
-								<p class="mt-2 text-sm text-monokai-fg/65">Salida disponible para JPG, PNG, WebP y AVIF</p>
-							</div>
-
-							<div class="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
-								{['JPG', 'PNG', 'WebP', 'AVIF'].map((format) => (
-									<button
-										type="button"
-										class="rounded-lg border border-monokai-fg/25 bg-monokai-bg/70 px-3 py-2 text-sm font-semibold text-monokai-fg/80 hover:border-monokai-cyan/35 hover:text-monokai-cyan"
-									>
-										{format}
-									</button>
-								))}
-							</div>
-
-							<div class="mt-4 flex justify-center">
-								<button
-									type="button"
-									class="rounded-lg border border-monokai-cyan/40 bg-monokai-cyan/10 px-4 py-2 text-sm font-semibold text-monokai-cyan"
-								>
-									Convertir imágenes
-								</button>
-							</div>
-						</div>
+						<ConverterPanel
+							client:load
+							uploadCopy={t.converter.upload}
+							previewCopy={t.preview}
+							converterCopy={t.converter.panel}
+						/>
 					</div>
 				</div>
 			</div>
@@ -144,7 +109,7 @@ const t = translations;
 							Comprime y optimiza imágenes directamente en tu navegador.
 						</p>
 						<p class="mt-3 text-sm md:text-base text-monokai-fg/85">
-							Comprime y optimiza imágenes JPG, PNG, WebP y SVG directamente en tu navegador. Sin anuncios, sin subidas a servidor y con control de calidad.
+							Comprime y optimiza imágenes JPG, PNG, WebP, GIF y SVG directamente en tu navegador. Sin anuncios, sin subidas a servidor y con control de calidad.
 						</p>
 						<ul class="mt-4 space-y-2 text-sm md:text-base text-monokai-fg/90">
 							<li class="flex gap-2"><span class="text-monokai-cyan">•</span><span>Arrastra o selecciona tus imágenes para comenzar.</span></li>
@@ -155,11 +120,11 @@ const t = translations;
 					<div class="hidden" data-doc-panel="converter">
 						<h2 class="text-2xl md:text-3xl font-bold text-monokai-pink">Convertir imágenes en línea</h2>
 						<p class="mt-3 text-sm md:text-base text-monokai-fg/85">
-							Herramienta gratuita basada en navegador que convierte imágenes HEIC, JPG, PNG, WebP, GIF, BMP, TIFF, AVIF e ICO a JPG, PNG, WebP o AVIF. Sin subida al servidor - la conversión ocurre en tu navegador. Rápido, seguro y privado.
+							Herramienta gratuita basada en navegador que convierte imágenes HEIC, JPG, PNG, WebP, GIF, BMP, TIFF, AVIF e ICO a JPG, PNG, WebP o AVIF. Sin subida al servidor: la conversión ocurre en tu navegador. Rápido, seguro y privado.
 						</p>
 						<ul class="mt-4 space-y-2 text-sm md:text-base text-monokai-fg/90">
-							<li class="flex gap-2"><span class="text-monokai-cyan">•</span><span>Arrastra o selecciona imágenes - hasta 20 archivos a la vez.</span></li>
-							<li class="flex gap-2"><span class="text-monokai-cyan">•</span><span>Elige el formato de salida, haz clic en CONVERTIR y luego guarda cada archivo.</span></li>
+							<li class="flex gap-2"><span class="text-monokai-cyan">•</span><span>Arrastra o selecciona imágenes y elige formato de salida.</span></li>
+							<li class="flex gap-2"><span class="text-monokai-cyan">•</span><span>Para GIF animado se exporta el primer fotograma en el formato elegido.</span></li>
 						</ul>
 					</div>
 				</div>

@@ -13,11 +13,14 @@ export type {
 	CompressionProgressCopy,
 	CompressionProgressProps,
 	UploaderPanelProps,
+	ConverterPanelCopy,
+	ConverterPanelProps,
 } from './upload';
 
 export type {
 	CompressionOptions,
 	CompressionResult,
+	GifCompressionResultMetadata,
 	CompressionWorkerRequest,
 	CompressionWorkerResponse,
 	UseImageCompressionReturn,

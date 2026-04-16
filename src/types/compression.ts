@@ -2,9 +2,17 @@ import type { CompressionProgressStatus } from './upload';
 
 export interface CompressionOptions {
   quality: number;
+  gifColors?: number;
   maxWidthOrHeight?: number;
   maxSizeMB?: number;
   fileType?: string;
+}
+
+export interface GifCompressionResultMetadata {
+  frameCount: number;
+  isAnimated: boolean;
+  sourceColorCount: number;
+  outputColorCount: number;
 }
 
 export interface CompressionResult {
@@ -14,6 +22,7 @@ export interface CompressionResult {
   originalSize: number;
   compressedSize: number;
   savingPercent: number;
+  gifMetadata?: GifCompressionResultMetadata;
   error?: string;
 }
 
@@ -42,6 +51,7 @@ export interface CompressionWorkerDoneMessage {
     originalSize: number;
     compressedSize: number;
     savingPercent: number;
+    gifMetadata?: GifCompressionResultMetadata;
   };
 }
 

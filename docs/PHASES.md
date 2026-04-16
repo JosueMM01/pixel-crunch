@@ -19,15 +19,15 @@ Documento actualizado en abril 2026 con estado real del repositorio.
 - [x] Hook `useImageCompression.ts`.
 - [x] Worker `compression.worker.ts`.
 - [x] Componentes `CompressionProgress`, `CompressionStats`, `QualitySlider`, `ImageComparison`.
-- [x] Soporte de compresión de entrada: JPG/JPEG/JFIF, PNG, WebP y SVG.
+- [x] Soporte de compresión de entrada: JPG/JPEG/JFIF, PNG, WebP, GIF y SVG.
 - [x] Home con flujo dual (Compressor + Converter) sincronizado entre Hero, panel de carga y bloque informativo.
 - [x] Scaffold UX del modo Converter en Home (zona de carga, acciones, selección de formato y CTA).
 - [x] Descarga individual y masiva en ZIP.
 - [x] Pruebas base con Vitest + cobertura.
 - [x] **Pipeline de Calidad:** GitHub Actions (`quality.yml`) configurado para ejecutar `typecheck`, `test` y `build` en cada PR.
 - [x] Integración de SVG sin romper el pipeline raster.
-- [ ] Motor real de conversión para el modo Converter.
-- [ ] Soporte de conversión GIF (registrado en backlog de conversión).
+- [x] Motor real de conversión inicial para el modo Converter (HEIC/JPG/PNG/WebP/GIF/BMP/TIFF/AVIF/ICO -> JPG/PNG/WebP/AVIF).
+- [x] Soporte de conversión GIF con estrategia para GIF animado (exportación de primer fotograma).
 
 ## Fase 3: Persistencia E Historial
 
@@ -55,3 +55,5 @@ Documento actualizado en abril 2026 con estado real del repositorio.
 - [ ] Migracion a Astro 6.
 - [ ] Actualizacion de integraciones y toolchain compatible (`@astrojs/react`, Vite y TypeScript).
 - [ ] Ajustes de configuracion y validacion completa post-migracion (`typecheck`, `test`, `build` y PWA).
+
+

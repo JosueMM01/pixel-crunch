@@ -1,4 +1,5 @@
 import imageCompression from 'browser-image-compression';
+import { compressGifFile, isGifFile } from '../lib/gifCompression';
 import type {
   CompressionOptions,
   CompressionWorkerRequest,
@@ -22,17 +23,27 @@ function toErrorMessage(error: unknown): string {
 }
 
 function buildCompressionOptions(
+  file: File,
   options: CompressionOptions,
   onProgress: (progress: number) => void
 ): CompressionLibraryOptions {
+  const clampedQuality = Math.min(1, Math.max(0.01, options.quality));
+  const aggressiveQuality = Math.pow(clampedQuality, 1.25);
+  const sourceSizeMB = file.size / (1024 * 1024);
+  const derivedMaxSizeMB = Math.max(0.001, sourceSizeMB * (0.2 + (clampedQuality * 0.8)));
+
   return {
     useWebWorker: false,
-    initialQuality: options.quality,
+    initialQuality: aggressiveQuality,
     maxWidthOrHeight: options.maxWidthOrHeight,
-    maxSizeMB: options.maxSizeMB,
+    maxSizeMB: options.maxSizeMB ?? derivedMaxSizeMB,
     fileType: options.fileType,
     onProgress,
   };
+}
+
+function computeSavingPercent(originalSize: number, compressedSize: number): number {
+  return originalSize > 0 ? ((originalSize - compressedSize) / originalSize) * 100 : 0;
 }
 
 ctx.onmessage = async (event: MessageEvent<CompressionWorkerRequest>) => {
@@ -46,10 +57,46 @@ ctx.onmessage = async (event: MessageEvent<CompressionWorkerRequest>) => {
   } = data;
 
   try {
+    if (isGifFile(file)) {
+      const { outputFile, metadata } = await compressGifFile(file, {
+        colors: options.gifColors,
+        onProgress: (progress) => {
+          const progressMessage: CompressionWorkerResponse = {
+            type: 'progress',
+            payload: {
+              jobId,
+              progress,
+            },
+          };
+
+          ctx.postMessage(progressMessage);
+        },
+      });
+
+      const originalSize = file.size;
+      const compressedSize = outputFile.size;
+      const savingPercent = computeSavingPercent(originalSize, compressedSize);
+
+      const doneMessage: CompressionWorkerResponse = {
+        type: 'done',
+        payload: {
+          jobId,
+          outputFile,
+          originalSize,
+          compressedSize,
+          savingPercent,
+          gifMetadata: metadata,
+        },
+      };
+
+      ctx.postMessage(doneMessage);
+      return;
+    }
+
     const outputFile = await imageCompression(
       file,
-      buildCompressionOptions(options, (progress) => {
-        const message: CompressionWorkerResponse = {
+      buildCompressionOptions(file, options, (progress) => {
+        const progressMessage: CompressionWorkerResponse = {
           type: 'progress',
           payload: {
             jobId,
@@ -57,20 +104,21 @@ ctx.onmessage = async (event: MessageEvent<CompressionWorkerRequest>) => {
           },
         };
 
-        ctx.postMessage(message);
+        ctx.postMessage(progressMessage);
       })
     );
 
+    const normalizedOutputFile = outputFile.size < file.size ? outputFile : file;
+
     const originalSize = file.size;
-    const compressedSize = outputFile.size;
-    const savingPercent =
-      originalSize > 0 ? ((originalSize - compressedSize) / originalSize) * 100 : 0;
+    const compressedSize = normalizedOutputFile.size;
+    const savingPercent = computeSavingPercent(originalSize, compressedSize);
 
     const doneMessage: CompressionWorkerResponse = {
       type: 'done',
       payload: {
         jobId,
-        outputFile,
+        outputFile: normalizedOutputFile,
         originalSize,
         compressedSize,
         savingPercent,

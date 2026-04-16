@@ -60,6 +60,11 @@ export interface QualitySliderCopy {
   title: string;
   description: string;
   valueLabel: string;
+  gifTitle?: string;
+  gifDescription?: string;
+  gifValueLabel?: string;
+  gifUnitLabel?: string;
+  gifFramesLabel?: string;
 }
 
 export interface QualitySliderProps {
@@ -77,6 +82,13 @@ export interface QualitySliderProps {
   onApply?: () => void;
   applyLabel?: string;
   applyDisabled?: boolean;
+  valueMode?: 'percent' | 'number';
+  valueSuffix?: string;
+  showRawValue?: boolean;
+  showMinLabel?: boolean;
+  showMaxLabel?: boolean;
+  minLabel?: string;
+  maxLabel?: string;
 }
 
 export interface CompressionStatsCopy {
@@ -134,4 +146,33 @@ export interface UploaderPanelProps {
   qualityCopy?: Partial<QualitySliderCopy>;
   compressionStatsCopy?: Partial<CompressionStatsCopy>;
   compressionProgressCopy?: Partial<CompressionProgressCopy>;
+}
+
+export interface ConverterPanelCopy {
+  outputLabel: string;
+  convertLabel: string;
+  convertingLabel: string;
+  saveAllLabel: string;
+  savingLabel: string;
+  convertedBadgeLabel: string;
+  pendingBadgeLabel: string;
+  noPendingLabel: string;
+  successLabel: string;
+  partialErrorLabel: string;
+  saveSuccessLabel: string;
+  saveErrorLabel: string;
+  animatedGifWarningLabel: string;
+  gifStrategyLabel: string;
+  outputFormats: {
+    jpg: string;
+    png: string;
+    webp: string;
+    avif: string;
+  };
+}
+
+export interface ConverterPanelProps {
+  uploadCopy?: Partial<UploadZoneCopy>;
+  previewCopy?: Partial<ImagePreviewCopy>;
+  converterCopy?: Partial<ConverterPanelCopy>;
 }

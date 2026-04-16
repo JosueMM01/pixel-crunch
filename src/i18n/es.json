@@ -31,7 +31,7 @@
   },
   "formats": {
     "title": "Formatos Soportados",
-    "description": "JPG/JPEG/JFIF, PNG, WebP, SVG"
+    "description": "JPG/JPEG/JFIF, PNG, WebP, GIF, SVG"
   },
   "upload": {
     "title": "Sube tus imágenes",
@@ -39,7 +39,7 @@
     "idleLabel": "Arrastra imágenes aquí",
     "draggingLabel": "Suelta los archivos para cargarlos",
     "processingLabel": "Procesando archivos...",
-    "helperLabel": "Formatos compatibles: JPG/JPEG/JFIF, PNG, WebP y SVG",
+    "helperLabel": "Formatos compatibles: JPG/JPEG/JFIF, PNG, WebP, GIF y SVG",
     "addMoreLabel": "Agregar",
     "clearAllLabel": "Borrar",
     "compressLabel": "Comprimir",
@@ -48,7 +48,48 @@
     "savingLabel": "Guardando...",
     "successLabel": "{count} imagen(es) cargada(s) correctamente.",
     "sizeErrorLabel": "Archivo demasiado grande. Máximo 10 MB.",
-    "typeErrorLabel": "Formato no compatible. Solo JPG/JPEG/JFIF, PNG, WebP y SVG."
+    "typeErrorLabel": "Formato no compatible. Solo JPG/JPEG/JFIF, PNG, WebP, GIF y SVG."
+  },
+  "converter": {
+    "upload": {
+      "title": "Sube tus imágenes",
+      "description": "Arrastra imágenes aquí para convertir.",
+      "idleLabel": "Arrastra imágenes aquí para convertir",
+      "draggingLabel": "Suelta los archivos para convertir",
+      "processingLabel": "Convirtiendo archivos...",
+      "helperLabel": "Formatos compatibles: HEIC, JPG/JPEG/JFIF, PNG, WebP, GIF, BMP, TIFF, AVIF e ICO",
+      "addMoreLabel": "Agregar",
+      "clearAllLabel": "Borrar",
+      "compressLabel": "Convertir",
+      "saveLabel": "Guardar",
+      "saveAllLabel": "Guardar todo",
+      "savingLabel": "Guardando...",
+      "successLabel": "{count} imagen(es) cargada(s) correctamente.",
+      "sizeErrorLabel": "Archivo demasiado grande. Máximo 10 MB.",
+      "typeErrorLabel": "Formato no compatible para conversión."
+    },
+    "panel": {
+      "outputLabel": "Formato de salida",
+      "convertLabel": "Convertir",
+      "convertingLabel": "Convirtiendo...",
+      "saveAllLabel": "Guardar todo",
+      "savingLabel": "Guardando...",
+      "convertedBadgeLabel": "Convertidos",
+      "pendingBadgeLabel": "Pendientes",
+      "noPendingLabel": "No hay archivos pendientes por convertir.",
+      "successLabel": "{count} archivo(s) convertido(s).",
+      "partialErrorLabel": "No se pudo convertir uno o más archivos.",
+      "saveSuccessLabel": "Archivos convertidos guardados correctamente.",
+      "saveErrorLabel": "No se pudieron guardar los archivos convertidos.",
+      "animatedGifWarningLabel": "Se detectaron {count} GIF animado(s). Se exportó solo el primer fotograma.",
+      "gifStrategyLabel": "Nota GIF: si el archivo es animado, la conversión exporta el primer fotograma para mantener compatibilidad de salida.",
+      "outputFormats": {
+        "jpg": "JPG",
+        "png": "PNG",
+        "webp": "WebP",
+        "avif": "AVIF"
+      }
+    }
   },
   "preview": {
     "emptyStateLabel": "Aún no hay imágenes cargadas.",
@@ -60,7 +101,12 @@
     "quality": {
       "title": "Calidad de compresión",
       "description": "Ajusta la calidad de salida antes de comprimir.",
-      "valueLabel": "Calidad"
+      "valueLabel": "Calidad",
+      "gifTitle": "Colores GIF",
+      "gifDescription": "Reduce colores por frame para comprimir GIF animado sin perder animación.",
+      "gifValueLabel": "Colores",
+      "gifUnitLabel": "colores",
+      "gifFramesLabel": "Frames"
     },
     "stats": {
       "title": "Estadísticas de compresión",

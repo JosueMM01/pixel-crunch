@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import JSZip from 'jszip';
 import imageCompression from 'browser-image-compression';
@@ -7,8 +7,19 @@ import { UploadZone } from './UploadZone';
 import { CompressionStats, ImageComparison, QualitySlider } from '../compressor';
 import { Button } from '@/components/ui/Button';
 import { useImageCompression } from '@/hooks/useImageCompression';
+import {
+  clampGifColorCount,
+  compressGifFile,
+  decodeGifAnimationFrames,
+  DEFAULT_GIF_COLORS,
+  getGifMetadata,
+  isGifFile,
+  MAX_GIF_COLORS,
+  MIN_GIF_COLORS,
+} from '@/lib/gifCompression';
 import { compressSvgFile, isSvgFile } from '@/lib/svgCompression';
 import { showError, showSuccess } from '@/lib/toast';
+import { formatBytes } from '@/lib/utils';
 import type { CompressionResult } from '@/types/compression';
 import type {
   CompressionStatsItem,
@@ -20,11 +31,22 @@ interface SelectedFileItem {
   id: string;
   file: File;
   quality: number;
+  gifColors: number;
+  gifFrameCount?: number;
+  gifSourceColorCount?: number;
 }
 
 interface CompressedFileEntry {
   quality: number;
+  gifColors: number;
   result: CompressionResult;
+}
+
+interface GifFramePreviewState {
+  width: number;
+  height: number;
+  originalFrames: Uint8ClampedArray[];
+  compressedFrames: Uint8ClampedArray[];
 }
 
 type SaveFileFunction = (data: Blob | File, filename?: string) => void;
@@ -33,6 +55,20 @@ const DEFAULT_QUALITY = 0.8;
 const MIN_QUALITY = 0.1;
 const MAX_QUALITY = 0.8;
 const QUALITY_STEP = 0.1;
+const GIF_COLOR_STEP = 1;
+const SHOULD_REVOKE_OBJECT_URLS = !import.meta.env.DEV;
+
+function toAggressiveLossyQuality(quality: number): number {
+  const clampedQuality = Math.min(1, Math.max(0.01, quality));
+  return Math.pow(clampedQuality, 1.25);
+}
+
+function toDerivedMaxSizeMB(file: File, quality: number): number {
+  const sourceSizeMB = file.size / (1024 * 1024);
+  const clampedQuality = Math.min(1, Math.max(0.01, quality));
+  const targetRatio = 0.2 + (clampedQuality * 0.8);
+  return Math.max(0.001, sourceSizeMB * targetRatio);
+}
 
 function createFileId(): string {
   const randomUUID = globalThis.crypto?.randomUUID;
@@ -81,6 +117,35 @@ function buildLivePreviewResult(inputFile: File, outputFile: File): CompressionR
   };
 }
 
+function buildFileObjectUrlCacheKey(file: File): string {
+  return `${file.name}-${file.lastModified}-${file.size}`;
+}
+
+function framePixelsToDataUrl(
+  framePixels: Uint8ClampedArray,
+  width: number,
+  height: number
+): string | null {
+  if (typeof document === 'undefined') {
+    return null;
+  }
+
+  const canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = height;
+
+  const context = canvas.getContext('2d');
+  if (!context) {
+    return null;
+  }
+
+  const rgbaPixels = new Uint8ClampedArray(framePixels.length);
+  rgbaPixels.set(framePixels);
+
+  context.putImageData(new ImageData(rgbaPixels, width, height), 0, 0);
+  return canvas.toDataURL('image/png');
+}
+
 async function resolveSaveFileFunction(): Promise<SaveFileFunction> {
   const fileSaverModule = await import('file-saver');
   const saveFile = fileSaverModule.saveAs ?? fileSaverModule.default?.saveAs;
@@ -102,10 +167,15 @@ export function UploaderPanel({
   const [activePreviewIndex, setActivePreviewIndex] = useState<number>(0);
   const [isDetailsOpen, setIsDetailsOpen] = useState<boolean>(false);
   const [draftQuality, setDraftQuality] = useState<number>(DEFAULT_QUALITY);
+  const [draftGifColors, setDraftGifColors] = useState<number>(DEFAULT_GIF_COLORS);
   const [compressedById, setCompressedById] = useState<Record<string, CompressedFileEntry>>({});
   const [livePreviewResult, setLivePreviewResult] = useState<CompressionResult | null>(null);
+  const [gifFramePreview, setGifFramePreview] = useState<GifFramePreviewState | null>(null);
+  const [activeGifFrameIndex, setActiveGifFrameIndex] = useState<number>(0);
   const [isBatchCompressing, setIsBatchCompressing] = useState<boolean>(false);
   const [isSaving, setIsSaving] = useState<boolean>(false);
+  const filePreviewUrlCacheRef = useRef<Map<string, string>>(new Map());
+  const compressedPreviewUrlCacheRef = useRef<Map<string, string>>(new Map());
   const {
     compressOne,
     error,
@@ -120,6 +190,19 @@ export function UploaderPanel({
       reset();
       setIsDetailsOpen(false);
       setDraftQuality(DEFAULT_QUALITY);
+      setDraftGifColors(DEFAULT_GIF_COLORS);
+      setGifFramePreview(null);
+      setActiveGifFrameIndex(0);
+
+      if (SHOULD_REVOKE_OBJECT_URLS) {
+        filePreviewUrlCacheRef.current.forEach((url) => URL.revokeObjectURL(url));
+      }
+      filePreviewUrlCacheRef.current.clear();
+
+      if (SHOULD_REVOKE_OBJECT_URLS) {
+        compressedPreviewUrlCacheRef.current.forEach((url) => URL.revokeObjectURL(url));
+      }
+      compressedPreviewUrlCacheRef.current.clear();
     }
   }, [files.length, reset, terminate]);
 
@@ -127,12 +210,81 @@ export function UploaderPanel({
     const activeFile = files[activePreviewIndex];
     if (!activeFile) {
       setDraftQuality(DEFAULT_QUALITY);
+      setDraftGifColors(DEFAULT_GIF_COLORS);
       setLivePreviewResult(null);
+      setGifFramePreview(null);
+      setActiveGifFrameIndex(0);
       return;
     }
 
     setDraftQuality(activeFile.quality);
+    const sourceColorCap = Math.min(
+      MAX_GIF_COLORS,
+      Math.max(MIN_GIF_COLORS, activeFile.gifSourceColorCount ?? MAX_GIF_COLORS)
+    );
+    setDraftGifColors(Math.min(clampGifColorCount(activeFile.gifColors), sourceColorCap));
+    setActiveGifFrameIndex(0);
   }, [activePreviewIndex, files]);
+
+  useEffect(() => {
+    const gifItemsWithoutMetadata = files.filter((item) => {
+      return isGifFile(item.file) && typeof item.gifFrameCount !== 'number';
+    });
+
+    if (gifItemsWithoutMetadata.length === 0) {
+      return;
+    }
+
+    let cancelled = false;
+
+    gifItemsWithoutMetadata.forEach((item) => {
+      void getGifMetadata(item.file)
+        .then((metadata) => {
+          if (cancelled) {
+            return;
+          }
+
+          setFiles((previousFiles) => previousFiles.map((currentItem) => {
+            if (currentItem.id !== item.id || typeof currentItem.gifFrameCount === 'number') {
+              return currentItem;
+            }
+
+            const sourceColorCap = Math.min(
+              MAX_GIF_COLORS,
+              Math.max(MIN_GIF_COLORS, metadata.sourceColorCount)
+            );
+
+            return {
+              ...currentItem,
+              gifFrameCount: metadata.frameCount,
+              gifSourceColorCount: sourceColorCap,
+              gifColors: Math.min(clampGifColorCount(currentItem.gifColors), sourceColorCap),
+            };
+          }));
+        })
+        .catch(() => {
+          if (cancelled) {
+            return;
+          }
+
+          setFiles((previousFiles) => previousFiles.map((currentItem) => {
+            if (currentItem.id !== item.id || typeof currentItem.gifFrameCount === 'number') {
+              return currentItem;
+            }
+
+            return {
+              ...currentItem,
+              gifFrameCount: 1,
+              gifSourceColorCount: MAX_GIF_COLORS,
+            };
+          }));
+        });
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [files]);
 
   useEffect(() => {
     const activeFile = files[activePreviewIndex];
@@ -147,19 +299,33 @@ export function UploaderPanel({
       return;
     }
 
-    if (Math.abs(activeCompressed.quality - draftQuality) <= 0.001) {
+    const activeFileIsGif = isGifFile(activeFile.file);
+    const activeGifMaxColors = Math.min(
+      MAX_GIF_COLORS,
+      Math.max(MIN_GIF_COLORS, activeFile.gifSourceColorCount ?? MAX_GIF_COLORS)
+    );
+
+    if (
+      (activeFileIsGif && activeCompressed.gifColors === draftGifColors)
+      || (!activeFileIsGif && Math.abs(activeCompressed.quality - draftQuality) <= 0.001)
+    ) {
       setLivePreviewResult(null);
       return;
     }
 
     let isCancelled = false;
     const timeoutId = window.setTimeout(() => {
-      const previewPromise = isSvgFile(activeFile.file)
-        ? compressSvgFile(activeFile.file, draftQuality)
-        : imageCompression(activeFile.file, {
-            useWebWorker: false,
-            initialQuality: draftQuality,
-          });
+      const previewPromise = activeFileIsGif
+        ? compressGifFile(activeFile.file, {
+            colors: Math.min(clampGifColorCount(draftGifColors), activeGifMaxColors),
+          }).then((result) => result.outputFile)
+        : isSvgFile(activeFile.file)
+          ? compressSvgFile(activeFile.file, draftQuality)
+          : imageCompression(activeFile.file, {
+              useWebWorker: false,
+              initialQuality: toAggressiveLossyQuality(draftQuality),
+              maxSizeMB: toDerivedMaxSizeMB(activeFile.file, draftQuality),
+            }).then((outputFile) => (outputFile.size < activeFile.file.size ? outputFile : activeFile.file));
 
       void previewPromise
         .then((outputFile) => {
@@ -182,7 +348,7 @@ export function UploaderPanel({
       isCancelled = true;
       window.clearTimeout(timeoutId);
     };
-  }, [activePreviewIndex, compressedById, draftQuality, files]);
+  }, [activePreviewIndex, compressedById, draftGifColors, draftQuality, files]);
 
   useEffect(() => {
     if (!error) {
@@ -192,16 +358,18 @@ export function UploaderPanel({
     showError(error);
   }, [error]);
 
-  const filePreviewEntries = useMemo(
-    () => files.map(({ id, file }) => ({ id, url: URL.createObjectURL(file) })),
-    [files]
-  );
+  const filePreviewEntries = useMemo(() => {
+    return files.map(({ id, file }) => {
+      const existingUrl = filePreviewUrlCacheRef.current.get(id);
+      if (existingUrl) {
+        return { id, url: existingUrl };
+      }
 
-  useEffect(() => {
-    return () => {
-      filePreviewEntries.forEach(({ url }) => URL.revokeObjectURL(url));
-    };
-  }, [filePreviewEntries]);
+      const createdUrl = URL.createObjectURL(file);
+      filePreviewUrlCacheRef.current.set(id, createdUrl);
+      return { id, url: createdUrl };
+    });
+  }, [files]);
 
   const filePreviewUrlById = useMemo(
     () => new Map(filePreviewEntries.map(({ id, url }) => [id, url])),
@@ -211,13 +379,16 @@ export function UploaderPanel({
   const statsItems = useMemo<CompressionStatsItem[]>(() => {
     return files.map(({ id, file }, index) => {
       const compressedEntry = compressedById[id];
+      const isGifInput = isGifFile(file);
 
       return {
         id,
         filename: file.name,
         originalBytes: file.size,
         compressedBytes: compressedEntry?.result.compressedSize
-          ?? estimateCompressedSize(file.size, files[index]?.quality ?? DEFAULT_QUALITY),
+          ?? (isGifInput
+            ? file.size
+            : estimateCompressedSize(file.size, files[index]?.quality ?? DEFAULT_QUALITY)),
         hasError: Boolean(compressedEntry?.result.error),
         previewUrl: filePreviewUrlById.get(id),
       };
@@ -245,18 +416,129 @@ export function UploaderPanel({
   const activeCompressedEntry = activeFileId ? compressedById[activeFileId] : undefined;
   const originalPreviewUrl = activeFileId ? (filePreviewUrlById.get(activeFileId) ?? null) : null;
   const activePreviewOutputFile = livePreviewResult?.outputFile ?? activeCompressedEntry?.result.outputFile ?? null;
-  const compressedPreviewUrl = useMemo(
-    () => (activePreviewOutputFile ? URL.createObjectURL(activePreviewOutputFile) : null),
-    [activePreviewOutputFile]
-  );
+  const compressedPreviewUrl = useMemo(() => {
+    if (!activePreviewOutputFile) {
+      return null;
+    }
+
+    const cacheKey = buildFileObjectUrlCacheKey(activePreviewOutputFile);
+    const existingUrl = compressedPreviewUrlCacheRef.current.get(cacheKey);
+    if (existingUrl) {
+      return existingUrl;
+    }
+
+    const createdUrl = URL.createObjectURL(activePreviewOutputFile);
+    compressedPreviewUrlCacheRef.current.set(cacheKey, createdUrl);
+    return createdUrl;
+  }, [activePreviewOutputFile]);
+
+  useEffect(() => {
+    const currentFile = files[activePreviewIndex];
+
+    if (!currentFile || !isGifFile(currentFile.file) || !activePreviewOutputFile) {
+      setGifFramePreview(null);
+      return;
+    }
+
+    let cancelled = false;
+
+    void Promise.all([
+      decodeGifAnimationFrames(currentFile.file),
+      decodeGifAnimationFrames(activePreviewOutputFile),
+    ])
+      .then(([originalAnimation, compressedAnimation]) => {
+        if (cancelled) {
+          return;
+        }
+
+        const sharedFrameCount = Math.min(
+          originalAnimation.frames.length,
+          compressedAnimation.frames.length
+        );
+
+        if (sharedFrameCount === 0) {
+          setGifFramePreview(null);
+          return;
+        }
+
+        setGifFramePreview({
+          width: originalAnimation.width,
+          height: originalAnimation.height,
+          originalFrames: originalAnimation.frames
+            .slice(0, sharedFrameCount)
+            .map((frame) => frame.pixels),
+          compressedFrames: compressedAnimation.frames
+            .slice(0, sharedFrameCount)
+            .map((frame) => frame.pixels),
+        });
+      })
+      .catch(() => {
+        if (cancelled) {
+          return;
+        }
+
+        setGifFramePreview(null);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [activePreviewIndex, activePreviewOutputFile, files]);
+
+  const totalGifPreviewFrames = gifFramePreview
+    ? Math.min(gifFramePreview.originalFrames.length, gifFramePreview.compressedFrames.length)
+    : 0;
+
+  useEffect(() => {
+    if (totalGifPreviewFrames <= 0) {
+      setActiveGifFrameIndex(0);
+      return;
+    }
+
+    setActiveGifFrameIndex((previousIndex) => Math.min(previousIndex, totalGifPreviewFrames - 1));
+  }, [totalGifPreviewFrames]);
+
+  const clampedGifFrameIndex = totalGifPreviewFrames > 0
+    ? Math.min(activeGifFrameIndex, totalGifPreviewFrames - 1)
+    : 0;
+
+  const gifOriginalFramePreviewUrl = useMemo(() => {
+    if (!gifFramePreview || totalGifPreviewFrames === 0) {
+      return null;
+    }
+
+    return framePixelsToDataUrl(
+      gifFramePreview.originalFrames[clampedGifFrameIndex],
+      gifFramePreview.width,
+      gifFramePreview.height
+    );
+  }, [clampedGifFrameIndex, gifFramePreview, totalGifPreviewFrames]);
+
+  const gifCompressedFramePreviewUrl = useMemo(() => {
+    if (!gifFramePreview || totalGifPreviewFrames === 0) {
+      return null;
+    }
+
+    return framePixelsToDataUrl(
+      gifFramePreview.compressedFrames[clampedGifFrameIndex],
+      gifFramePreview.width,
+      gifFramePreview.height
+    );
+  }, [clampedGifFrameIndex, gifFramePreview, totalGifPreviewFrames]);
 
   useEffect(() => {
     return () => {
-      if (compressedPreviewUrl) {
-        URL.revokeObjectURL(compressedPreviewUrl);
+      if (SHOULD_REVOKE_OBJECT_URLS) {
+        filePreviewUrlCacheRef.current.forEach((url) => URL.revokeObjectURL(url));
       }
+      filePreviewUrlCacheRef.current.clear();
+
+      if (SHOULD_REVOKE_OBJECT_URLS) {
+        compressedPreviewUrlCacheRef.current.forEach((url) => URL.revokeObjectURL(url));
+      }
+      compressedPreviewUrlCacheRef.current.clear();
     };
-  }, [compressedPreviewUrl]);
+  }, []);
 
   useEffect(() => {
     if (!isDetailsOpen) {
@@ -290,12 +572,55 @@ export function UploaderPanel({
     };
   }, [isDetailsOpen]);
 
+  const activeFile = files[activePreviewIndex];
+  const activeFileIsGif = Boolean(activeFile && isGifFile(activeFile.file));
+  const activeGifMaxColors = Math.min(
+    MAX_GIF_COLORS,
+    Math.max(MIN_GIF_COLORS, activeFile?.gifSourceColorCount ?? MAX_GIF_COLORS)
+  );
+  const comparisonOriginalUrl = activeFileIsGif
+    ? (gifOriginalFramePreviewUrl ?? originalPreviewUrl)
+    : originalPreviewUrl;
+  const comparisonCompressedUrl = activeFileIsGif
+    ? (gifCompressedFramePreviewUrl ?? compressedPreviewUrl)
+    : compressedPreviewUrl;
+
   const detailsTitle = compressionStatsCopy?.detailsTitle ?? 'Detalles de compresión';
   const openDetailsLabel = compressionStatsCopy?.openDetailsLabel ?? 'Ver detalles de compresión';
   const closeDetailsLabel = compressionStatsCopy?.closeDetailsLabel ?? 'Cerrar';
   const compressLabel = uploadCopy?.compressLabel ?? 'Comprimir';
   const saveAllLabel = uploadCopy?.saveAllLabel ?? 'Guardar todo';
   const savingLabel = uploadCopy?.savingLabel ?? 'Guardando...';
+  const gifTitle = qualityCopy?.gifTitle ?? 'Colores GIF';
+  const gifDescription = qualityCopy?.gifDescription
+    ?? 'Reduce colores por frame para comprimir GIF sin perder animacion.';
+  const gifValueLabel = qualityCopy?.gifValueLabel ?? 'Colores';
+  const gifUnitLabel = qualityCopy?.gifUnitLabel ?? 'colores';
+
+  const sliderValue = activeFileIsGif ? draftGifColors : draftQuality;
+  const sliderMin = activeFileIsGif ? MIN_GIF_COLORS : MIN_QUALITY;
+  const sliderMax = activeFileIsGif ? activeGifMaxColors : MAX_QUALITY;
+  const sliderStep = activeFileIsGif ? GIF_COLOR_STEP : QUALITY_STEP;
+  const sliderValueMode: 'number' | 'percent' = activeFileIsGif ? 'number' : 'percent';
+  const sliderValueSuffix = activeFileIsGif ? gifUnitLabel : undefined;
+  const sliderCopy = activeFileIsGif
+    ? {
+        ...qualityCopy,
+        title: gifTitle,
+        description: gifDescription,
+        valueLabel: gifValueLabel,
+      }
+    : qualityCopy;
+  const sliderMinLabel = activeFileIsGif ? `${MIN_GIF_COLORS} ${gifUnitLabel}` : `${Math.round(MIN_QUALITY * 100)}%`;
+  const comparisonOriginalBytes = activeFile?.file.size ?? 0;
+  const comparisonCompressedBytes = activePreviewOutputFile?.size ?? comparisonOriginalBytes;
+  const comparisonSavingsPercent = comparisonOriginalBytes > 0
+    ? ((comparisonOriginalBytes - comparisonCompressedBytes) / comparisonOriginalBytes) * 100
+    : 0;
+  const comparisonSavingsText = `${comparisonSavingsPercent.toFixed(1)}%`;
+  const isEstimatedPreview = Boolean(livePreviewResult?.outputFile);
+  const comparisonOriginalMeta = formatBytes(comparisonOriginalBytes, 1);
+  const comparisonCompressedMeta = `${isEstimatedPreview ? '≈ ' : ''}${formatBytes(comparisonCompressedBytes, 1)} (${comparisonSavingsText})`;
 
   const downloadableResults = useMemo(() => {
     return Object.values(compressedById)
@@ -308,6 +633,10 @@ export function UploaderPanel({
       const compressedEntry = compressedById[item.id];
       if (!compressedEntry || !compressedEntry.result.outputFile || compressedEntry.result.error) {
         return true;
+      }
+
+      if (isGifFile(item.file)) {
+        return compressedEntry.gifColors !== item.gifColors;
       }
 
       return Math.abs(compressedEntry.quality - item.quality) > 0.001;
@@ -323,6 +652,14 @@ export function UploaderPanel({
 
   const canCompress = pendingCount > 0 && !isBatchCompressing && !isSaving;
   const canSave = downloadableResults.length > 0 && !isBatchCompressing && !isSaving;
+
+  useEffect(() => {
+    if (!activeFileIsGif) {
+      return;
+    }
+
+    setDraftGifColors((previousValue) => Math.min(previousValue, activeGifMaxColors));
+  }, [activeFileIsGif, activeGifMaxColors]);
 
   const handleFilesSelected = useCallback((incomingFiles: File[]) => {
     if (incomingFiles.length === 0) {
@@ -341,6 +678,8 @@ export function UploaderPanel({
           id: createFileId(),
           file,
           quality: DEFAULT_QUALITY,
+          gifColors: DEFAULT_GIF_COLORS,
+          gifFrameCount: isGifFile(file) ? undefined : 1,
         })),
       ];
 
@@ -371,17 +710,28 @@ export function UploaderPanel({
     }
 
     const nextQuality = Math.min(MAX_QUALITY, Math.max(MIN_QUALITY, draftQuality));
+    const nextGifColors = Math.min(clampGifColorCount(draftGifColors), activeGifMaxColors);
+    const targetFileIsGif = isGifFile(targetFile.file);
     const currentCompressed = compressedById[targetFile.id];
 
     setFiles((previousFiles) => previousFiles.map((item) => (
-      item.id === targetFile.id ? { ...item, quality: nextQuality } : item
+      item.id === targetFile.id
+        ? {
+            ...item,
+            quality: nextQuality,
+            gifColors: targetFileIsGif ? nextGifColors : item.gifColors,
+          }
+        : item
     )));
 
     if (
       currentCompressed
       && currentCompressed.result.outputFile
       && !currentCompressed.result.error
-      && Math.abs(currentCompressed.quality - nextQuality) <= 0.001
+      && (
+        (targetFileIsGif && currentCompressed.gifColors === nextGifColors)
+        || (!targetFileIsGif && Math.abs(currentCompressed.quality - nextQuality) <= 0.001)
+      )
     ) {
       return;
     }
@@ -389,7 +739,10 @@ export function UploaderPanel({
     setIsBatchCompressing(true);
 
     try {
-      const result = await compressOne(targetFile.file, { quality: nextQuality });
+      const result = await compressOne(targetFile.file, {
+        quality: nextQuality,
+        gifColors: targetFileIsGif ? nextGifColors : undefined,
+      });
 
       setCompressedById((previousCompressed) => {
         const nextCompressed = { ...previousCompressed };
@@ -397,6 +750,7 @@ export function UploaderPanel({
         if (result.outputFile && !result.error) {
           nextCompressed[targetFile.id] = {
             quality: nextQuality,
+            gifColors: targetFileIsGif ? nextGifColors : targetFile.gifColors,
             result,
           };
         } else {
@@ -417,7 +771,17 @@ export function UploaderPanel({
     } finally {
       setIsBatchCompressing(false);
     }
-  }, [activePreviewIndex, compressedById, compressOne, draftQuality, files, isBatchCompressing, isSaving]);
+  }, [
+    activeGifMaxColors,
+    activePreviewIndex,
+    compressedById,
+    compressOne,
+    draftGifColors,
+    draftQuality,
+    files,
+    isBatchCompressing,
+    isSaving,
+  ]);
 
   const handleCompress = useCallback(async () => {
     if (files.length === 0 || isBatchCompressing || isSaving) {
@@ -436,11 +800,15 @@ export function UploaderPanel({
       let successCount = 0;
 
       for (const pendingFile of pendingFiles) {
-        const result = await compressOne(pendingFile.file, { quality: pendingFile.quality });
+        const result = await compressOne(pendingFile.file, {
+          quality: pendingFile.quality,
+          gifColors: isGifFile(pendingFile.file) ? pendingFile.gifColors : undefined,
+        });
 
         if (result.outputFile && !result.error) {
           nextCompressedById[pendingFile.id] = {
             quality: pendingFile.quality,
+            gifColors: pendingFile.gifColors,
             result,
           };
           successCount += 1;
@@ -565,9 +933,14 @@ export function UploaderPanel({
   }, [compressedById, files, isBatchCompressing, isSaving]);
 
   const handleQualityChange = useCallback((nextQuality: number) => {
+    if (activeFileIsGif) {
+      setDraftGifColors(Math.min(clampGifColorCount(nextQuality), activeGifMaxColors));
+      return;
+    }
+
     const clampedQuality = Math.min(MAX_QUALITY, Math.max(MIN_QUALITY, nextQuality));
     setDraftQuality(clampedQuality);
-  }, []);
+  }, [activeFileIsGif, activeGifMaxColors]);
 
   const handleRemove = useCallback((indexToRemove: number) => {
     if (isBatchCompressing) {
@@ -740,12 +1113,17 @@ export function UploaderPanel({
         <section className="mx-auto w-full max-w-5xl space-y-3">
           <div className="lg:hidden">
             <QualitySlider
-              value={draftQuality}
+              value={sliderValue}
               onChange={handleQualityChange}
-              min={MIN_QUALITY}
-              max={MAX_QUALITY}
-              step={QUALITY_STEP}
-              copy={qualityCopy}
+              min={sliderMin}
+              max={sliderMax}
+              step={sliderStep}
+              copy={sliderCopy}
+              valueMode={sliderValueMode}
+              valueSuffix={sliderValueSuffix}
+              showRawValue={false}
+              minLabel={sliderMinLabel}
+              showMaxLabel={false}
               compact
               showTitle={false}
               showApplyButton
@@ -755,24 +1133,31 @@ export function UploaderPanel({
           </div>
 
           <div className="grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1fr)_9rem] lg:items-stretch">
-            {activeCompressedEntry?.result.outputFile && originalPreviewUrl ? (
+            {activeCompressedEntry?.result.outputFile && comparisonOriginalUrl ? (
               <ImageComparison
                 className="lg:order-1"
-                originalUrl={originalPreviewUrl}
-                compressedUrl={compressedPreviewUrl}
+                originalUrl={comparisonOriginalUrl}
+                compressedUrl={comparisonCompressedUrl}
                 originalLabel={compressionStatsCopy?.originalLabel ?? 'Antes'}
                 compressedLabel={compressionStatsCopy?.compressedLabel ?? 'Después'}
+                originalMeta={comparisonOriginalMeta}
+                compressedMeta={comparisonCompressedMeta}
               />
             ) : null}
 
             <div className="hidden lg:block lg:order-2">
               <QualitySlider
-                value={draftQuality}
+                value={sliderValue}
                 onChange={handleQualityChange}
-                min={MIN_QUALITY}
-                max={MAX_QUALITY}
-                step={QUALITY_STEP}
-                copy={qualityCopy}
+                min={sliderMin}
+                max={sliderMax}
+                step={sliderStep}
+                copy={sliderCopy}
+                valueMode={sliderValueMode}
+                valueSuffix={sliderValueSuffix}
+                showRawValue={false}
+                minLabel={sliderMinLabel}
+                showMaxLabel={false}
                 orientation="vertical"
                 compact
                 showTitle={false}
@@ -782,6 +1167,58 @@ export function UploaderPanel({
               />
             </div>
           </div>
+
+          {activeFileIsGif && totalGifPreviewFrames > 1 ? (
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setActiveGifFrameIndex((current) => Math.max(0, current - 10))}
+                disabled={clampedGifFrameIndex <= 0}
+                className="min-w-14 border border-monokai-fg/30 text-monokai-fg hover:bg-monokai-fg/10"
+              >
+                -10
+              </Button>
+
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setActiveGifFrameIndex((current) => Math.max(0, current - 1))}
+                disabled={clampedGifFrameIndex <= 0}
+                className="min-w-14 border border-monokai-fg/30 text-monokai-fg hover:bg-monokai-fg/10"
+              >
+                -1
+              </Button>
+
+              <span className="min-w-24 rounded-md border border-monokai-purple/45 bg-monokai-bg/60 px-3 py-1 text-center text-sm font-semibold text-monokai-fg">
+                {clampedGifFrameIndex + 1} / {totalGifPreviewFrames}
+              </span>
+
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setActiveGifFrameIndex((current) => Math.min(totalGifPreviewFrames - 1, current + 1))}
+                disabled={clampedGifFrameIndex >= totalGifPreviewFrames - 1}
+                className="min-w-14 border border-monokai-fg/30 text-monokai-fg hover:bg-monokai-fg/10"
+              >
+                +1
+              </Button>
+
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setActiveGifFrameIndex((current) => Math.min(totalGifPreviewFrames - 1, current + 10))}
+                disabled={clampedGifFrameIndex >= totalGifPreviewFrames - 1}
+                className="min-w-14 border border-monokai-fg/30 text-monokai-fg hover:bg-monokai-fg/10"
+              >
+                +10
+              </Button>
+            </div>
+          ) : null}
 
         </section>
       ) : null}
