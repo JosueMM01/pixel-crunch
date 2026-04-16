@@ -16,20 +16,30 @@
 - 📦 **Sin Backend** - Todo funciona en el cliente (Client-Side)
 - 🌙 **Modo Oscuro** - Tema claro/oscuro automático
 - 📱 **PWA** - Instálalo como app y úsalo offline
-- 🎯 **Múltiples Formatos** - Soporta JPG, PNG, WebP
+- 🧩 **Flujo Dual en Home** - Modo Compressor y modo Converter en una sola experiencia
+- 🎯 **Múltiples Formatos (Compresión)** - Soporta JPG/JPEG/JFIF, PNG, WebP, GIF y SVG
+- 🔄 **Conversión en Cliente** - Convierte HEIC/JPG/PNG/WebP/GIF/BMP/TIFF/AVIF/ICO a JPG/PNG/WebP/AVIF
 
 ---
 
 ## 🚀 Estado del Proyecto
 
-🚧 **En desarrollo activo** - Actualmente en **Fase 0** (Setup completado)
+🚧 **En desarrollo activo** - Actualmente en **Fase 2** (Compresión Core + UX/UI Home)
+
+📍 **Demo en vivo:** https://pixel-crunch.josuem01.dev/
+
+✅ **Despliegue:** Cloudflare Pages (activo)
+✅ **CI/CD:** GitHub Actions (validación automática de tipos, tests y build)
 
 ### Roadmap:
 - ✅ **Fase 0:** Setup inicial (Astro + React + TailwindCSS)
-- 🔄 **Fase 1:** UI Base (En progreso)
-- ⏳ **Fase 2:** Compresión Core
-- ⏳ **Fase 3:** Descargas y Historial
-- ⏳ **Fase 4:** PWA y Deploy
+- ✅ **Fase 1:** UI Base (Completada)
+- 🔄 **Fase 2:** Compresión Core + UX/UI Home con Flujo Dual (En progreso avanzado)
+  - ✅ Compresión JPG/PNG/WebP/GIF/SVG funcional.
+  - ✅ Descarga individual y ZIP (Corregido).
+  - ✅ Motor de conversión inicial funcional (HEIC/JPG/PNG/WebP/GIF/BMP/TIFF/AVIF/ICO -> JPG/PNG/WebP/AVIF, con estrategia GIF estático/animado por primer fotograma).
+- ⏳ **Fase 3:** Persistencia e Historial
+- ✅ **Fase 4:** PWA e Infraestructura de Deploy (activa)
 
 Ver [PHASES.md](./docs/PHASES.md) para detalles completos.
 
@@ -55,14 +65,14 @@ Ver [PHASES.md](./docs/PHASES.md) para detalles completos.
 ## 📦 Instalación
 
 ### Requisitos Previos
-- **Node.js** 18.x o superior
+- **Node.js** 24.x o superior
 - **npm** / **pnpm** / **yarn**
 
 ### Pasos
 
 ```bash
 # 1. Clonar repositorio
-git clone https://github.com/TU_USUARIO/pixel-crunch.git
+git clone https://github.com/JosueMM01/pixel-crunch.git
 cd pixel-crunch
 
 # 2. Instalar dependencias
@@ -82,6 +92,9 @@ Abre [http://localhost:4321](http://localhost:4321) en tu navegador.
 | :--------------------- | :------------------------------------------------- |
 | `npm install`          | Instala dependencias                               |
 | `npm run dev`          | Inicia servidor local en `localhost:4321`          |
+| `npm run typecheck`    | Valida tipos y archivos Astro con `astro check`    |
+| `npm run test:coverage`| Ejecuta pruebas con cobertura                       |
+| `npm run verify`       | Ejecuta typecheck + tests + build                  |
 | `npm run build`        | Genera build de producción en `./dist/`            |
 | `npm run preview`      | Previsualiza build local antes de deploy           |
 | `npm run astro ...`    | Ejecuta comandos de Astro CLI (`astro add`, etc)  |
@@ -164,7 +177,7 @@ Este proyecto está bajo licencia **MIT** - ver el archivo [LICENSE](LICENSE) pa
 
 ## 📞 Contacto
 
-¿Preguntas o sugerencias? Abre un [issue](https://github.com/TU_USUARIO/pixel-crunch/issues) o contacta a [@JosueMM01](https://github.com/JosueMM01).
+¿Preguntas o sugerencias? Abre un [issue](https://github.com/JosueMM01/pixel-crunch/issues) o contacta a [@JosueMM01](https://github.com/JosueMM01).
 
 ---
 

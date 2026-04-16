@@ -1,26 +1,52 @@
-# Especificaciones Técnicas (Actualizado)
+# Especificaciones Técnicas
 
 ## Stack Core
-- **Framework:** Astro 5.0
-- **UI:** React 19 (Islands Architecture).
-- **Estilos:** TailwindCSS v4 + `clsx` & `tailwind-merge` para clases dinámicas.
-- **PWA:** `@vite-pwa/astro` (Soporte Offline y Manifest).
+- **Framework:** Astro 5.17.1
+- **UI interactiva:** React 19 (Islands Architecture)
+- **Estilos:** TailwindCSS v4 + `clsx` + `tailwind-merge`
+- **Compresión:** `browser-image-compression`
+- **PWA:** `@vite-pwa/astro`
+- **Testing:** Vitest + Testing Library + happy-dom
 
-## Herramientas de Desarrollo
-- **GitHub MCP:** Para gestión automatizada de Issues, ramas y Pull Requests
-- **Chrome DevTools MCP:** Para validación de errores en tiempo real durante desarrollo
-- Ver [AGENTS.md](/AGENTS.md) para el flujo de trabajo completo
+## Estado Técnico Actual
+- Pipeline de compresión funcional en cliente con soporte de worker.
+- Soporte de entrada validado para JPG/JPEG/JFIF, PNG, WebP, GIF y SVG.
+- Home con dos modos de experiencia (Compressor y Converter) en la misma página.
+- Pipeline de conversión cliente activo para HEIC, JPG/JPEG/JFIF, PNG, WebP, GIF, BMP, TIFF, AVIF e ICO con salida a JPG, PNG, WebP y AVIF.
+- Estrategia GIF en conversión: si el GIF es estático se convierte de forma normal; si es animado se exporta el primer fotograma para mantener compatibilidad de salida.
+
+## Formatos
+### Compresión implementada
+- JPG/JPEG/JFIF
+- PNG
+- WebP
+- GIF
+- SVG
+
+### Conversión implementada
+- Entradas: HEIC, JPG/JPEG/JFIF, PNG, WebP, GIF, BMP, TIFF, AVIF e ICO.
+- Salidas: JPG, PNG, WebP y AVIF (dependiente de soporte del navegador).
+- GIF animado: conversión por primer frame (estrategia documentada de compatibilidad).
+
+## Herramientas de Desarrollo y Calidad
+- **GitHub Actions:** workflow `quality.yml` con typecheck, test:coverage y build.
+- **MCP GitHub:** gestión de issues y trazabilidad por fase.
+- **MCP Browser/DevTools:** validación visual, consola y regresiones UX.
+- Ver [AGENTS.md](/AGENTS.md) para el flujo operativo completo.
 
 ## Librerías Clave
-1.  **Compresión:** `browser-image-compression` (Abstracción sólida sobre Canvas/Web Workers).
-    * *Nota:* Para la V1 usaremos esta por estabilidad. En V2 podemos migrar a `@jsquash/avif` (WASM puro) si necesitamos más potencia, pero `browser-image-compression` ya es excelente.
-2.  **Archivos:** `react-dropzone` (Drag & Drop).
-3.  **Descargas:** `jszip` (Empaquetado) + `file-saver`.
-4.  **Estado Persistente:** `localStorage` (Custom Hook `useLocalStorage` para el historial).
-5.  **Iconos:** `lucide-react`.
+1. **Compresión:** `browser-image-compression`
+2. **Carga de archivos:** `react-dropzone`
+3. **Descargas:** `file-saver` + `jszip`
+4. **UI/UX:** `lucide-react` + `sonner`
+5. **Pruebas:** `vitest`, `@testing-library/react`, `@testing-library/user-event`, `happy-dom`
 
-## Requerimientos Funcionales V1
-- **Offline First:** Debe funcionar sin internet tras la primera carga (Service Workers).
-- **Privacidad:** NINGUNA imagen sale del dispositivo del usuario.
-- **Historial:** Guardar metadatos de las últimas 5 compresiones (Nombre, fecha, % ahorrado) en localStorage.
-- **UX:** Feedback visual de progreso (Loading Bars) y notificaciones (Toasts) de éxito.
+## Requerimientos Funcionales
+- **Privacidad:** 100% client-side; sin subida de imágenes a backend.
+- **Rendimiento:** mantener UI responsiva durante compresión.
+- **Calidad:** todo cambio relevante debe pasar `npm run verify`.
+- **UX:** feedback visual (progreso, stats, toasts) y layout responsive.
+
+## Seguridad y Mantenibilidad
+- Validar tipo MIME y extensión en la capa de carga.
+- Mantener mensajes de error claros por formato no soportado.

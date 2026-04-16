@@ -1,4 +1,4 @@
-# 🤖 Instrucciones para Agentes IA (GitHub Copilot, Claude, etc.)
+# 🤖 Instrucciones para Agentes IA 
 
 Este archivo contiene reglas específicas para que los asistentes de IA trabajen de manera consistente con este proyecto.
 
@@ -204,6 +204,13 @@ import { clsx } from 'clsx';
 - ❌ **NUNCA** uses analytics que trackeen usuarios
 - ❌ **NUNCA** guardes imágenes en localStorage (solo metadata)
 
+### Dependencias NPM
+- ✅ Antes de agregar un paquete, valida si el problema se resuelve con Web APIs nativas o código propio pequeño.
+- ✅ Si la librería es necesaria, revisa mantenimiento activo, licencia compatible, tipos TypeScript y superficie de ataque.
+- ✅ Prefiere dependencias maduras y bien mantenidas; evita paquetes pequeños si su valor es marginal.
+- ✅ Ejecuta auditoría local de dependencias cuando cambie `package.json` o el lockfile.
+- ✅ Documenta en la issue o PR por qué la dependencia sí aporta valor al diseño del proyecto.
+
 ---
 
 ## 🛠️ Herramientas y Debugging
@@ -272,12 +279,17 @@ Ver `/docs/GIT_WORKFLOW.md` para más detalles.
 
 ---
 
-## 🧪 Testing (Futuro)
+## 🧪 Testing (Obligatorio desde Fase 2)
 
-Cuando llegue la fase de testing:
-- ✅ Unit tests para hooks y utilidades (Vitest)
-- ✅ Component tests para UI (Testing Library)
-- ❌ No necesitamos E2E para MVP (solo si el proyecto crece)
+- ✅ Todo PR debe incluir validación local con `npm run typecheck`, `npm run test:coverage` y `npm run build` antes de pedir review.
+- ✅ Vitest es el runner base para pruebas unitarias e integración ligera.
+- ✅ Testing Library se usa para componentes React y flujos de UI con comportamiento observable.
+- ✅ Hooks, utilidades y componentes con lógica deben tener pruebas antes de mergear.
+- ✅ Si una mejora pequeña puede cubrirse con pruebas baratas, se cubre en el mismo PR.
+- ❌ No se consideran completos los cambios que solo pasen build sin pruebas.
+- ❌ E2E no es obligatorio para el MVP, pero sí puede introducirse más adelante.
+
+Ver [docs/TESTING_STRATEGY.md](/docs/TESTING_STRATEGY.md) y [docs/DEPENDENCY_POLICY.md](/docs/DEPENDENCY_POLICY.md) para la política detallada.
 
 ---
 
@@ -318,7 +330,10 @@ Cuando llegue la fase de testing:
 ## ✅ Checklist Final
 
 Antes de entregar código, verifica:
-- [ ] TypeScript sin errores (`npm run build`)
+- [ ] TypeScript sin errores (`npm run typecheck` o `npm run verify`)
+- [ ] Pruebas pasando (`npm run test:coverage`)
+- [ ] Cobertura mínima cumplida
+- [ ] Auditoría de dependencias revisada si cambió `package.json`
 - [ ] Componentes tienen tipos
 - [ ] No hay `console.log` olvidados
 - [ ] Funciona en modo oscuro

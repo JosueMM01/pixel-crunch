@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { UploaderPanel } from '../components/features/uploader';
+import { ConverterPanel, UploaderPanel } from '../components/features/uploader';
 import translations from '../i18n/es.json';
 
 const t = translations;
@@ -8,146 +8,205 @@ const t = translations;
 
 <Layout 
 	title="Pixel Crunch - Optimiza Imágenes en tu Navegador"
-	description="Herramienta gratuita y privada para comprimir imágenes (JPG, PNG, WebP) sin subir archivos a un servidor."
+	description="Herramienta gratuita y privada para comprimir imágenes (JPG, PNG, WebP, GIF, SVG) sin subir archivos a un servidor."
 >
 	<main class="min-h-screen bg-monokai-bg text-monokai-fg">
-		<!-- Hero Section -->
-		<section class="relative px-4 pt-12 pb-20 md:pt-20 md:pb-28 flex justify-center">
-			<div class="w-full max-w-6xl mx-auto text-center">
-					<!-- Icono Principal -->
-					<div class="inline-block mb-8 animate-fade-in">
-						<svg class="w-24 h-24 md:w-32 md:h-32 mx-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-cyan dark:text-brand-cyan-light"/>
-							<polyline points="7 10 12 15 17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-purple dark:text-brand-purple-light"/>
-							<line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-pink dark:text-brand-pink-light"/>
-						</svg>
-					</div>
-
-					<h1 class="text-3xl md:text-5xl font-bold mb-4 animate-fade-in-up">
-						<span class="block mb-2 text-monokai-pink">{t.hero.title}</span>
-						<span class="text-xl md:text-3xl font-normal text-monokai-cyan">{t.hero.subtitle}</span>
+		<section class="px-4 pt-8 pb-8 md:pt-12 md:pb-10">
+			<div id="home-hero-switcher" class="mx-auto w-full max-w-6xl">
+				<div data-hero-panel="compressor" class="text-center">
+					<h1 class="text-2xl md:text-4xl font-bold text-monokai-cyan max-w-4xl mx-auto">
+						Comprime y optimiza imágenes directamente en tu navegador.
 					</h1>
-					
-					<p class="text-base md:text-lg text-monokai-fg/80 max-w-2xl mx-auto mb-8 animate-fade-in-up" style="animation-delay: 0.1s">
-						<span class="font-semibold text-monokai-green">{t.hero.highlight}</span>
-						<span class="ml-1">{t.hero.description}</span>
+					<p class="mt-4 text-base md:text-xl text-monokai-fg/85 max-w-5xl mx-auto">
+						Comprime y optimiza imágenes JPG, PNG, WebP, GIF y SVG directamente en tu navegador. Sin anuncios, sin subidas a servidor y con control de calidad.
 					</p>
 
-					<!-- CTAs -->
-					<div class="mt-6 grid grid-cols-1 sm:flex sm:items-center sm:gap-3 sm:justify-center gap-3 w-full max-w-md mx-auto animate-fade-in-up" style="animation-delay: 0.2s">
-						<a href="#features" class="inline-block w-full sm:w-auto text-center bg-monokai-cyan text-monokai-bg font-bold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity">
-							Conocer más
-						</a>
-						<a href="https://github.com" target="_blank" rel="noopener noreferrer" class="inline-block w-full sm:w-auto text-center font-bold py-3 px-6 rounded-lg border border-monokai-purple text-monokai-purple hover:bg-monokai-purple/10 transition">
-							Ver en GitHub
-						</a>
+					<ul class="mt-7 max-w-4xl mx-auto text-left text-base md:text-lg text-monokai-fg/90 space-y-2">
+						<li class="flex gap-2"><span class="text-monokai-cyan">•</span><span>Arrastra o selecciona tus imágenes para comenzar.</span></li>
+						<li class="flex gap-2"><span class="text-monokai-cyan">•</span><span>Comprime, ajusta la calidad y revisa el resultado antes/después.</span></li>
+					</ul>
+
+					<div class="mt-6 flex flex-wrap items-center justify-center gap-2">
+						{['JPG/JPEG/JFIF', 'PNG', 'WebP', 'GIF', 'SVG'].map((format) => (
+							<span class="px-3 py-1.5 text-xs md:text-sm font-semibold rounded-md border border-monokai-cyan/30 text-monokai-cyan bg-monokai-bg/80">
+								{format}
+							</span>
+						))}
+					</div>
+				</div>
+
+				<div data-hero-panel="converter" class="hidden text-center">
+					<h1 class="text-4xl md:text-5xl font-bold text-monokai-pink">Convertir imágenes en línea</h1>
+					<p class="mt-5 text-base md:text-xl text-monokai-fg/85 max-w-5xl mx-auto">
+						Herramienta gratuita basada en navegador que convierte imágenes HEIC, JPG, PNG, WebP, GIF, BMP, TIFF, AVIF e ICO a JPG, PNG, WebP o AVIF. Sin subida al servidor: la conversión ocurre en tu navegador. Rápido, seguro y privado.
+					</p>
+
+					<ul class="mt-7 max-w-4xl mx-auto text-left text-base md:text-lg text-monokai-fg/90 space-y-2">
+						<li class="flex gap-2"><span class="text-monokai-cyan">•</span><span>Arrastra o selecciona imágenes y elige formato de salida.</span></li>
+						<li class="flex gap-2"><span class="text-monokai-cyan">•</span><span>Para GIF animado se exporta el primer fotograma en el formato elegido.</span></li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<section id="uploader" class="px-4 pb-12 md:pb-16">
+			<div id="home-uploader-switcher" class="mx-auto w-full max-w-6xl rounded-2xl border border-monokai-fg/15 bg-monokai-bg/50 shadow-lg shadow-monokai-bg/40 overflow-hidden">
+				<div class="flex items-center justify-start gap-2 px-4 py-3 border-b border-monokai-fg/10 bg-monokai-bg/70">
+					<button
+						type="button"
+						data-upload-tab="converter"
+						class="rounded-xl border border-monokai-fg/25 px-4 py-2 font-semibold text-monokai-fg/70"
+						aria-selected="false"
+					>
+						Converter
+					</button>
+					<button
+						type="button"
+						data-upload-tab="compressor"
+						class="rounded-xl border border-monokai-orange/40 bg-monokai-orange/10 px-4 py-2 font-semibold text-monokai-orange"
+						aria-selected="true"
+					>
+						Compressor
+					</button>
+				</div>
+
+				<div class="px-3 py-4 md:px-5 md:py-6">
+					<div
+						data-upload-panel="compressor"
+						class="transition-[max-height,opacity,transform] duration-300 ease-out opacity-100 translate-y-0 max-h-[2200px]"
+					>
+						<UploaderPanel
+							client:load
+							uploadCopy={t.upload}
+							qualityCopy={t.compression.quality}
+							compressionProgressCopy={t.compression.progress}
+							compressionStatsCopy={t.compression.stats}
+							previewCopy={t.preview}
+						/>
 					</div>
 
-					<!-- Features Badges -->
-					<div class="mt-12 flex gap-4 justify-center flex-wrap animate-fade-in-up" style="animation-delay: 0.3s">
-						<div class="flex items-center gap-2 px-4 py-2 bg-monokai-bg/80 rounded-lg border border-monokai-green">
-							<svg class="w-5 h-5 text-monokai-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-							</svg>
-							<span class="text-sm font-medium text-monokai-fg">{t.features.noServers}</span>
-						</div>
-						
-						<div class="flex items-center gap-2 px-4 py-2 bg-monokai-bg/80 rounded-lg border border-monokai-cyan">
-							<svg class="w-5 h-5 text-monokai-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
-							</svg>
-							<span class="text-sm font-medium text-monokai-fg">{t.features.openSource}</span>
-						</div>
-						
-						<div class="flex items-center gap-2 px-4 py-2 bg-monokai-bg/80 rounded-lg border border-monokai-purple">
-							<svg class="w-5 h-5 text-monokai-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/>
-							</svg>
-							<span class="text-sm font-medium text-monokai-fg">{t.features.offlineFirst}</span>
-						</div>
-					</div>
-
-					<!-- Status -->
-					<div class="mt-12 max-w-lg mx-auto animate-fade-in-up" style="animation-delay: 0.4s">
-						<div class="p-6 bg-monokai-bg/80 border-2 border-monokai-yellow rounded-xl">
-							<div class="flex items-center justify-center gap-2 mb-2">
-								<svg class="w-6 h-6 text-monokai-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-								</svg>
-								<span class="font-bold text-monokai-yellow">{t.status.inDevelopment}</span>
-							</div>
-							<p class="text-sm text-monokai-fg/70">{t.status.phase}</p>
-						</div>
+					<div
+						data-upload-panel="converter"
+						class="pointer-events-none overflow-hidden transition-[max-height,opacity,transform] duration-300 ease-out opacity-0 -translate-y-2 max-h-0"
+					>
+						<ConverterPanel
+							client:load
+							uploadCopy={t.converter.upload}
+							previewCopy={t.preview}
+							converterCopy={t.converter.panel}
+						/>
 					</div>
 				</div>
 			</div>
 		</section>
 
-		<section class="px-4 pb-16 md:pb-24">
-			<UploaderPanel
-				client:load
-				uploadCopy={t.upload}
-				previewCopy={t.preview}
-			/>
-		</section>
-
-		<!-- Benefits Section -->
-		<section id="features" class="px-4 py-16 md:py-24 bg-monokai-bg/60">
-			<div class="container mx-auto max-w-6xl">
-				<div class="text-center mb-12">
-					<h2 class="text-3xl md:text-4xl font-bold text-monokai-pink mb-4">{t.benefits.title}</h2>
-					<div class="w-20 h-1 bg-monokai-cyan mx-auto rounded-full"></div>
-				</div>
-
-				<div class="grid md:grid-cols-3 gap-8">
-					<!-- Privacy -->
-					<div class="p-6 bg-monokai-bg/80 rounded-xl border border-monokai-pink hover:border-monokai-pink transition-all">
-						<div class="w-14 h-14 mb-4 bg-monokai-pink/20 rounded-lg flex items-center justify-center">
-							<svg class="w-8 h-8 text-monokai-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-							</svg>
-						</div>
-						<h3 class="text-xl font-bold mb-2 text-monokai-pink">{t.benefits.privacy.title}</h3>
-						<p class="text-monokai-fg/70">{t.benefits.privacy.description}</p>
+		<section id="features" class="px-4 pb-16 md:pb-24">
+			<div class="mx-auto w-full max-w-6xl space-y-8">
+				<div id="home-docs-switcher" class="rounded-2xl border border-monokai-fg/15 bg-monokai-bg/55 p-5 md:p-7">
+					<div data-doc-panel="compressor">
+						<h2 class="text-2xl md:text-3xl font-bold text-monokai-pink">Comprimir imágenes en línea</h2>
+						<p class="mt-3 text-sm md:text-base text-monokai-fg/85">
+							Comprime y optimiza imágenes directamente en tu navegador.
+						</p>
+						<p class="mt-3 text-sm md:text-base text-monokai-fg/85">
+							Comprime y optimiza imágenes JPG, PNG, WebP, GIF y SVG directamente en tu navegador. Sin anuncios, sin subidas a servidor y con control de calidad.
+						</p>
+						<ul class="mt-4 space-y-2 text-sm md:text-base text-monokai-fg/90">
+							<li class="flex gap-2"><span class="text-monokai-cyan">•</span><span>Arrastra o selecciona tus imágenes para comenzar.</span></li>
+							<li class="flex gap-2"><span class="text-monokai-cyan">•</span><span>Comprime, ajusta la calidad y revisa el resultado antes/después.</span></li>
+						</ul>
 					</div>
 
-					<!-- Fast -->
-					<div class="p-6 bg-monokai-bg/80 rounded-xl border border-monokai-yellow hover:border-monokai-yellow transition-all">
-						<div class="w-14 h-14 mb-4 bg-monokai-yellow/20 rounded-lg flex items-center justify-center">
-							<svg class="w-8 h-8 text-monokai-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-							</svg>
-						</div>
-						<h3 class="text-xl font-bold mb-2 text-monokai-yellow">{t.benefits.fast.title}</h3>
-						<p class="text-monokai-fg/70">{t.benefits.fast.description}</p>
-					</div>
-
-					<!-- Free -->
-					<div class="p-6 bg-monokai-bg/80 rounded-xl border border-monokai-green hover:border-monokai-green transition-all">
-						<div class="w-14 h-14 mb-4 bg-monokai-green/20 rounded-lg flex items-center justify-center">
-							<svg class="w-8 h-8 text-monokai-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-							</svg>
-						</div>
-						<h3 class="text-xl font-bold mb-2 text-monokai-green">{t.benefits.free.title}</h3>
-						<p class="text-monokai-fg/70">{t.benefits.free.description}</p>
+					<div class="hidden" data-doc-panel="converter">
+						<h2 class="text-2xl md:text-3xl font-bold text-monokai-pink">Convertir imágenes en línea</h2>
+						<p class="mt-3 text-sm md:text-base text-monokai-fg/85">
+							Herramienta gratuita basada en navegador que convierte imágenes HEIC, JPG, PNG, WebP, GIF, BMP, TIFF, AVIF e ICO a JPG, PNG, WebP o AVIF. Sin subida al servidor: la conversión ocurre en tu navegador. Rápido, seguro y privado.
+						</p>
+						<ul class="mt-4 space-y-2 text-sm md:text-base text-monokai-fg/90">
+							<li class="flex gap-2"><span class="text-monokai-cyan">•</span><span>Arrastra o selecciona imágenes y elige formato de salida.</span></li>
+							<li class="flex gap-2"><span class="text-monokai-cyan">•</span><span>Para GIF animado se exporta el primer fotograma en el formato elegido.</span></li>
+						</ul>
 					</div>
 				</div>
-			</div>
-		</section>
 
-		<!-- Formats Section -->
-		<section class="px-4 py-16 md:py-24">
-			<div class="container mx-auto max-w-4xl text-center">
-				<h3 class="text-2xl md:text-3xl font-bold text-monokai-cyan mb-6">{t.formats.title}</h3>
-				<div class="flex gap-4 justify-center flex-wrap">
-					{['JPG', 'PNG', 'WebP', 'SVG'].map((format) => (
-						<span class="px-6 py-3 bg-monokai-bg/80 text-monokai-purple font-mono font-bold text-lg rounded-lg border-2 border-monokai-purple/60 hover:border-monokai-purple transition-all">
-							{format}
-						</span>
-					))}
+				<div class="grid md:grid-cols-3 gap-5">
+					<div class="rounded-xl border border-monokai-pink/35 bg-monokai-bg/60 p-5">
+						<h3 class="text-lg font-bold text-monokai-pink">{t.benefits.privacy.title}</h3>
+						<p class="mt-2 text-sm text-monokai-fg/75">{t.benefits.privacy.description}</p>
+					</div>
+					<div class="rounded-xl border border-monokai-yellow/35 bg-monokai-bg/60 p-5">
+						<h3 class="text-lg font-bold text-monokai-yellow">{t.benefits.fast.title}</h3>
+						<p class="mt-2 text-sm text-monokai-fg/75">{t.benefits.fast.description}</p>
+					</div>
+					<div class="rounded-xl border border-monokai-green/35 bg-monokai-bg/60 p-5">
+						<h3 class="text-lg font-bold text-monokai-green">{t.benefits.free.title}</h3>
+						<p class="mt-2 text-sm text-monokai-fg/75">{t.benefits.free.description}</p>
+					</div>
 				</div>
 			</div>
 		</section>
 	</main>
+
+	<script is:inline>
+		(() => {
+			const uploaderRoot = document.getElementById('home-uploader-switcher');
+			const heroRoot = document.getElementById('home-hero-switcher');
+			const docsRoot = document.getElementById('home-docs-switcher');
+
+			if (uploaderRoot) {
+				const uploadTabBase = ['rounded-xl', 'border', 'px-4', 'py-2', 'font-semibold'];
+				const uploadTabActive = ['border-monokai-orange/40', 'bg-monokai-orange/10', 'text-monokai-orange'];
+				const uploadTabInactive = ['border-monokai-fg/25', 'text-monokai-fg/70'];
+
+				const uploadTabs = Array.from(uploaderRoot.querySelectorAll('[data-upload-tab]'));
+				const uploadPanels = Array.from(uploaderRoot.querySelectorAll('[data-upload-panel]'));
+				const heroPanels = heroRoot
+					? Array.from(heroRoot.querySelectorAll('[data-hero-panel]'))
+					: [];
+				const docPanels = docsRoot
+					? Array.from(docsRoot.querySelectorAll('[data-doc-panel]'))
+					: [];
+
+				const setUploadMode = (mode) => {
+					uploadTabs.forEach((tab) => {
+						const isActive = tab.getAttribute('data-upload-tab') === mode;
+						tab.className = [...uploadTabBase, ...(isActive ? uploadTabActive : uploadTabInactive)].join(' ');
+						tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+					});
+
+					uploadPanels.forEach((panel) => {
+						const isActive = panel.getAttribute('data-upload-panel') === mode;
+						panel.classList.toggle('pointer-events-none', !isActive);
+						panel.classList.toggle('overflow-hidden', !isActive);
+						panel.classList.toggle('opacity-0', !isActive);
+						panel.classList.toggle('-translate-y-2', !isActive);
+						panel.classList.toggle('max-h-0', !isActive);
+						panel.classList.toggle('opacity-100', isActive);
+						panel.classList.toggle('translate-y-0', isActive);
+						panel.classList.toggle('max-h-[2200px]', isActive);
+					});
+
+					heroPanels.forEach((panel) => {
+						const isActive = panel.getAttribute('data-hero-panel') === mode;
+						panel.classList.toggle('hidden', !isActive);
+					});
+
+					docPanels.forEach((panel) => {
+						const isActive = panel.getAttribute('data-doc-panel') === mode;
+						panel.classList.toggle('hidden', !isActive);
+					});
+				};
+
+				uploadTabs.forEach((tab) => {
+					tab.addEventListener('click', () => {
+						const mode = tab.getAttribute('data-upload-tab') || 'compressor';
+						setUploadMode(mode);
+					});
+				});
+
+				setUploadMode('compressor');
+			}
+		})();
+	</script>
 </Layout>
+
