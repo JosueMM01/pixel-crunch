@@ -5,6 +5,7 @@ import {
   DEFAULT_ACCEPTED_FORMATS_LABEL,
   getFileExtension,
 } from '@/lib/formats';
+import { compressSvgFile, isSvgFile } from '@/lib/svgCompression';
 import type {
   CompressionOptions,
   CompressionResult,
@@ -27,7 +28,6 @@ const DEFAULT_OPTIONS: CompressionOptions = {
   quality: 0.8,
 };
 
-const SVG_MIME_TYPE = 'image/svg+xml';
 const SUPPORTED_EXTENSIONS = new Set(['jpg', 'jpeg', 'jfif', 'png', 'webp', 'svg']);
 const CANCELLED_MESSAGE = 'Compression cancelled.';
 export const UNSUPPORTED_FORMAT_MESSAGE = `Unsupported format. Use ${DEFAULT_ACCEPTED_FORMATS_LABEL}.`;
@@ -113,22 +113,6 @@ function isSupportedInputFile(file: File): boolean {
 
   const extension = getFileExtension(file.name);
   return extension.length > 0 && SUPPORTED_EXTENSIONS.has(extension);
-}
-
-function isSvgInputFile(file: File): boolean {
-  const normalizedType = file.type.toLowerCase();
-  return normalizedType === SVG_MIME_TYPE || getFileExtension(file.name) === 'svg';
-}
-
-function toSvgPassthroughResult(file: File): CompressionResult {
-  return {
-    id: getCompressionId(file),
-    inputFile: file,
-    outputFile: file,
-    originalSize: file.size,
-    compressedSize: file.size,
-    savingPercent: 0,
-  };
 }
 
 export function useImageCompression(): UseImageCompressionReturn {
@@ -406,9 +390,13 @@ export function useImageCompression(): UseImageCompressionReturn {
             return toFailedResult(file, new Error(UNSUPPORTED_FORMAT_MESSAGE));
           }
 
-          // Keep SVG in the supported pipeline without forcing raster compression.
-          if (isSvgInputFile(file)) {
-            return toSvgPassthroughResult(file);
+          if (isSvgFile(file)) {
+            try {
+              const outputFile = await compressSvgFile(file, mergedOptions.quality);
+              return toSuccessfulResult(file, outputFile);
+            } catch (reason) {
+              return toFailedResult(file, reason);
+            }
           }
 
           try {

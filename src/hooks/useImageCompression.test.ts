@@ -228,11 +228,18 @@ describe('useImageCompression', () => {
     expect(MockCompressionWorker.constructorCount).toBe(0);
   });
 
-  it('processes svg as supported passthrough without worker or raster compression', async () => {
+  it('compresses svg as supported format without worker/raster fallback', async () => {
     const { result } = renderHook(() => useImageCompression());
-    const file = new File(['<svg xmlns="http://www.w3.org/2000/svg"></svg>'], 'vector.svg', {
-      type: 'image/svg+xml',
-    });
+    const file = new File(
+      [
+        '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">\n'
+          + '  <!-- remove me -->\n'
+          + '  <path d="M 0.0000 0.0000 L 10.0000 10.0000 Z" fill="#000000"></path>\n'
+          + '</svg>',
+      ],
+      'vector.svg',
+      { type: 'image/svg+xml' }
+    );
 
     let output!: CompressionResult;
 
@@ -245,9 +252,10 @@ describe('useImageCompression', () => {
     });
 
     expect(output.error).toBeUndefined();
-    expect(output.outputFile).toBe(file);
-    expect(output.compressedSize).toBe(file.size);
-    expect(output.savingPercent).toBe(0);
+    expect(output.outputFile).toBeInstanceOf(File);
+    expect((output.outputFile as File).name).toBe('vector.svg');
+    expect(output.compressedSize).toBeLessThan(file.size);
+    expect(output.savingPercent).toBeGreaterThan(0);
     expect(compressionMock).not.toHaveBeenCalled();
     expect(MockCompressionWorker.constructorCount).toBe(0);
   });
@@ -269,7 +277,8 @@ describe('useImageCompression', () => {
     });
 
     expect(output.error).toBeUndefined();
-    expect(output.outputFile).toBe(file);
+    expect(output.outputFile).toBeInstanceOf(File);
+    expect(output.compressedSize).toBeLessThanOrEqual(file.size);
     expect(compressionMock).not.toHaveBeenCalled();
     expect(MockCompressionWorker.constructorCount).toBe(0);
   });
