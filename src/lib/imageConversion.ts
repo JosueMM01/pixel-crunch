@@ -141,7 +141,7 @@ function canvasToBlob(
         reject(
           new Error(
             mimeType === 'image/avif'
-              ? 'Tu navegador no soporta exportacion AVIF para este archivo.'
+              ? 'Tu navegador no soporta exportación AVIF para este archivo.'
               : 'No se pudo generar el archivo convertido.'
           )
         );
@@ -181,7 +181,7 @@ export function isSupportedConverterInput(file: File): boolean {
   return extension.length > 0 && CONVERTER_SUPPORTED_EXTENSIONS.has(extension);
 }
 
-export function countGifFrames(bytes: Uint8Array): number {
+export function countGifFrames(bytes: Uint8Array, maxFrames = Number.POSITIVE_INFINITY): number {
   if (bytes.length < 13 || !isGifHeader(bytes)) {
     return 0;
   }
@@ -224,6 +224,11 @@ export function countGifFrames(bytes: Uint8Array): number {
       offset += 1;
       offset = skipSubBlocks(bytes, offset);
       frameCount += 1;
+
+      if (frameCount >= maxFrames) {
+        return frameCount;
+      }
+
       continue;
     }
 
@@ -249,7 +254,7 @@ export async function isAnimatedGif(file: File): Promise<boolean> {
   }
 
   const bytes = new Uint8Array(await file.arrayBuffer());
-  return countGifFrames(bytes) > 1;
+  return countGifFrames(bytes, 2) > 1;
 }
 
 export async function convertImageFile(
@@ -257,7 +262,7 @@ export async function convertImageFile(
   options: ConvertImageFileOptions
 ): Promise<ConvertImageFileResult> {
   if (!isSupportedConverterInput(file)) {
-    throw new Error('Formato de archivo no soportado para conversion.');
+    throw new Error('Formato de archivo no soportado para conversión.');
   }
 
   const outputMimeType = options.outputMimeType;
@@ -273,7 +278,7 @@ export async function convertImageFile(
 
   const context = canvas.getContext('2d');
   if (!context) {
-    throw new Error('No se pudo inicializar el motor de conversion.');
+    throw new Error('No se pudo inicializar el motor de conversión.');
   }
 
   if (outputMimeType === 'image/jpeg') {

@@ -112,22 +112,14 @@ function installCanvasMock(options?: {
 }
 
 function installImageSuccessMocks(): void {
-  Object.defineProperty(globalThis, 'Image', {
-    writable: true,
-    configurable: true,
-    value: SuccessfulImage,
-  });
+  vi.stubGlobal('Image', SuccessfulImage);
 
   vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:mock-image');
   vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => undefined);
 }
 
 function installImageFailureMocks(): void {
-  Object.defineProperty(globalThis, 'Image', {
-    writable: true,
-    configurable: true,
-    value: FailedImage,
-  });
+  vi.stubGlobal('Image', FailedImage);
 
   vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:mock-image');
   vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => undefined);
@@ -135,6 +127,7 @@ function installImageFailureMocks(): void {
 
 afterEach(() => {
   vi.restoreAllMocks();
+  vi.unstubAllGlobals();
 });
 
 describe('imageConversion constants', () => {
@@ -315,7 +308,7 @@ describe('convertImageFile', () => {
 
     await expect(
       convertImageFile(input, { outputMimeType: 'image/png' })
-    ).rejects.toThrow('No se pudo inicializar el motor de conversion.');
+    ).rejects.toThrow('No se pudo inicializar el motor de conversión.');
   });
 
   it('rejects unsupported input before conversion starts', async () => {
@@ -328,6 +321,6 @@ describe('convertImageFile', () => {
 
     await expect(
       convertImageFile(unsupported, { outputMimeType: 'image/png' })
-    ).rejects.toThrow('Formato de archivo no soportado para conversion.');
+    ).rejects.toThrow('Formato de archivo no soportado para conversión.');
   });
 });

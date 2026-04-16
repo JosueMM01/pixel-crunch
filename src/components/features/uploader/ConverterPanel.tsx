@@ -45,7 +45,7 @@ const DEFAULT_UPLOAD_COPY: UploadZoneCopy = {
   savingLabel: 'Guardando...',
   successLabel: '{count} imagen(es) cargada(s) correctamente.',
   sizeErrorLabel: 'Archivo demasiado grande. Máximo 10 MB.',
-  typeErrorLabel: 'Formato no compatible para conversion.',
+  typeErrorLabel: 'Formato no compatible para conversión.',
 };
 
 const DEFAULT_CONVERTER_COPY: ConverterPanelCopy = {
@@ -58,11 +58,11 @@ const DEFAULT_CONVERTER_COPY: ConverterPanelCopy = {
   pendingBadgeLabel: 'Pendientes',
   noPendingLabel: 'No hay archivos pendientes por convertir.',
   successLabel: '{count} archivo(s) convertido(s).',
-  partialErrorLabel: 'No se pudo convertir uno o mas archivos.',
+  partialErrorLabel: 'No se pudo convertir uno o más archivos.',
   saveSuccessLabel: 'Archivos convertidos guardados correctamente.',
   saveErrorLabel: 'No se pudieron guardar los archivos convertidos.',
-  animatedGifWarningLabel: 'Se detectaron {count} GIF animado(s). Se exporto solo el primer fotograma.',
-  gifStrategyLabel: 'Nota GIF: si el archivo es animado, la conversion exporta el primer fotograma para mantener compatibilidad de salida.',
+  animatedGifWarningLabel: 'Se detectaron {count} GIF animado(s). Se exportó solo el primer fotograma.',
+  gifStrategyLabel: 'Nota GIF: si el archivo es animado, la conversión exporta el primer fotograma para mantener compatibilidad de salida.',
   outputFormats: {
     jpg: 'JPG',
     png: 'PNG',
