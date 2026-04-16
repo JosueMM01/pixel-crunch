@@ -16,22 +16,29 @@
 - 📦 **Sin Backend** - Todo funciona en el cliente (Client-Side)
 - 🌙 **Modo Oscuro** - Tema claro/oscuro automático
 - 📱 **PWA** - Instálalo como app y úsalo offline
-- 🎯 **Múltiples Formatos** - Soporta JPG, PNG, WebP
+- 🧩 **Flujo Dual en Home** - Modo Compressor y modo Converter en una sola experiencia
+- 🎯 **Múltiples Formatos (Compresión)** - Soporta JPG/JPEG/JFIF, PNG y WebP
 
 ---
 
 ## 🚀 Estado del Proyecto
 
-🚧 **En desarrollo activo** - Actualmente en **Fase 2** (Compresión Core)
+🚧 **En desarrollo activo** - Actualmente en **Fase 2** (Compresión Core + UX/UI Home)
 
 📍 **Demo en vivo:** https://pixel-crunch.josuem01.dev/
+
+✅ **Despliegue:** Cloudflare Pages (activo)
+✅ **CI/CD:** GitHub Actions (validación automática de tipos, tests y build)
 
 ### Roadmap:
 - ✅ **Fase 0:** Setup inicial (Astro + React + TailwindCSS)
 - ✅ **Fase 1:** UI Base (Completada)
-- 🔄 **Fase 2:** Compresión Core (En progreso)
-- ⏳ **Fase 3:** Descargas y Historial
-- ⏳ **Fase 4:** PWA y Deploy
+- 🔄 **Fase 2:** Compresión Core + UX/UI Home con Flujo Dual (En progreso avanzado)
+  - ✅ Compresión JPG/PNG/WebP funcional.
+  - ✅ Descarga individual y ZIP (Corregido).
+  - ⏳ Motor de conversión real (Scaffold de UX listo).
+- ⏳ **Fase 3:** Persistencia e Historial
+- ✅ **Fase 4:** PWA e Infraestructura de Deploy (activa)
 
 Ver [PHASES.md](./docs/PHASES.md) para detalles completos.
 

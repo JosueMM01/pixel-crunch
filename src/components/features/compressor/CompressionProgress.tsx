@@ -1,5 +1,6 @@
 import { useId, useMemo } from 'react';
 import { Card } from '@/components/ui/Card';
+import { cn } from '@/lib/utils';
 import type {
   CompressionProgressCopy,
   CompressionProgressProps,
@@ -33,7 +34,12 @@ function getStatusLabel(status: CompressionProgressStatus, copy: CompressionProg
   return copy.idleLabel;
 }
 
-export function CompressionProgress({ progress, status, copy }: CompressionProgressProps) {
+export function CompressionProgress({
+  progress,
+  status,
+  copy,
+  compact = false,
+}: CompressionProgressProps) {
   const statusId = useId();
 
   const resolvedCopy = useMemo<CompressionProgressCopy>(
@@ -45,14 +51,18 @@ export function CompressionProgress({ progress, status, copy }: CompressionProgr
   const statusLabel = getStatusLabel(status, resolvedCopy);
 
   return (
-    <section className="w-full max-w-5xl mx-auto">
-      <Card variant="border" className="border-monokai-yellow/40 bg-monokai-bg/50">
-        <div className="space-y-3">
+    <section className={cn('w-full mx-auto', compact ? 'max-w-5xl' : 'max-w-5xl')}>
+      <Card
+        variant="border"
+        padding={compact ? 'sm' : 'md'}
+        className="border-monokai-yellow/40 bg-monokai-bg/50"
+      >
+        <div className={cn(compact ? 'space-y-2' : 'space-y-3')}>
           <div className="flex items-center justify-between gap-3">
-            <h3 className="text-xl md:text-2xl font-semibold text-monokai-yellow">
+            <h3 className={cn('font-semibold text-monokai-yellow', compact ? 'text-sm md:text-base' : 'text-xl md:text-2xl')}>
               {resolvedCopy.title}
             </h3>
-            <span className="text-sm font-semibold text-monokai-yellow">
+            <span className={cn('font-semibold text-monokai-yellow', compact ? 'text-xs' : 'text-sm')}>
               {normalizedProgress}%
             </span>
           </div>
@@ -62,7 +72,7 @@ export function CompressionProgress({ progress, status, copy }: CompressionProgr
             role="status"
             aria-live="polite"
             aria-atomic="true"
-            className={`text-sm md:text-base ${STATUS_STYLES[status]}`}
+            className={cn(compact ? 'text-xs md:text-sm' : 'text-sm md:text-base', STATUS_STYLES[status])}
           >
             {statusLabel}
           </p>
@@ -75,7 +85,7 @@ export function CompressionProgress({ progress, status, copy }: CompressionProgr
             aria-valuemax={100}
             aria-valuenow={normalizedProgress}
             aria-valuetext={`${normalizedProgress}% - ${statusLabel}`}
-            className="h-3 w-full rounded-full bg-monokai-fg/20 overflow-hidden"
+            className={cn(compact ? 'h-2' : 'h-3', 'w-full rounded-full bg-monokai-fg/20 overflow-hidden')}
           >
             <div
               className="h-full rounded-full bg-monokai-yellow transition-all duration-300"
