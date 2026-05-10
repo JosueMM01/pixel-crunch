@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://pixel-crunch.josuem01.dev/sitemap-index.xml

@@ -46,6 +46,8 @@
     "saveLabel": "Guardar",
     "saveAllLabel": "Guardar todo",
     "savingLabel": "Guardando...",
+    "compressedFileSuffix": "-comprimido",
+    "compressedZipName": "pixel-crunch-comprimidas.zip",
     "successLabel": "{count} imagen(es) cargada(s) correctamente.",
     "sizeErrorLabel": "Archivo demasiado grande. Máximo 10 MB.",
     "typeErrorLabel": "Formato no compatible. Solo JPG/JPEG/JFIF, PNG, WebP, GIF y SVG."

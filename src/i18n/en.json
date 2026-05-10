@@ -46,6 +46,8 @@
     "saveLabel": "Save",
     "saveAllLabel": "Save all",
     "savingLabel": "Saving...",
+    "compressedFileSuffix": "-compressed",
+    "compressedZipName": "pixel-crunch-compressed.zip",
     "successLabel": "{count} image(s) uploaded successfully.",
     "sizeErrorLabel": "File is too large. Maximum size: 10 MB.",
     "typeErrorLabel": "Unsupported format. Only JPG/JPEG/JFIF, PNG, WebP, GIF, and SVG are allowed."
