@@ -1,6 +1,6 @@
 # Fases De Desarrollo - Pixel Crunch
 
-Documento actualizado en abril 2026 con estado real del repositorio.
+Documento actualizado en mayo 2026 con estado real del repositorio.
 
 ## Fase 0: Setup Inicial (Completada)
 
@@ -14,13 +14,13 @@ Documento actualizado en abril 2026 con estado real del repositorio.
 - [x] Previews y acciones basicas de UI.
 - [x] Tema claro/oscuro e i18n ES/EN.
 
-## Fase 2: Compresión Core + UX Home (En Progreso Avanzado)
+## Fase 2: Compresión Core + UX Home (Completada)
 
 - [x] Hook `useImageCompression.ts`.
 - [x] Worker `compression.worker.ts`.
 - [x] Componentes `CompressionProgress`, `CompressionStats`, `QualitySlider`, `ImageComparison`.
 - [x] Soporte de compresión de entrada: JPG/JPEG/JFIF, PNG, WebP, GIF y SVG.
-- [x] Home con flujo dual (Compressor + Converter) sincronizado entre Hero, panel de carga y bloque informativo.
+- [x] Home con flujo dual (Compresor + Convertidor) sincronizado entre Hero, panel de carga y bloque informativo.
 - [x] Scaffold UX del modo Converter en Home (zona de carga, acciones, selección de formato y CTA).
 - [x] Descarga individual y masiva en ZIP.
 - [x] Pruebas base con Vitest + cobertura.
@@ -29,31 +29,27 @@ Documento actualizado en abril 2026 con estado real del repositorio.
 - [x] Motor real de conversión inicial para el modo Converter (HEIC/JPG/PNG/WebP/GIF/BMP/TIFF/AVIF/ICO -> JPG/PNG/WebP/AVIF).
 - [x] Soporte de conversión GIF con estrategia para GIF animado (exportación de primer fotograma).
 
-## Fase 3: Persistencia E Historial
+## Fase 3: PWA, SEO y Producción (Completada)
 
-- [ ] Historial local de compresiones (metadata, FIFO, limpieza).
-- [ ] Hook dedicado de persistencia (`useLocalStorage` para historial).
-
-## Fase 4: PWA Y Producción (Completada Operacionalmente)
-
-### Completado
 - [x] Integración base PWA (`@vite-pwa/astro`).
 - [x] **CD (Continuous Deployment):** Despliegue automático a **Cloudflare Pages** en cada push a `main`.
 - [x] **Entornos de Preview:** Generación de previews automáticos en Cloudflare para cada Pull Request.
-- [ ] Validación formal offline final y cierre de checklist Lighthouse.
+- [x] Validación offline básica y manifiesto PWA.
+- [x] SEO técnico completo: meta tags (OG, Twitter), structured data JSON-LD, sitemap XML, robots.txt.
+- [x] Localización completa de la interfaz (i18n ES/EN): tabs, Header, Footer, nombres de archivos comprimidos.
+- [x] Página 404 personalizada bilingüe con diseño Monokai.
+- [x] Inyección explícita de `<link rel="manifest">` y registro de Service Worker.
 
-## Fase 5: Polish Y Expansiones (Backlog)
+## Fase 4: Post-MVP / Expansiones (Backlog)
 
-- [ ] Presets de compresion.
-- [ ] Flujo batch global.
+- [ ] Presets de compresión avanzados.
+- [ ] Flujo batch global mejorado.
 - [ ] Mejoras de accesibilidad AA ampliada.
 - [ ] Optimizaciones de bundle y performance.
-- [ ] Expansiones de conversion (segun roadmap de formatos).
+- [ ] Expansiones de conversión (según roadmap de formatos).
 
-## Fase 6: Actualizacion De Plataforma (Backlog Tecnico)
+## Fase 5: Mantenimiento Técnico (Backlog)
 
-- [ ] Migracion a Astro 6.
-- [ ] Actualizacion de integraciones y toolchain compatible (`@astrojs/react`, Vite y TypeScript).
-- [ ] Ajustes de configuracion y validacion completa post-migracion (`typecheck`, `test`, `build` y PWA).
-
-
+- [ ] Migración a Astro 6.
+- [ ] Actualización de integraciones y toolchain compatible (`@astrojs/react`, Vite y TypeScript).
+- [ ] Ajustes de configuración y validación completa post-migración.

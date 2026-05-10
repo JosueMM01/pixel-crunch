@@ -7,36 +7,108 @@ import { Toaster } from '../components/ui/Toaster';
 interface Props {
 	title?: string;
 	description?: string;
+	lang?: 'es' | 'en';
+	canonical?: string;
+	ogImage?: string;
 }
 
-const { 
-	title = 'Pixel Crunch - Optimiza Imágenes en tu Navegador', 
-	description = 'Herramienta gratuita y privada para comprimir imágenes (JPG, PNG, WebP) sin subir archivos a un servidor. Todo el procesamiento ocurre en tu navegador.'
+const {
+	title = 'Pixel Crunch - Optimiza Imágenes en tu Navegador',
+	description = 'Herramienta gratuita y privada para comprimir imágenes (JPG, PNG, WebP) sin subir archivos a un servidor. Todo el procesamiento ocurre en tu navegador.',
+	lang = 'es',
+	canonical,
+	ogImage = '/Logo.png'
 } = Astro.props;
+
+const siteUrl = Astro.site ?? new URL(Astro.url.origin);
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, siteUrl).toString();
+const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, siteUrl).toString();
+const ogImageType = ogImageUrl.endsWith('.svg') ? 'image/svg+xml' : 'image/png';
+const isEnglish = lang.startsWith('en');
+const ogLocale = isEnglish ? 'en_US' : 'es_ES';
+const ogImageAlt = isEnglish ? 'Pixel Crunch logo' : 'Logo de Pixel Crunch';
+const keywords = isEnglish
+	? 'compress images, image optimizer, jpg compressor, png compressor, webp converter, avif converter, free tool, privacy, no server'
+	: 'comprimir imagenes, optimizar imagenes, compresor jpg, compresor png, convertir webp, convertir avif, herramienta gratuita, privacidad, sin servidor';
+const hreflangEs = new URL('/', siteUrl).toString();
+const hreflangEn = new URL('/en/', siteUrl).toString();
+const robotsContent = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+const structuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'WebApplication',
+	name: 'Pixel Crunch',
+	url: canonicalUrl,
+	applicationCategory: 'MultimediaApplication',
+	operatingSystem: 'Web',
+	description,
+	inLanguage: lang,
+	isAccessibleForFree: true,
+	image: ogImageUrl,
+	softwareVersion: '1.0.0',
+	featureList: [
+		'JPG/JPEG/JFIF compression',
+		'PNG compression',
+		'WebP compression',
+		'GIF compression',
+		'SVG optimization',
+		'Image format conversion (HEIC, BMP, TIFF, AVIF, ICO)',
+		'Client-side processing (no server upload)',
+		'Quality control slider',
+		'Before/after comparison',
+		'Batch compression',
+		'ZIP download',
+	],
+	offers: {
+		'@type': 'Offer',
+		price: '0',
+		priceCurrency: 'USD'
+	}
+};
+const structuredDataJson = JSON.stringify(structuredData);
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={lang}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="description" content={description} />
 		
 		<!-- SEO Meta Tags -->
-		<meta name="keywords" content="comprimir imágenes, optimizar imágenes, convertir webp, comprimir jpg, comprimir png, herramienta gratuita, privacidad, offline" />
+		<meta name="keywords" content={keywords} />
 		<meta name="author" content="Pixel Crunch" />
-		<meta name="robots" content="index, follow" />
+		<meta name="robots" content={robotsContent} />
+		<meta name="googlebot" content={robotsContent} />
+		<meta name="application-name" content="Pixel Crunch" />
+		<meta name="apple-mobile-web-app-title" content="Pixel Crunch" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="mobile-web-app-capable" content="yes" />
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="canonical" href={canonicalUrl} />
+		<link rel="alternate" href={hreflangEs} hreflang="es" />
+		<link rel="alternate" href={hreflangEn} hreflang="en" />
+		<link rel="alternate" href={hreflangEs} hreflang="x-default" />
 		
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website" />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalUrl} />
 		<meta property="og:site_name" content="Pixel Crunch" />
+		<meta property="og:locale" content={ogLocale} />
+		<meta property="og:locale:alternate" content={isEnglish ? 'es_ES' : 'en_US'} />
+		<meta property="og:image" content={ogImageUrl} />
+		<meta property="og:image:alt" content={ogImageAlt} />
+		<meta property="og:image:type" content={ogImageType} />
+		<meta property="og:image:width" content="160" />
+		<meta property="og:image:height" content="133" />
 		
 		<!-- Twitter -->
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImageUrl} />
+		<meta name="twitter:image:alt" content={ogImageAlt} />
 		
 		<!-- Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -46,14 +118,20 @@ const {
 		<!-- Favicons -->
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" sizes="any" />
+		<link rel="apple-touch-icon" href="/favicon.png" />
+		<link rel="manifest" href="/manifest.webmanifest" />
+		<script src="/registerSW.js" defer is:inline></script>
 		
 		<!-- Theme Color -->
 		<meta name="theme-color" content="#272822" />
+		<meta name="color-scheme" content="light dark" />
 		
 		<!-- Generator -->
 		<meta name="generator" content={Astro.generator} />
 		
 		<title>{title}</title>
+
+		<script type="application/ld+json" set:html={structuredDataJson} />
 		
 		<script is:inline>
 			(() => {
@@ -71,11 +149,11 @@ const {
 		</script>
 	</head>
 	<body class="antialiased font-sans flex flex-col min-h-screen bg-white dark:bg-monokai-bg text-gray-900 dark:text-monokai-fg transition-colors duration-300">
-		<Header />
+		<Header lang={lang} />
 		<main class="flex-1 pb-8">
 			<slot />
 		</main>
 		<Toaster client:load />
-		<Footer />
+		<Footer lang={lang} />
 	</body>
 </html>

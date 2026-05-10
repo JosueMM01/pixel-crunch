@@ -1,13 +1,27 @@
 ---
 import LanguageSwitcher from '../LanguageSwitcher';
 import ThemeToggle from '../ui/ThemeToggle';
+
+interface Props {
+  lang?: 'es' | 'en';
+}
+
+const { lang = 'es' } = Astro.props;
+const isEnglish = lang === 'en';
+
+const featuresLabel = isEnglish ? 'Features' : 'Características';
+const navAriaLabel = isEnglish ? 'Main navigation' : 'Navegación principal';
+const homeAriaLabel = isEnglish ? 'Go to home' : 'Ir a inicio';
+const githubAriaLabel = isEnglish
+  ? 'View repository on GitHub (opens in new tab)'
+  : 'Ver repositorio en GitHub (abre en nueva pestaña)';
 ---
 
 <header class="sticky top-0 z-40 w-full border-b border-gray-200 dark:border-white/10 bg-white/80 dark:bg-monokai-bg/80 backdrop-blur-sm">
   <div class="container mx-auto px-6">
-    <nav class="h-16 flex flex-wrap items-center justify-between gap-4" aria-label="Navegación principal">
+    <nav class="h-16 flex flex-wrap items-center justify-between gap-4" aria-label={navAriaLabel}>
       <!-- Logo -->
-      <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity group" aria-label="Ir a inicio">
+      <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity group" aria-label={homeAriaLabel}>
         <img src="/Logo.svg" alt="Pixel Crunch Logo" class="w-8 h-8 transition-transform group-hover:scale-110" />
         <span class="text-xl font-bold text-brand-blue">
           Pixel Crunch
@@ -20,14 +34,14 @@ import ThemeToggle from '../ui/ThemeToggle';
           href="/#features" 
           class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-brand-blue transition-colors"
         >
-          Características
+          {featuresLabel}
         </a>
         <a 
           href="https://github.com/JosueMM01/pixel-crunch" 
           target="_blank"
           rel="noopener noreferrer"
           class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-brand-blue transition-colors"
-          aria-label="Ver repositorio en GitHub (abre en nueva pestaña)"
+          aria-label={githubAriaLabel}
         >
           GitHub
         </a>

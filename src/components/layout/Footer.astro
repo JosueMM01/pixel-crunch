@@ -1,5 +1,25 @@
 ---
-// Footer component - Identidad visual completa
+// Footer component - Identidad visual completa con soporte i18n
+interface Props {
+  lang?: 'es' | 'en';
+}
+
+const { lang = 'es' } = Astro.props;
+const isEnglish = lang === 'en';
+
+const footerDescription = isEnglish
+  ? 'Compress and optimize images directly in your browser. 100% private, free, and open source.'
+  : 'Comprime y optimiza imágenes directamente en tu navegador. 100% privado, gratuito y open source.';
+
+const copyright = isEnglish
+  ? 'All rights reserved.'
+  : 'Todos los derechos reservados.';
+
+const navTitle = isEnglish ? 'Navigation' : 'Navegación';
+const featuresLabel = isEnglish ? 'Features' : 'Características';
+const reportBugLabel = isEnglish ? 'Report Bug' : 'Reportar Bug';
+const techStackTitle = isEnglish ? 'Tech Stack' : 'Stack Tecnológico';
+const homeAriaLabel = isEnglish ? 'Go to home' : 'Ir a inicio';
 ---
 
 <footer class="mt-16 border-t border-gray-200 dark:border-brand-blue/30 bg-gray-50 dark:bg-gray-800/50">
@@ -8,7 +28,7 @@
       <!-- Columna 1: Logo, Descripción y Copyright -->
       <div class="text-center md:text-left">
         <!-- Logo y Nombre -->
-        <a href="/" class="inline-flex items-center gap-2 group" aria-label="Ir a inicio">
+        <a href="/" class="inline-flex items-center gap-2 group" aria-label={homeAriaLabel}>
           <img src="/Logo.svg" alt="Pixel Crunch Logo" class="h-8 w-8 rounded" />
           <span class="text-lg font-semibold group-hover:text-brand-blue transition-colors">
             Pixel Crunch
@@ -17,19 +37,19 @@
         
         <!-- Descripción -->
         <p class="mt-3 text-sm text-gray-600 dark:text-gray-400">
-          Comprime y optimiza imágenes directamente en tu navegador. 100% privado, gratuito y open source.
+          {footerDescription}
         </p>
         
         <!-- Copyright -->
         <p class="mt-4 text-xs text-gray-500 dark:text-gray-500">
-          © <span id="current-year"></span> Pixel Crunch. Todos los derechos reservados.
+          © <span id="current-year"></span> Pixel Crunch. {copyright}
         </p>
       </div>
 
       <!-- Columna 2: Enlaces de Navegación -->
       <div class="md:mx-auto text-center md:text-left">
         <h3 class="text-sm font-semibold tracking-wide text-gray-900 dark:text-gray-200 uppercase">
-          Navegación
+          {navTitle}
         </h3>
         <div class="mx-auto md:mx-0 my-2 h-px w-10 bg-brand-blue/40"></div>
         <ul class="mt-4 space-y-2 text-sm flex flex-col items-center md:items-start">
@@ -38,7 +58,7 @@
               href="/#features" 
               class="hover:text-brand-blue"
             >
-              Características
+              {featuresLabel}
             </a>
           </li>
           <li>
@@ -59,7 +79,7 @@
               rel="noopener noreferrer"
               class="hover:text-brand-blue"
             >
-              Reportar Bug
+              {reportBugLabel}
             </a>
           </li>
         </ul>
@@ -68,7 +88,7 @@
       <!-- Columna 3: Stack Tecnológico -->
       <div class="md:justify-self-end text-center md:text-left">
         <h3 class="text-sm font-semibold tracking-wide text-gray-900 dark:text-gray-200 uppercase">
-          Stack Tecnológico
+          {techStackTitle}
         </h3>
         <div class="mx-auto md:mx-0 my-2 h-px w-10 bg-brand-blue/40"></div>
         <ul class="mt-4 space-y-2 text-sm flex flex-col items-center md:items-start">
@@ -118,4 +138,3 @@
     yearElement.textContent = new Date().getFullYear().toString();
   }
 </script>
-

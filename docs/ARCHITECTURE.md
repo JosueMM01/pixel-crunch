@@ -1,6 +1,6 @@
 # Arquitectura del Proyecto - Pixel Crunch
 
-> Nota de vigencia (abril 2026): este documento describe la arquitectura objetivo (target). El estado ejecutado por fases y entregables cerrados se mantiene en `docs/PHASES.md`.
+> Nota de vigencia (mayo 2026): este documento describe la arquitectura actual del proyecto. El estado ejecutado por fases y entregables cerrados se mantiene en `docs/PHASES.md`.
 
 ## 📂 Estructura de Carpetas (Target)
 
@@ -11,26 +11,34 @@ src/
 │   │   ├── Button.tsx
 │   │   ├── Card.tsx
 │   │   ├── Badge.tsx
+│   │   ├── ThemeToggle.tsx
 │   │   └── Toaster.tsx        # Implementación con Sonner
 │   ├── features/              # Componentes con lógica de negocio
 │   │   ├── uploader/
 │   │   │   ├── UploadZone.tsx        # Zona de Drag & Drop (react-dropzone)
 │   │   │   ├── ImagePreview.tsx      # Carrusel/Grid de miniaturas
-│   │   │   └── UploaderPanel.tsx     # Orquestador principal del flujo dual
+│   │   │   ├── UploaderPanel.tsx     # Orquestador principal del flujo de compresión
+│   │   │   └── ConverterPanel.tsx    # Orquestador del flujo de conversión
 │   │   ├── compressor/
 │   │   │   ├── CompressionProgress.tsx
 │   │   │   ├── CompressionStats.tsx
 │   │   │   ├── ImageComparison.tsx   # Comparador Antes/Después
 │   │   │   └── QualitySlider.tsx     # Control de calidad (H/V)
-│   └── layout/                # Componentes de estructura Astro
-│       ├── Header.astro
-│       ├── Footer.astro
-│       └── ThemeToggle.tsx
+│   ├── LanguageSwitcher.tsx    # Selector de idioma ES/EN
+│   └── layout/                # Componentes de estructura Astro (con soporte i18n)
+│       ├── Header.astro       # Acepta prop `lang` para localización
+│       └── Footer.astro       # Acepta prop `lang` para localización
 ├── hooks/                     # Custom React Hooks
 │   ├── useImageCompression.ts # Lógica de compresión multi-hilo
 │   └── useTheme.ts            # Gestión de tema Dark/Light
+├── i18n/                      # Traducciones
+│   ├── es.json                # Español (idioma principal)
+│   └── en.json                # Inglés
 ├── lib/                       # Utilidades y lógica core
 │   ├── formats.ts             # Definición de formatos soportados (MIME/Ext)
+│   ├── gifCompression.ts      # Compresión de GIF (paleta de colores)
+│   ├── svgCompression.ts      # Optimización de SVG (SVGO browser)
+│   ├── imageConversion.ts     # Motor de conversión entre formatos
 │   ├── toast.ts               # Wrapper para notificaciones
 │   └── utils.ts               # clsx, tailwind-merge, formatBytes
 ├── types/                     # TypeScript Types/Interfaces
@@ -39,10 +47,11 @@ src/
 ├── workers/                   # Web Workers
 │   └── compression.worker.ts  # Procesamiento pesado fuera del hilo principal
 ├── layouts/
-│   └── Layout.astro           # Layout base (Head, SEO, Fonts)
+│   └── Layout.astro           # Layout base (Head, SEO, OG, JSON-LD, Fonts)
 ├── pages/
-│   └── index.astro            # Página principal (Flujo Dual ES)
-│   └── en/index.astro         # Página principal (Flujo Dual EN)
+│   ├── index.astro            # Página principal (Flujo Dual ES)
+│   ├── en/index.astro         # Página principal (Flujo Dual EN)
+│   └── 404.astro              # Página de error personalizada bilingüe
 └── styles/
     └── global.css             # TailwindCSS v4 + Custom Monokai Theme
 ```
@@ -107,5 +116,6 @@ El proyecto cuenta con una suite de pruebas que cubre:
 - **Hooks:** `useImageCompression.test.ts`, `useTheme.test.ts`.
 - **Componentes:** `Button.test.tsx`, `CompressionProgress.test.tsx`.
 - **Utils:** `formats.test.ts`, `utils.test.ts`.
+- **Lib:** `gifCompression.test.ts`, `svgCompression.test.ts`, `imageConversion.test.ts`.
 
 Validación automática vía **GitHub Actions** en cada Pull Request.

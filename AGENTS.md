@@ -53,7 +53,7 @@ Tu ciclo de trabajo es autónomo, pero debes seguir estos pasos en orden estrict
 **Nombre:** Pixel Crunch  
 **Tipo:** Progressive Web App (PWA) para compresión de imágenes  
 **Stack:** Astro 5 + React 19 + TailwindCSS v4  
-**Filosofía:** Client-side only, privacidad primero, offline-first  
+**Filosofía:** Client-side only, privacidad primero, simplicidad extrema (sin historial)  
 
 Lee estos archivos ANTES de sugerir cambios:
 - `/docs/PROJECT_CONTEXT.md` - Filosofía y objetivos
@@ -192,7 +192,7 @@ import { clsx } from 'clsx';
 
 ### NO Uses:
 1. **Backend/Servidor** - Todo debe correr en el cliente
-2. **Bases de datos externas** - Solo localStorage
+2. **Bases de datos / Persistencia** - No usar localStorage ni IndexedDB para guardar historial de archivos. La app es efímera por diseño.
 3. **APIs de terceros** - Solo Web APIs nativas (Canvas, File API, etc)
 4. **jQuery** o librerías antiguas
 5. **CSS-in-JS** (styled-components, emotion) - Usa TailwindCSS
@@ -202,7 +202,7 @@ import { clsx } from 'clsx';
 ### Privacidad CRÍTICA:
 - ❌ **NUNCA** subas imágenes a un servidor
 - ❌ **NUNCA** uses analytics que trackeen usuarios
-- ❌ **NUNCA** guardes imágenes en localStorage (solo metadata)
+- ❌ **NUNCA** guardes imágenes o metadata en almacenamiento persistente
 
 ### Dependencias NPM
 - ✅ Antes de agregar un paquete, valida si el problema se resuelve con Web APIs nativas o código propio pequeño.
@@ -240,13 +240,15 @@ const filename = file?.name ?? 'unknown.jpg';
 ```
 src/
 ├── components/
-│   ├── ui/              ← Componentes reutilizables (Button, Card)
-│   ├── features/        ← Lógica de negocio (Compressor, Uploader)
-│   └── layout/          ← Header, Footer, etc
-├── hooks/               ← Custom hooks (useImageCompression)
-├── lib/                 ← Utilidades (compression.ts, utils.ts)
+│   ├── ui/              ← Componentes reutilizables (Button, Card, ThemeToggle)
+│   ├── features/        ← Lógica de negocio (Compressor, Uploader, Converter)
+│   └── layout/          ← Header, Footer (con soporte i18n)
+├── hooks/               ← Custom hooks (useImageCompression, useTheme)
+├── i18n/                ← Traducciones (es.json, en.json)
+├── lib/                 ← Utilidades (formats.ts, utils.ts, gifCompression.ts, svgCompression.ts, imageConversion.ts)
+├── pages/               ← Páginas de Astro (index.astro, en/index.astro, 404.astro)
 ├── types/               ← TypeScript interfaces
-└── workers/             ← Web Workers
+└── workers/             ← Web Workers (compression.worker.ts)
 ```
 
 ### Naming Conventions:

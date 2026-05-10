@@ -1,7 +1,7 @@
 # Especificaciones Técnicas
 
 ## Stack Core
-- **Framework:** Astro 5.17.1
+- **Framework:** Astro 5.18
 - **UI interactiva:** React 19 (Islands Architecture)
 - **Estilos:** TailwindCSS v4 + `clsx` + `tailwind-merge`
 - **Compresión:** `browser-image-compression`
@@ -11,9 +11,13 @@
 ## Estado Técnico Actual
 - Pipeline de compresión funcional en cliente con soporte de worker.
 - Soporte de entrada validado para JPG/JPEG/JFIF, PNG, WebP, GIF y SVG.
-- Home con dos modos de experiencia (Compressor y Converter) en la misma página.
+- Home con dos modos de experiencia (Compresor y Convertidor) en la misma página.
 - Pipeline de conversión cliente activo para HEIC, JPG/JPEG/JFIF, PNG, WebP, GIF, BMP, TIFF, AVIF e ICO con salida a JPG, PNG, WebP y AVIF.
 - Estrategia GIF en conversión: si el GIF es estático se convierte de forma normal; si es animado se exporta el primer fotograma para mantener compatibilidad de salida.
+- Internacionalización (i18n) completa: ES/EN para toda la interfaz (tabs, Header, Footer, nombres de archivos).
+- SEO técnico: meta tags OG/Twitter, structured data JSON-LD (`WebApplication`), sitemap XML, robots.txt.
+- Página 404 personalizada bilingüe.
+- PWA con manifiesto explícito y registro de Service Worker.
 
 ## Formatos
 ### Compresión implementada
