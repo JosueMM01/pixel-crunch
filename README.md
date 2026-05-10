@@ -2,9 +2,9 @@
 
 > Comprime y optimiza imágenes directamente en tu navegador. 100% privado, sin servidores.
 
-[![Astro](https://img.shields.io/badge/Astro-5.17.1-FF5D01?style=flat&logo=astro)](https://astro.build)
+[![Astro](https://img.shields.io/badge/Astro-5.18-FF5D01?style=flat&logo=astro)](https://astro.build)
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react)](https://react.dev)
-[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.1.18-38B2AC?style=flat&logo=tailwind-css)](https://tailwindcss.com)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.2-38B2AC?style=flat&logo=tailwind-css)](https://tailwindcss.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -15,10 +15,13 @@
 - ⚡ **Súper Rápido** - Procesamiento en Web Workers (no bloquea la UI)
 - 📦 **Sin Backend** - Todo funciona en el cliente (Client-Side)
 - 🌙 **Modo Oscuro** - Tema claro/oscuro automático
-- 📱 **PWA** - Instálalo como app
-- 🧩 **Flujo Dual en Home** - Modo Compressor y modo Converter en una sola experiencia
+- 📱 **PWA** - Instálalo como app nativa
+- 🌐 **Bilingüe** - Interfaz completa en Español e Inglés (i18n)
+- 🧩 **Flujo Dual en Home** - Modo Compresor y modo Convertidor en una sola experiencia
 - 🎯 **Múltiples Formatos (Compresión)** - Soporta JPG/JPEG/JFIF, PNG, WebP, GIF y SVG
 - 🔄 **Conversión en Cliente** - Convierte HEIC/JPG/PNG/WebP/GIF/BMP/TIFF/AVIF/ICO a JPG/PNG/WebP/AVIF
+- 🔍 **SEO Optimizado** - Structured data (JSON-LD), Open Graph, sitemap, robots.txt
+- 🚫 **Página 404** - Página de error personalizada bilingüe
 
 ---
 
@@ -102,28 +105,44 @@ Abre [http://localhost:4321](http://localhost:4321) en tu navegador.
 
 ```
 pixel-crunch/
+├── .github/workflows/         # CI/CD (GitHub Actions)
+│   └── quality.yml            # Typecheck + tests + build en cada PR
 ├── docs/                      # Documentación del proyecto
 │   ├── PROJECT_CONTEXT.md     # Contexto y filosofía
 │   ├── TECH_SPECS.md          # Especificaciones técnicas
 │   ├── PHASES.md              # Roadmap por fases
 │   ├── ARCHITECTURE.md        # Decisiones de arquitectura
-│   └── GIT_WORKFLOW.md        # Flujo de trabajo Git
-├── public/                    # Assets estáticos (favicon, icons)
+│   ├── GIT_WORKFLOW.md        # Flujo de trabajo Git
+│   ├── TESTING_STRATEGY.md    # Estrategia de testing
+│   └── DEPENDENCY_POLICY.md   # Política de dependencias
+├── public/                    # Assets estáticos (favicon, icons, logos)
+│   └── robots.txt             # Directivas para crawlers
 ├── src/
 │   ├── components/            # Componentes Astro y React
-│   │   ├── ui/                # Componentes base (Button, Card)
-│   │   ├── features/          # Lógica de negocio (Compressor, Uploader)
-│   │   └── layout/            # Header, Footer
+│   │   ├── ui/                # Componentes base (Button, Card, ThemeToggle)
+│   │   ├── features/          # Lógica de negocio
+│   │   │   ├── compressor/    # CompressionStats, ImageComparison, QualitySlider
+│   │   │   └── uploader/      # UploadZone, UploaderPanel, ConverterPanel, ImagePreview
+│   │   └── layout/            # Header, Footer (con soporte i18n)
 │   ├── hooks/                 # Custom React Hooks
+│   ├── i18n/                  # Traducciones (es.json, en.json)
 │   ├── layouts/               # Layouts de Astro
-│   │   └── Layout.astro       # Layout principal
+│   │   └── Layout.astro       # Layout principal (SEO, OG, JSON-LD)
 │   ├── lib/                   # Utilidades y helpers
+│   │   ├── gifCompression.ts  # Compresión de GIF
+│   │   ├── svgCompression.ts  # Optimización de SVG
+│   │   └── imageConversion.ts # Motor de conversión de formatos
 │   ├── pages/                 # Páginas (rutas)
-│   │   └── index.astro        # Página principal
+│   │   ├── index.astro        # Página principal (ES)
+│   │   ├── en/index.astro     # Página principal (EN)
+│   │   └── 404.astro          # Página de error personalizada
 │   ├── styles/
 │   │   └── global.css         # Estilos globales + TailwindCSS
-│   └── types/                 # TypeScript types/interfaces
-├── astro.config.mjs           # Configuración de Astro
+│   ├── types/                 # TypeScript types/interfaces
+│   └── workers/               # Web Workers
+│       └── compression.worker.ts
+├── astro.config.mjs           # Configuración de Astro + PWA + Sitemap
+├── vitest.config.ts           # Configuración de Vitest
 ├── package.json
 ├── tsconfig.json
 └── README.md

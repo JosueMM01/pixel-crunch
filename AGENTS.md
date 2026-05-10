@@ -240,13 +240,15 @@ const filename = file?.name ?? 'unknown.jpg';
 ```
 src/
 ├── components/
-│   ├── ui/              ← Componentes reutilizables (Button, Card)
-│   ├── features/        ← Lógica de negocio (Compressor, Uploader)
-│   └── layout/          ← Header, Footer, etc
-├── hooks/               ← Custom hooks (useImageCompression)
-├── lib/                 ← Utilidades (compression.ts, utils.ts)
+│   ├── ui/              ← Componentes reutilizables (Button, Card, ThemeToggle)
+│   ├── features/        ← Lógica de negocio (Compressor, Uploader, Converter)
+│   └── layout/          ← Header, Footer (con soporte i18n)
+├── hooks/               ← Custom hooks (useImageCompression, useTheme)
+├── i18n/                ← Traducciones (es.json, en.json)
+├── lib/                 ← Utilidades (formats.ts, utils.ts, gifCompression.ts, svgCompression.ts, imageConversion.ts)
+├── pages/               ← Páginas de Astro (index.astro, en/index.astro, 404.astro)
 ├── types/               ← TypeScript interfaces
-└── workers/             ← Web Workers
+└── workers/             ← Web Workers (compression.worker.ts)
 ```
 
 ### Naming Conventions:
