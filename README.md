@@ -15,7 +15,7 @@
 - ⚡ **Súper Rápido** - Procesamiento en Web Workers (no bloquea la UI)
 - 📦 **Sin Backend** - Todo funciona en el cliente (Client-Side)
 - 🌙 **Modo Oscuro** - Tema claro/oscuro automático
-- 📱 **PWA** - Instálalo como app y úsalo offline
+- 📱 **PWA** - Instálalo como app
 - 🧩 **Flujo Dual en Home** - Modo Compressor y modo Converter en una sola experiencia
 - 🎯 **Múltiples Formatos (Compresión)** - Soporta JPG/JPEG/JFIF, PNG, WebP, GIF y SVG
 - 🔄 **Conversión en Cliente** - Convierte HEIC/JPG/PNG/WebP/GIF/BMP/TIFF/AVIF/ICO a JPG/PNG/WebP/AVIF
@@ -24,7 +24,7 @@
 
 ## 🚀 Estado del Proyecto
 
-🚧 **En desarrollo activo** - Actualmente en **Fase 2** (Compresión Core + UX/UI Home)
+✨ **Versión 1.0 Estable** - MVP completado y listo para producción.
 
 📍 **Demo en vivo:** https://pixel-crunch.josuem01.dev/
 
@@ -34,12 +34,9 @@
 ### Roadmap:
 - ✅ **Fase 0:** Setup inicial (Astro + React + TailwindCSS)
 - ✅ **Fase 1:** UI Base (Completada)
-- 🔄 **Fase 2:** Compresión Core + UX/UI Home con Flujo Dual (En progreso avanzado)
-  - ✅ Compresión JPG/PNG/WebP/GIF/SVG funcional.
-  - ✅ Descarga individual y ZIP (Corregido).
-  - ✅ Motor de conversión inicial funcional (HEIC/JPG/PNG/WebP/GIF/BMP/TIFF/AVIF/ICO -> JPG/PNG/WebP/AVIF, con estrategia GIF estático/animado por primer fotograma).
-- ⏳ **Fase 3:** Persistencia e Historial
-- ✅ **Fase 4:** PWA e Infraestructura de Deploy (activa)
+- ✅ **Fase 2:** Compresión Core + UX/UI Home con Flujo Dual (Completada)
+- ✅ **Fase 3:** PWA e Infraestructura de Deploy (Completada)
+- ⏳ **Próximos Pasos:** Mantenimiento y expansión de formatos (ver Backlog).
 
 Ver [PHASES.md](./docs/PHASES.md) para detalles completos.
 

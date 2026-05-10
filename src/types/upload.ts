@@ -13,6 +13,10 @@ export interface UploadZoneCopy {
   saveLabel: string;
   saveAllLabel?: string;
   savingLabel: string;
+  /** Suffix appended to compressed file names (e.g. "-compressed" or "-comprimido") */
+  compressedFileSuffix?: string;
+  /** Name used for the ZIP archive when saving multiple files */
+  compressedZipName?: string;
   successLabel: string;
   sizeErrorLabel: string;
   typeErrorLabel: string;

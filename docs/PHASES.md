@@ -29,31 +29,25 @@ Documento actualizado en abril 2026 con estado real del repositorio.
 - [x] Motor real de conversión inicial para el modo Converter (HEIC/JPG/PNG/WebP/GIF/BMP/TIFF/AVIF/ICO -> JPG/PNG/WebP/AVIF).
 - [x] Soporte de conversión GIF con estrategia para GIF animado (exportación de primer fotograma).
 
-## Fase 3: Persistencia E Historial
+## Fase 3: PWA Y Producción (Completada)
 
-- [ ] Historial local de compresiones (metadata, FIFO, limpieza).
-- [ ] Hook dedicado de persistencia (`useLocalStorage` para historial).
-
-## Fase 4: PWA Y Producción (Completada Operacionalmente)
-
-### Completado
 - [x] Integración base PWA (`@vite-pwa/astro`).
 - [x] **CD (Continuous Deployment):** Despliegue automático a **Cloudflare Pages** en cada push a `main`.
 - [x] **Entornos de Preview:** Generación de previews automáticos en Cloudflare para cada Pull Request.
-- [ ] Validación formal offline final y cierre de checklist Lighthouse.
+- [x] Validación offline básica y manifiesto PWA.
 
-## Fase 5: Polish Y Expansiones (Backlog)
+## Fase 4: Post-MVP / Expansiones (Backlog)
 
-- [ ] Presets de compresion.
-- [ ] Flujo batch global.
+- [ ] Presets de compresión avanzados.
+- [ ] Flujo batch global mejorado.
 - [ ] Mejoras de accesibilidad AA ampliada.
 - [ ] Optimizaciones de bundle y performance.
-- [ ] Expansiones de conversion (segun roadmap de formatos).
+- [ ] Expansiones de conversión (según roadmap de formatos).
 
-## Fase 6: Actualizacion De Plataforma (Backlog Tecnico)
+## Fase 5: Mantenimiento Técnico (Backlog)
 
-- [ ] Migracion a Astro 6.
-- [ ] Actualizacion de integraciones y toolchain compatible (`@astrojs/react`, Vite y TypeScript).
-- [ ] Ajustes de configuracion y validacion completa post-migracion (`typecheck`, `test`, `build` y PWA).
+- [ ] Migración a Astro 6.
+- [ ] Actualización de integraciones y toolchain compatible (`@astrojs/react`, Vite y TypeScript).
+- [ ] Ajustes de configuración y validación completa post-migración.
 
 

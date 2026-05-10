@@ -92,13 +92,13 @@ function estimateCompressedSize(bytes: number, quality: number): number {
   return Math.round(safeBytes * ratio);
 }
 
-function buildCompressedFileName(inputName: string, fallbackExtension = '.jpg'): string {
+function buildCompressedFileName(inputName: string, fallbackExtension = '.jpg', suffix = '-compressed'): string {
   const safeName = inputName || 'image';
   const extensionIndex = safeName.lastIndexOf('.');
   const hasExtension = extensionIndex > 0;
   const baseName = hasExtension ? safeName.slice(0, extensionIndex) : safeName;
   const extension = hasExtension ? safeName.slice(extensionIndex) : fallbackExtension;
-  return `${baseName}-compressed${extension}`;
+  return `${baseName}${suffix}${extension}`;
 }
 
 function buildLivePreviewResult(inputFile: File, outputFile: File): CompressionResult {
@@ -591,6 +591,8 @@ export function UploaderPanel({
   const compressLabel = uploadCopy?.compressLabel ?? 'Comprimir';
   const saveAllLabel = uploadCopy?.saveAllLabel ?? 'Guardar todo';
   const savingLabel = uploadCopy?.savingLabel ?? 'Guardando...';
+  const compressedFileSuffix = uploadCopy?.compressedFileSuffix ?? '-compressed';
+  const compressedZipName = uploadCopy?.compressedZipName ?? 'pixel-crunch-compressed.zip';
   const gifTitle = qualityCopy?.gifTitle ?? 'Colores GIF';
   const gifDescription = qualityCopy?.gifDescription
     ?? 'Reduce colores por frame para comprimir GIF sin perder animacion.';
@@ -868,7 +870,7 @@ export function UploaderPanel({
           ? inputName.slice(inputName.lastIndexOf('.'))
           : '.jpg';
 
-        saveFile(outputFile, buildCompressedFileName(inputName, extension));
+        saveFile(outputFile, buildCompressedFileName(inputName, extension, compressedFileSuffix));
       } else {
         const zip = new JSZip();
 
@@ -881,13 +883,13 @@ export function UploaderPanel({
           const extension = (typeof inputName === 'string' && inputName.lastIndexOf('.') !== -1)
             ? inputName.slice(inputName.lastIndexOf('.'))
             : '.jpg';
-          const filename = buildCompressedFileName(inputName, extension);
+          const filename = buildCompressedFileName(inputName, extension, compressedFileSuffix);
           const uniqueName = zip.file(filename) ? `${index + 1}-${filename}` : filename;
           zip.file(uniqueName, result.outputFile);
         });
 
         const zipBlob = await zip.generateAsync({ type: 'blob' });
-        saveFile(zipBlob, 'pixel-crunch-comprimidas.zip');
+        saveFile(zipBlob, compressedZipName);
       }
 
       showSuccess('Archivos guardados correctamente.');
@@ -923,7 +925,7 @@ export function UploaderPanel({
         ? inputName.slice(inputName.lastIndexOf('.'))
         : '.jpg';
 
-      saveFile(outputFile, buildCompressedFileName(inputName, extension));
+      saveFile(outputFile, buildCompressedFileName(inputName, extension, compressedFileSuffix));
       showSuccess('Imagen guardada correctamente.');
     } catch (reason) {
       showError(reason instanceof Error ? reason.message : 'No se pudo guardar la imagen.');

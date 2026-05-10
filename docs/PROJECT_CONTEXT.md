@@ -4,9 +4,9 @@
 Crear una herramienta web gratuita, open-source y privada que permita a los usuarios comprimir y convertir imágenes (JPG, PNG, WEBP, AVIF, etc.) directamente en su navegador sin subir archivos a un servidor.
 
 ## Filosofía de Desarrollo
-1.  **Privacidad Primero:** Todo el procesamiento ocurre en el navegador (Client-Side).
+1.  **Privacidad Primero:** Todo el procesamiento ocurre en el navegador (Client-Side). Las imágenes nunca tocan un servidor.
 2.  **Rendimiento:** La UI debe ser instantánea. Usamos Astro para lo estático y React solo para la interactividad.
-3.  **Simplicidad:** "Hacer una cosa y hacerla bien". Sin login, sin bases de datos.
+3.  **Simplicidad Extrema:** "Hacer una cosa y hacerla bien". Sin login, sin bases de datos y sin almacenamiento local de historial para garantizar limpieza total y privacidad absoluta.
 4.  **Experiencia Dual:** Un solo lugar para comprimir y convertir, alternando instantáneamente.
 5.  **Educativo:** El código debe ser claro y comentado, ya que es un proyecto de aprendizaje.
 
