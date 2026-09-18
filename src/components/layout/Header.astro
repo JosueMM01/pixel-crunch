@@ -1,27 +1,34 @@
 ---
-import LanguageSwitcher from '../LanguageSwitcher';
+import LanguageSwitcher from '../LanguageSwitcher.astro';
 import ThemeToggle from '../ui/ThemeToggle';
+import { getLocalizedRoute, type Locale, type RouteKey } from '../../i18n/routes';
 
 interface Props {
-  lang?: 'es' | 'en';
+  lang?: Locale;
+  route?: RouteKey;
 }
 
-const { lang = 'es' } = Astro.props;
+const { lang = 'es', route = 'home' } = Astro.props;
 const isEnglish = lang === 'en';
 
-const featuresLabel = isEnglish ? 'Features' : 'Características';
 const navAriaLabel = isEnglish ? 'Main navigation' : 'Navegación principal';
 const homeAriaLabel = isEnglish ? 'Go to home' : 'Ir a inicio';
 const githubAriaLabel = isEnglish
   ? 'View repository on GitHub (opens in new tab)'
   : 'Ver repositorio en GitHub (abre en nueva pestaña)';
+const navigation = [
+  { key: 'compress' as const, label: isEnglish ? 'Compress' : 'Comprimir' },
+  { key: 'convert' as const, label: isEnglish ? 'Convert' : 'Convertir' },
+  { key: 'removeBackground' as const, label: isEnglish ? 'Remove background' : 'Quitar fondo' },
+];
+const homeHref = getLocalizedRoute(lang, 'home');
 ---
 
 <header class="sticky top-0 z-40 w-full border-b border-gray-200 dark:border-white/10 bg-white/80 dark:bg-monokai-bg/80 backdrop-blur-sm">
   <div class="container mx-auto px-6">
     <nav class="h-16 flex flex-wrap items-center justify-between gap-4" aria-label={navAriaLabel}>
       <!-- Logo -->
-      <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity group" aria-label={homeAriaLabel}>
+      <a href={homeHref} class="flex items-center gap-3 hover:opacity-80 transition-opacity group" aria-label={homeAriaLabel}>
         <img src="/Logo.svg" alt="Pixel Crunch Logo" class="w-8 h-8 transition-transform group-hover:scale-110" />
         <span class="text-xl font-bold text-brand-blue">
           Pixel Crunch
@@ -29,13 +36,19 @@ const githubAriaLabel = isEnglish
       </a>
 
       <!-- Navegación (desktop) -->
-      <div class="hidden md:flex items-center gap-6">
-        <a 
-          href="/#features" 
-          class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-brand-blue transition-colors"
-        >
-          {featuresLabel}
-        </a>
+      <div class="hidden md:flex items-center gap-5">
+		{navigation.map((item) => (
+		  <a
+		    href={getLocalizedRoute(lang, item.key)}
+		    aria-current={route === item.key ? 'page' : undefined}
+		    class:list={[
+		      'text-sm font-medium transition-colors hover:text-brand-blue focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-blue',
+		      route === item.key ? 'text-brand-blue dark:text-brand-cyan-light' : 'text-gray-600 dark:text-gray-300',
+		    ]}
+		  >
+		    {item.label}
+		  </a>
+		))}
         <a 
           href="https://github.com/JosueMM01/pixel-crunch" 
           target="_blank"
@@ -50,7 +63,7 @@ const githubAriaLabel = isEnglish
       <!-- Theme + Language Switcher -->
       <div class="flex items-center gap-2">
         <ThemeToggle client:load />
-        <LanguageSwitcher client:load />
+        <LanguageSwitcher lang={lang} route={route} />
       </div>
     </nav>
   </div>
