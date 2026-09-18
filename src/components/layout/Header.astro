@@ -66,5 +66,19 @@ const homeHref = getLocalizedRoute(lang, 'home');
         <LanguageSwitcher lang={lang} route={route} />
       </div>
     </nav>
+    <nav class="flex gap-5 overflow-x-auto pb-3 md:hidden" aria-label={navAriaLabel}>
+      {navigation.map((item) => (
+        <a
+          href={getLocalizedRoute(lang, item.key)}
+          aria-current={route === item.key ? 'page' : undefined}
+          class:list={[
+            'min-h-11 shrink-0 content-center text-sm font-medium transition-colors hover:text-brand-blue focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue',
+            route === item.key ? 'text-brand-blue dark:text-brand-cyan-light' : 'text-gray-600 dark:text-gray-300',
+          ]}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
   </div>
 </header>

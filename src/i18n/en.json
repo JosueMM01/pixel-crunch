@@ -98,7 +98,11 @@
     "emptyStateLabel": "No images uploaded yet.",
     "removeLabel": "Remove image",
     "previewAltPrefix": "Preview of",
-    "saveSingleLabel": "Save"
+    "saveSingleLabel": "Save",
+    "previousImageLabel": "Previous image",
+    "nextImageLabel": "Next image",
+    "carouselLabel": "Image carousel",
+    "viewImageLabel": "View image {index}"
   },
   "compression": {
     "quality": {

@@ -98,7 +98,11 @@
     "emptyStateLabel": "Aún no hay imágenes cargadas.",
     "removeLabel": "Eliminar imagen",
     "previewAltPrefix": "Vista previa de",
-    "saveSingleLabel": "Guardar"
+    "saveSingleLabel": "Guardar",
+    "previousImageLabel": "Imagen anterior",
+    "nextImageLabel": "Imagen siguiente",
+    "carouselLabel": "Carrusel de imágenes",
+    "viewImageLabel": "Ver imagen {index}"
   },
   "compression": {
     "quality": {

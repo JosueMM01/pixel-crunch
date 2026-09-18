@@ -10,6 +10,10 @@ const DEFAULT_COPY: ImagePreviewCopy = {
   emptyStateLabel: 'Aún no hay imágenes cargadas.',
   removeLabel: 'Eliminar imagen',
   previewAltPrefix: 'Vista previa de',
+  previousImageLabel: 'Imagen anterior',
+  nextImageLabel: 'Imagen siguiente',
+  carouselLabel: 'Carrusel de imágenes',
+  viewImageLabel: 'Ver imagen {index}',
 };
 const SHOULD_REVOKE_OBJECT_URLS = !import.meta.env.DEV;
 
@@ -187,7 +191,7 @@ export function ImagePreview({
               type="button"
               onClick={() => scrollStrip('left')}
               className="absolute left-2 top-1/2 z-20 -translate-y-1/2 rounded-full border border-monokai-purple/40 bg-monokai-bg/85 p-2 text-monokai-fg hover:bg-monokai-purple/20"
-              aria-label="Desplazar carrusel a la izquierda"
+              aria-label={resolvedCopy.previousImageLabel}
             >
               <ChevronLeft className="h-5 w-5" aria-hidden="true" />
             </button>
@@ -199,7 +203,7 @@ export function ImagePreview({
                 'border-monokai-fg/10'
               )}
               role="tablist"
-              aria-label="Carrusel de imágenes"
+              aria-label={resolvedCopy.carouselLabel}
             >
               {previews.map((preview, index) => {
                 const isCompressed = Boolean(compressionMetaByIndex?.[index]?.isCompressed);
@@ -219,7 +223,7 @@ export function ImagePreview({
                     role="tab"
                     aria-selected={index === currentIndex}
                     aria-disabled={!isSelectable}
-                    aria-label={`Ver imagen ${index + 1}`}
+                    aria-label={resolvedCopy.viewImageLabel.replace('{index}', String(index + 1))}
                     tabIndex={isSelectable ? 0 : -1}
                     className={cn(
                       'relative w-48 shrink-0 overflow-hidden rounded-md border bg-monokai-bg/70 text-left',
@@ -312,7 +316,7 @@ export function ImagePreview({
               type="button"
               onClick={() => scrollStrip('right')}
               className="absolute right-2 top-1/2 z-20 -translate-y-1/2 rounded-full border border-monokai-purple/40 bg-monokai-bg/85 p-2 text-monokai-fg hover:bg-monokai-purple/20"
-              aria-label="Desplazar carrusel a la derecha"
+              aria-label={resolvedCopy.nextImageLabel}
             >
               <ChevronRight className="h-5 w-5" aria-hidden="true" />
             </button>
@@ -352,7 +356,7 @@ export function ImagePreview({
                     type="button"
                     onClick={goToPrevious}
                     className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full border border-monokai-purple/40 bg-monokai-bg/80 p-2 text-monokai-fg hover:bg-monokai-purple/20"
-                    aria-label="Imagen anterior"
+                    aria-label={resolvedCopy.previousImageLabel}
                   >
                     <ChevronLeft className="h-4 w-4" aria-hidden="true" />
                   </button>
@@ -360,7 +364,7 @@ export function ImagePreview({
                     type="button"
                     onClick={goToNext}
                     className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full border border-monokai-purple/40 bg-monokai-bg/80 p-2 text-monokai-fg hover:bg-monokai-purple/20"
-                    aria-label="Imagen siguiente"
+                    aria-label={resolvedCopy.nextImageLabel}
                   >
                     <ChevronRight className="h-4 w-4" aria-hidden="true" />
                   </button>
@@ -402,14 +406,14 @@ export function ImagePreview({
             </div>
 
             {previews.length > 1 ? (
-              <div className="mt-3 flex items-center gap-2 overflow-x-auto pb-1" role="tablist" aria-label="Carrusel de imágenes">
+              <div className="mt-3 flex items-center gap-2 overflow-x-auto pb-1" role="tablist" aria-label={resolvedCopy.carouselLabel}>
                 {previews.map((preview, index) => (
                   <button
                     key={preview.key}
                     type="button"
                     role="tab"
                     aria-selected={index === currentIndex}
-                    aria-label={`Ver imagen ${index + 1}`}
+                    aria-label={resolvedCopy.viewImageLabel.replace('{index}', String(index + 1))}
                     onClick={() => setCurrentIndex(index)}
                     className={cn(
                       'h-14 w-14 shrink-0 overflow-hidden rounded-md border',

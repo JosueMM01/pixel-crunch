@@ -40,6 +40,10 @@ export interface ImagePreviewCopy {
   removeLabel: string;
   previewAltPrefix: string;
   saveSingleLabel?: string;
+  previousImageLabel: string;
+  nextImageLabel: string;
+  carouselLabel: string;
+  viewImageLabel: string;
 }
 
 export interface ImagePreviewCompressionMeta {
