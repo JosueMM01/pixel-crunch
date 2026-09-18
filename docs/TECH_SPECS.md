@@ -1,56 +1,50 @@
-# Especificaciones Técnicas
+# Especificaciones técnicas
 
-## Stack Core
-- **Framework:** Astro 5.18
-- **UI interactiva:** React 19 (Islands Architecture)
-- **Estilos:** TailwindCSS v4 + `clsx` + `tailwind-merge`
-- **Compresión:** `browser-image-compression`
-- **PWA:** `@vite-pwa/astro`
-- **Testing:** Vitest + Testing Library + happy-dom
+## Base
 
-## Estado Técnico Actual
-- Pipeline de compresión funcional en cliente con soporte de worker.
-- Soporte de entrada validado para JPG/JPEG/JFIF, PNG, WebP, GIF y SVG.
-- Home con dos modos de experiencia (Compresor y Convertidor) en la misma página.
-- Pipeline de conversión cliente activo para HEIC, JPG/JPEG/JFIF, PNG, WebP, GIF, BMP, TIFF, AVIF e ICO con salida a JPG, PNG, WebP y AVIF.
-- Estrategia GIF en conversión: si el GIF es estático se convierte de forma normal; si es animado se exporta el primer fotograma para mantener compatibilidad de salida.
-- Internacionalización (i18n) completa: ES/EN para toda la interfaz (tabs, Header, Footer, nombres de archivos).
-- SEO técnico: meta tags OG/Twitter, structured data JSON-LD (`WebApplication`), sitemap XML, robots.txt.
-- Página 404 personalizada bilingüe.
-- PWA con manifiesto explícito y registro de Service Worker.
+El proyecto fija Astro 7.3.3, React/React DOM 19.3.0, Tailwind CSS 4.3.3, pnpm 12.4.2, TypeScript 6.0.3 y Node 24.13.0. Las versiones exactas y el lockfile hacen reproducible la instalación.
 
-## Formatos
-### Compresión implementada
-- JPG/JPEG/JFIF
-- PNG
-- WebP
-- GIF
-- SVG
+Consulta al registro npm el 17/09/2026: estas eran las versiones estables solicitadas. TypeScript 7.0.2 se dejó pendiente porque `@astrojs/check` 0.9.10 acepta TypeScript 5 o 6.
 
-### Conversión implementada
-- Entradas: HEIC, JPG/JPEG/JFIF, PNG, WebP, GIF, BMP, TIFF, AVIF e ICO.
-- Salidas: JPG, PNG, WebP y AVIF (dependiente de soporte del navegador).
-- GIF animado: conversión por primer frame (estrategia documentada de compatibilidad).
+[Astro 7 y migración](https://astro.build/blog/astro-7/) · [pnpm publicado](https://registry.npmjs.org/pnpm/latest) · [Astro publicado](https://registry.npmjs.org/astro/latest).
 
-## Herramientas de Desarrollo y Calidad
-- **GitHub Actions:** workflow `quality.yml` con typecheck, test:coverage y build.
-- **MCP GitHub:** gestión de issues y trazabilidad por fase.
-- **MCP Browser/DevTools:** validación visual, consola y regresiones UX.
-- Ver [AGENTS.md](/AGENTS.md) para el flujo operativo completo.
+## Desarrollo y CI
 
-## Librerías Clave
-1. **Compresión:** `browser-image-compression`
-2. **Carga de archivos:** `react-dropzone`
-3. **Descargas:** `file-saver` + `jszip`
-4. **UI/UX:** `lucide-react` + `sonner`
-5. **Pruebas:** `vitest`, `@testing-library/react`, `@testing-library/user-event`, `happy-dom`
+Comandos: `pnpm install --frozen-lockfile`, `pnpm dev`, `pnpm typecheck`, `pnpm test:coverage`, `pnpm build` y `pnpm audit`.
 
-## Requerimientos Funcionales
-- **Privacidad:** 100% client-side; sin subida de imágenes a backend.
-- **Rendimiento:** mantener UI responsiva durante compresión.
-- **Calidad:** todo cambio relevante debe pasar `npm run verify`.
-- **UX:** feedback visual (progreso, stats, toasts) y layout responsive.
+Typecheck es independiente de build. Vitest 5 y Testing Library cubren la base actual. CI usa Node 24 y pnpm 12.4.2; no mezclar lockfiles.
 
-## Seguridad y Mantenibilidad
-- Validar tipo MIME y extensión en la capa de carga.
-- Mantener mensajes de error claros por formato no soportado.
+## Cloudflare Pages
+
+Pages anuncia **solicitudes estáticas y transferencia ilimitadas**, sin una cuota mensual de GB publicada para este servicio. Es adecuado para servir modelos como assets de la herramienta; no se necesita un servidor de inferencia ni R2 por este motivo. [Oferta oficial](https://pages.cloudflare.com/).
+
+Sigue existiendo un límite de **25 MiB por archivo** y 20.000 archivos en el plan Free. Verificar el conjunto elegido y usar fragmentos compatibles con el loader cuando haga falta. [Límites oficiales](https://developers.cloudflare.com/pages/platform/limits/).
+
+La transferencia del alojamiento no elimina tiempo/datos móviles ni consumo de RAM del visitante. Descargar solo el modelo seleccionado, bajo demanda, y reutilizar caché disponible.
+
+## Assets, PWA y seguridad
+
+- Build estático a dist; assets propios versionados, hashes/manifiesto y avisos verificados.
+- PWA mínima mediante manifest y Service Worker propio, sin precache. `@vite-pwa/astro` se retiró porque su release estable no declara Astro 7 y el plugin Vite directo no generó un SW válido dentro del build de Astro.
+- Immutable solo para URLs de contenido inmutable; HTML/SW deben poder revalidarse.
+- MIME correcto para JS/WASM; los fragmentos reconstruidos por el loader conservan el MIME del manifiesto.
+- IA fuera del precache, incluidos JS diferidos, WASM y modelos. Caché runtime best-effort; una cuota agotada no debe impedir procesar online.
+- Probar upgrades/rollback del SW y recursos de clientes antiguos.
+- Probar CSP con workers/Blob/WASM; activar COOP/COEP únicamente si el multithreading aporta una mejora validada.
+- Autohospedar fuentes con sus avisos o usar fuentes del sistema.
+
+[Headers](https://developers.cloudflare.com/pages/configuration/headers/) · [Despliegue ONNX](https://onnxruntime.ai/docs/tutorials/web/deploy.html).
+
+## Presupuestos de aceptación
+
+| Métrica | Criterio |
+| --- | --- |
+| IA en landing/compresión/conversión | 0 solicitudes y 0 bytes |
+| Assets individuales | <=25 MiB |
+| Operaciones IA simultáneas | 1 |
+| Precache IA | 0 archivos |
+| JS inicial de herramientas existentes | No aumentar por el motor IA; comparar con baseline de fase 1 |
+| Modelos, tiempo y memoria | Medir por ruta CPU/GPU y dispositivo; fijar límites en fase 4 |
+| Repetición y cancelación | Sin crecimiento sostenido de recursos ni resultados tardíos en UI |
+
+No establecer techos de RAM o tiempos universales sin medición. Separar pruebas frías/calientes y memoria total del proceso de heap JavaScript.
