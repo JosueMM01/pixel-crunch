@@ -1,23 +1,23 @@
 # Fases de Pixel Crunch 2.0
 
-**Estado:** planificación; ninguna fase nueva está implementada. Cada fase incorpora pruebas y documentación. Las versiones exactas se fijan al comenzar, usando releases estables compatibles.
+**Estado:** Fase 1 completada el 18/09/2026; Fases 2–7 pendientes. Cada fase incorpora pruebas y documentación.
 
 ## Fase 1 — Modernización del stack y skills
 
 **Objetivo:** actualizar la base antes de añadir funcionalidades.
 
-- [ ] Registrar el estado actual y ejecutar los checks disponibles para distinguir regresiones previas.
-- [ ] Migrar a pnpm 12: fijar packageManager, generar pnpm-lock.yaml, retirar package-lock.json tras validar y ajustar scripts/comandos.
-- [ ] Actualizar Astro a la última estable 7+ y revisar los pasos de migración 5 → 6 → 7; actualizar React, Tailwind, TypeScript, integraciones, pruebas y demás dependencias compatibles.
-- [ ] Unificar Node compatible en local, CI y Cloudflare; revisar peers, configuración obsoleta y scripts de instalación permitidos.
-- [ ] Migrar GitHub Actions y Pages a instalación reproducible con pnpm install --frozen-lockfile y pnpm build.
-- [ ] Ejecutar npx autoskills tras actualizar el stack; seleccionar skills de Astro, React, TypeScript y Tailwind adecuadas a las versiones y al agente. Revisar procedencia, licencia y archivos generados.
-- [ ] Mantener AGENTS.md con reglas propias del proyecto, sin duplicar tutoriales de las skills.
-- [ ] Auditar dependencias y validar tipos, cobertura, build, PWA y compresión/conversión ES/EN.
+- [x] Registrar el estado previo y los checks disponibles.
+- [x] Migrar a pnpm 12.4.2 con lockfile único e instalación congelada.
+- [x] Actualizar a Astro 7.3.3, React 19.3.0, Tailwind CSS 4.3.3 y dependencias compatibles.
+- [x] Fijar Node 24.13.0 y migrar CI a pnpm/Node 24.
+- [x] Sustituir la integración PWA incompatible por manifest y Service Worker mínimos, sin precache.
+- [x] Instalar y revisar ocho skills pertinentes mediante autoskills 0.3.6.
+- [x] Reducir AGENTS.md a reglas propias del proyecto.
+- [x] Validar instalación congelada, tipos, 55 pruebas, cobertura, build, auditoría, PWA, ES/EN y vistas 320/768/1024.
 
 **Archivos:** package.json, lockfiles, configuraciones, CI, documentación y directorios de skills generados.
 **Riesgos:** cambios mayores del compilador/bundler, peers, PWA e instalación pnpm.
-**Aceptación:** instalación limpia reproducible, checks verdes, preview estático funcional y skills pertinentes instaladas. No activar funciones experimentales por ser nuevas.
+**Resultado:** aceptación cumplida. `pnpm verify` y `pnpm audit --audit-level=high` pasan; el preview sirve HTML, manifest y SW correctamente y Brave no registra errores de consola. TypeScript 7 queda pendiente de compatibilidad oficial con `@astrojs/check`.
 
 ## Fase 2 — Licencia y distribución de terceros
 

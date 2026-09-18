@@ -12,7 +12,7 @@
 
 Leer [contexto](docs/PROJECT_CONTEXT.md), [fases](docs/PHASES.md) y [arquitectura](docs/ARCHITECTURE.md). Las fases pendientes no describen funciones ya implementadas.
 
-Las guías generales de TypeScript, React, Astro y estilos se gestionarán mediante skills revisadas e instaladas en fase 1 con autoskills; no asumir que ya están disponibles.
+Las guías generales de TypeScript, React, Astro, accesibilidad, SEO y estilos están en `.agents/skills`; revisar la skill pertinente sin sustituir estas reglas propias del proyecto.
 
 ## Flujo y validación
 
@@ -20,6 +20,6 @@ Las guías generales de TypeScript, React, Astro y estilos se gestionarán media
 - main y development están protegidas: ramas de trabajo desde development, commits Conventional Commits y PR con Closes #issue. Nunca push directo.
 - Respetar instrucciones explícitas de alcance y autorización; no hacer commit cuando el usuario haya pedido esperar.
 - Validar tipos, cobertura y build por separado. Revisar consola/red con Chrome DevTools MCP, ES/EN, teclado, claro/oscuro y 320/768/1024 px. Si falta una herramienta, informar la validación pendiente.
-- Tras fase 1, usar pnpm y su único lockfile. Antes de añadir dependencias, justificar valor, compatibilidad, licencia y coste; auditar cambios del manifest/lockfile.
+- Usar pnpm 12.4.2 y `pnpm-lock.yaml` como único lockfile. Antes de añadir dependencias, justificar valor, compatibilidad, licencia y coste; auditar cambios del manifest/lockfile.
 - Mantener avisos de terceros y fuentes de la versión distribuida. No cambiar licencia sin autorización.
 - Documentar hechos verificados y límites; no afirmar compatibilidad, offline o rendimiento sin pruebas.

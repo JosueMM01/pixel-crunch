@@ -4,7 +4,7 @@
 
 Vitest + Testing Library/happy-dom. Umbrales actuales: 80% statements/functions/lines y 70% branches. Typecheck, cobertura y build son checks distintos; no afirmar que pasan sin ejecutarlos.
 
-La fase 1 migra CI a pnpm y valida compatibilidad del stack actualizado. Revisar audit actualmente no bloqueante y excepciones justificadas, sin auto-fix indiscriminado.
+CI usa pnpm con lockfile congelado y valida tipos, cobertura, build y auditoría. La auditoría remota continúa no bloqueante para evitar que una caída del registro invalide el pipeline; cualquier hallazgo real debe revisarse, sin auto-fix indiscriminado.
 
 ## Cobertura de 2.0
 
@@ -28,4 +28,4 @@ Ejecutar modelos reales selectivamente al cambiar motor/assets y antes de releas
 - Consola real, teclado, ES/EN, temas y responsive sin regresiones.
 - Generación reproducible y sin archivos inesperados.
 
-Conservar herramientas existentes; scripts Node pequeños para assets/budgets. Evaluar Playwright para E2E de navegador sin modelos en cada PR. Medir baseline en fase 1 y resultados reales en fases 4–7.
+Conservar herramientas existentes; scripts Node pequeños para assets/budgets. Evaluar Playwright para E2E de navegador sin modelos en cada PR. El baseline de Fase 1 es 55 pruebas, 87.26% de statements y build estático correcto; medir el motor real en fases 4–7.

@@ -4,12 +4,12 @@
 
 Suite pequeña, privada y gratuita para **comprimir, convertir y quitar fondo** en el navegador. Cada herramienta tendrá su propia ruta y versión ES/EN.
 
-La base actual tiene compresión/conversión. Quitar fondo y la modernización siguen pendientes; [PHASES.md](PHASES.md) define la ejecución.
+La base actual tiene compresión/conversión y el stack modernizado. Quitar fondo y la separación de rutas siguen pendientes; [PHASES.md](PHASES.md) define la ejecución.
 
 ## Decisiones de producto
 
 - Astro estático + React Islands; Cloudflare Pages distribuye aplicación y modelos, sin backend de procesamiento.
-- Fase 1: pnpm 12, Astro 7+ y dependencias estables compatibles; skills mediante autoskills.
+- Base: pnpm 12.4.2, Astro 7.3.3, React 19.3.0 y Tailwind CSS 4.3.3; skills seleccionadas mediante autoskills.
 - Preferir tecnología reciente, estable y adecuada al proyecto; evitar versiones preliminares, dependencias innecesarias y funciones experimentales sin necesidad.
 - Imágenes efímeras, sin cuentas ni historial. IA bajo demanda, aislada de las herramientas existentes.
 - Resolución original cuando sea viable; reducción explícita y límites basados en pruebas.

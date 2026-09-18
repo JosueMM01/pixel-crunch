@@ -4,7 +4,7 @@
 
 Modernizar primero; después separar herramientas e incorporar eliminación de fondo local. La ejecución detallada vive en [PHASES.md](PHASES.md), sin duplicarla aquí.
 
-Decidido: pnpm 12/Astro 7+ estables y skills en fase 1; landing y rutas independientes ES/EN; compresor/convertidor separados; worker IA bajo demanda; Pages estático sin backend de procesamiento.
+Completado: pnpm 12.4.2, Astro 7.3.3, React 19.3.0, Tailwind CSS 4.3.3 y skills revisadas. Decidido para las fases siguientes: landing y rutas independientes ES/EN; compresor/convertidor separados; worker IA bajo demanda; Pages estático sin backend de procesamiento.
 
 ## Hallazgos que siguen siendo relevantes
 
@@ -23,7 +23,7 @@ No creadas en GitHub. Cada fila representa una unidad de trabajo revisable; crit
 
 | Issue | Objetivo y tareas | Aceptación | Dependencia |
 | --- | --- | --- | --- |
-| Modernizar stack y skills | pnpm, Astro, dependencias, CI/Pages y autoskills | Instalación limpia y checks verdes; fase 1 | Ninguna |
+| ~~Modernizar stack y skills~~ | Completada en la rama de Fase 1 | Instalación, checks y preview validados | Ninguna |
 | Preparar licencia AGPL | Licencia propia, pesos y avisos/fuentes | Procedencia resuelta; fase 2 | Versiones seleccionadas |
 | Separar herramientas ES/EN | Rutas, carpetas, navegación, SEO y MIME | Flujos actuales sin regresión; fase 3 | Fase 1 |
 | Integrar motor local | Worker, límites, resolución, GPU/WASM | Resultado real y cancelación; fase 4 | Fases 1–2 |
@@ -36,7 +36,6 @@ Rutas y motor pueden avanzar en paralelo tras sus dependencias. UI y caché tamb
 ## Decisiones pendientes
 
 - Variante AGPL y procedencia concreta de los pesos.
-- Versiones exactas compatibles al implementar, incluidas skills.
 - Modelo/orden CPU-GPU y límites de resolución según pruebas.
 - Dispositivos mínimos soportados y presupuesto medido de memoria/tiempo.
 

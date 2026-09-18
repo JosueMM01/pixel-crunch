@@ -4,9 +4,9 @@ Herramientas para procesar imágenes en el navegador, sin subirlas a una API de 
 
 ## Estado
 
-El código actual ofrece compresión y conversión, ES/EN, tema claro/oscuro y descargas individuales/ZIP. Usa Astro 5, React y Tailwind v4; la licencia vigente es [MIT](LICENSE).
+El código actual ofrece compresión y conversión, ES/EN, tema claro/oscuro y descargas individuales/ZIP. Usa Astro 7, React 19, Tailwind CSS 4 y pnpm 12; la licencia vigente es [MIT](LICENSE).
 
-**Pixel Crunch 2.0 está planificado, no implementado:** Astro 7+ estable, pnpm 12, rutas independientes para comprimir/convertir/quitar fondo, inferencia local y migración de licencia coordinada.
+La modernización técnica de Pixel Crunch 2.0 está completa. Las rutas independientes para comprimir, convertir y quitar fondo, la inferencia local y el cambio coordinado de licencia continúan en las fases siguientes.
 
 ## Privacidad y compatibilidad
 
@@ -14,7 +14,7 @@ Las imágenes se procesan localmente. El sitio necesita descargar sus recursos; 
 
 ## Desarrollo
 
-Actualmente: npm ci, npm run dev y npm run verify. La fase 1 migrará comandos, CI y despliegue a pnpm; todavía no existe esa migración.
+Requiere Node 24 y pnpm 12.4.2: `pnpm install --frozen-lockfile`, `pnpm dev` y `pnpm verify`.
 
 Los checks son typecheck, test:coverage y build. [Especificaciones](docs/TECH_SPECS.md) · [Pruebas](docs/TESTING_STRATEGY.md).
 

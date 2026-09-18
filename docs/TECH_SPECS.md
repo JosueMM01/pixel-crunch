@@ -1,19 +1,18 @@
 # Especificaciones técnicas
 
-## Base y actualización
+## Base
 
-El checkout declara Astro 5.18.1, React 19.2.5, TypeScript 5.9.3, Tailwind v4 y npm. La fase 1 migrará a **pnpm 12 y Astro 7+ estables**, actualizando el resto a versiones compatibles.
+El proyecto fija Astro 7.3.3, React/React DOM 19.3.0, Tailwind CSS 4.3.3, pnpm 12.4.2, TypeScript 6.0.3 y Node 24.13.0. Las versiones exactas y el lockfile hacen reproducible la instalación.
 
-Consulta al registro npm el 17/09/2026: Astro 7.3.3, pnpm 12.4.2 y autoskills 0.3.6. Son referencias verificadas, no versiones ya instaladas; volver a comprobar al ejecutar la fase. Mantener Node LTS compatible y fijar versiones/lockfile.
+Consulta al registro npm el 17/09/2026: estas eran las versiones estables solicitadas. TypeScript 7.0.2 se dejó pendiente porque `@astrojs/check` 0.9.10 acepta TypeScript 5 o 6.
 
 [Astro 7 y migración](https://astro.build/blog/astro-7/) · [pnpm publicado](https://registry.npmjs.org/pnpm/latest) · [Astro publicado](https://registry.npmjs.org/astro/latest).
 
 ## Desarrollo y CI
 
-Actualmente: npm ci / npm run dev / npm run verify.
-Tras fase 1: pnpm install --frozen-lockfile, pnpm dev, pnpm typecheck, pnpm test:coverage y pnpm build.
+Comandos: `pnpm install --frozen-lockfile`, `pnpm dev`, `pnpm typecheck`, `pnpm test:coverage`, `pnpm build` y `pnpm audit`.
 
-Typecheck es independiente de build. Conservar Vitest/Testing Library y ajustar integraciones/CI/PWA a la nueva base. No mezclar lockfiles ni dejar las versiones de Node distintas entre local, CI y Pages.
+Typecheck es independiente de build. Vitest 5 y Testing Library cubren la base actual. CI usa Node 24 y pnpm 12.4.2; no mezclar lockfiles.
 
 ## Cloudflare Pages
 
@@ -26,6 +25,7 @@ La transferencia del alojamiento no elimina tiempo/datos móviles ni consumo de 
 ## Assets, PWA y seguridad
 
 - Build estático a dist; assets propios versionados, hashes/manifiesto y avisos verificados.
+- PWA mínima mediante manifest y Service Worker propio, sin precache. `@vite-pwa/astro` se retiró porque su release estable no declara Astro 7 y el plugin Vite directo no generó un SW válido dentro del build de Astro.
 - Immutable solo para URLs de contenido inmutable; HTML/SW deben poder revalidarse.
 - MIME correcto para JS/WASM; los fragmentos reconstruidos por el loader conservan el MIME del manifiesto.
 - IA fuera del precache, incluidos JS diferidos, WASM y modelos. Caché runtime best-effort; una cuota agotada no debe impedir procesar online.
