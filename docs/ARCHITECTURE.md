@@ -1,121 +1,54 @@
-# Arquitectura del Proyecto - Pixel Crunch
+# Arquitectura
 
-> Nota de vigencia (mayo 2026): este documento describe la arquitectura actual del proyecto. El estado ejecutado por fases y entregables cerrados se mantiene en `docs/PHASES.md`.
+## Diseño 2.0
 
-## 📂 Estructura de Carpetas (Target)
+Sitio estático con landing y una página por herramienta. React solo hidrata la herramienta activa; no hay router SPA ni backend de inferencia.
 
-```
-src/
-├── components/
-│   ├── ui/                    # Componentes base reutilizables (Monokai Theme)
-│   │   ├── Button.tsx
-│   │   ├── Card.tsx
-│   │   ├── Badge.tsx
-│   │   ├── ThemeToggle.tsx
-│   │   └── Toaster.tsx        # Implementación con Sonner
-│   ├── features/              # Componentes con lógica de negocio
-│   │   ├── uploader/
-│   │   │   ├── UploadZone.tsx        # Zona de Drag & Drop (react-dropzone)
-│   │   │   ├── ImagePreview.tsx      # Carrusel/Grid de miniaturas
-│   │   │   ├── UploaderPanel.tsx     # Orquestador principal del flujo de compresión
-│   │   │   └── ConverterPanel.tsx    # Orquestador del flujo de conversión
-│   │   ├── compressor/
-│   │   │   ├── CompressionProgress.tsx
-│   │   │   ├── CompressionStats.tsx
-│   │   │   ├── ImageComparison.tsx   # Comparador Antes/Después
-│   │   │   └── QualitySlider.tsx     # Control de calidad (H/V)
-│   ├── LanguageSwitcher.tsx    # Selector de idioma ES/EN
-│   └── layout/                # Componentes de estructura Astro (con soporte i18n)
-│       ├── Header.astro       # Acepta prop `lang` para localización
-│       └── Footer.astro       # Acepta prop `lang` para localización
-├── hooks/                     # Custom React Hooks
-│   ├── useImageCompression.ts # Lógica de compresión multi-hilo
-│   └── useTheme.ts            # Gestión de tema Dark/Light
-├── i18n/                      # Traducciones
-│   ├── es.json                # Español (idioma principal)
-│   └── en.json                # Inglés
-├── lib/                       # Utilidades y lógica core
-│   ├── formats.ts             # Definición de formatos soportados (MIME/Ext)
-│   ├── gifCompression.ts      # Compresión de GIF (paleta de colores)
-│   ├── svgCompression.ts      # Optimización de SVG (SVGO browser)
-│   ├── imageConversion.ts     # Motor de conversión entre formatos
-│   ├── toast.ts               # Wrapper para notificaciones
-│   └── utils.ts               # clsx, tailwind-merge, formatBytes
-├── types/                     # TypeScript Types/Interfaces
-│   ├── upload.ts              # Props y estados de UI
-│   └── compression.ts         # Resultados y mensajes del Worker
-├── workers/                   # Web Workers
-│   └── compression.worker.ts  # Procesamiento pesado fuera del hilo principal
-├── layouts/
-│   └── Layout.astro           # Layout base (Head, SEO, OG, JSON-LD, Fonts)
-├── pages/
-│   ├── index.astro            # Página principal (Flujo Dual ES)
-│   ├── en/index.astro         # Página principal (Flujo Dual EN)
-│   └── 404.astro              # Página de error personalizada bilingüe
-└── styles/
-    └── global.css             # TailwindCSS v4 + Custom Monokai Theme
-```
+| Herramienta | Español | Inglés |
+| --- | --- | --- |
+| Inicio | / | /en/ |
+| Comprimir | /comprimir/ | /en/compress/ |
+| Convertir | /convertir/ | /en/convert/ |
+| Quitar fondo | /quitar-fondo/ | /en/remove-background/ |
 
----
+Cada ruta tiene canonical, hreflang, título y contenido propios. El selector de idioma mantiene la herramienta. Navegación mediante enlaces accesibles; un mapa tipado de rutas evita duplicación.
 
-## 🔄 Flujo de Datos Principal
+## Estructura de carpetas de destino
 
-```mermaid
-graph TD
-    A[Usuario arrastra imagen] --> B[UploadZone.tsx]
-    B --> C[UploaderPanel gestiona estado]
-    C --> D{¿Comprimir?}
-    D -->|Sí| E[useImageCompression hook]
-    E --> F[compression.worker.ts]
-    F --> G[browser-image-compression]
-    G --> H[Devolver CompressionResult]
-    H --> I[Actualizar UI: Stats + Comparison]
-    I --> J[Usuario descarga ZIP/Individual]
-    J --> K[jszip + file-saver]
-```
+La estructura siguiente es propuesta: el código actual todavía agrupa los paneles de compresión/conversión en features/uploader.
 
----
+- **src/**
+  - **components/**
+    - **layout/** — Header/Footer comunes.
+    - **ui/** — componentes visuales compartidos.
+    - **features/**
+      - **uploader/** — selección, drag & drop y preview reutilizables.
+      - **compressor/** — panel y controles exclusivos de compresión.
+      - **converter/** — panel y controles exclusivos de conversión.
+      - **background-remover/** — interfaz de eliminación de fondo.
+  - **hooks/** — coordinación y estado por herramienta.
+  - **lib/**
+    - **compression/** — utilidades específicas de compresión.
+    - **conversion/** — decodificación, formatos y exportación.
+    - **background-removal/** — capacidades, estrategia, límites y cliente del worker.
+    - **formats.ts / utils.ts** — utilidades realmente compartidas.
+  - **workers/** — compression.worker.ts y background-removal.worker.ts; conversión tendrá worker si el perfilado lo justifica.
+  - **types/** — contratos y mensajes.
+  - **i18n/** — es.json, en.json y mapa de rutas.
+  - **layouts/** — Layout.astro y layout común de herramientas.
+  - **pages/** — landing y páginas de herramientas ES/EN.
+  - **styles/** — estilos globales.
+- **public/vendor/background-removal/** — modelos/runtime versionados generados.
+- **scripts/** — preparación y verificación de assets.
+- **tests/** — configuración y pruebas de navegador; unitarias junto a los módulos.
+- **docs/** — especificaciones y fases.
 
-## 🎯 Decisiones Técnicas
+Mover archivos al separar responsabilidades, no crear carpetas vacías ni abstracciones para funciones inexistentes.
 
-### 1. ¿Por qué Astro Islands Architecture?
-**Problema:** React SPA (Single Page App) carga todo el JS aunque no lo uses.  
-**Solución:** Astro genera HTML estático y solo hidrata componentes interactivos.
+## Carga y flujo
 
-**Ejemplo Real:**
-```astro
----
-// index.astro
-import { UploaderPanel } from '../components/features/uploader';
----
-<UploaderPanel client:load /> <!-- Solo esta isla carga React -->
-```
+La isla principal usa client:load para responder al usuario. El worker, IMG.LY, ONNX y los modelos solo se cargan al ejecutar Quitar fondo; no importarlos desde módulos compartidos ni precargarlos.
 
-**Resultado:**
-- Header/Footer/Docs: 0 KB de JS.
-- Interactividad concentrada en el Uploader.
+Una operación de IA a la vez, con id, progreso, resultado/error y cancelación. Terminar worker y liberar Blob URLs/bitmaps al finalizar o abandonar. El worker de compresión permanece independiente.
 
----
-
-### 2. ¿Por qué browser-image-compression?
-- ✅ Manejo automático de EXIF (rotación).
-- ✅ Soporte multi-formato (JPG, PNG, WebP).
-- ✅ Web Workers integrado.
-
----
-
-### 3. ¿Por qué Web Workers?
-**Problema:** La compresión bloquea el hilo principal (UI congelada).  
-**Solución:** `useImageCompression` delega a un Worker dedicado, manteniendo la barra de progreso fluida.
-
----
-
-## 🧪 Estrategia de Testing (Vitest)
-
-El proyecto cuenta con una suite de pruebas que cubre:
-- **Hooks:** `useImageCompression.test.ts`, `useTheme.test.ts`.
-- **Componentes:** `Button.test.tsx`, `CompressionProgress.test.tsx`.
-- **Utils:** `formats.test.ts`, `utils.test.ts`.
-- **Lib:** `gifCompression.test.ts`, `svgCompression.test.ts`, `imageConversion.test.ts`.
-
-Validación automática vía **GitHub Actions** en cada Pull Request.
+Estado de imágenes en memoria; avisar al navegar con trabajo pendiente. Compartir UI y helpers pequeños, no el estado o motor de cada herramienta.

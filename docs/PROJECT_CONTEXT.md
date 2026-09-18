@@ -1,31 +1,24 @@
-# Contexto del Proyecto: Pixel Crunch
+# Objetivo de Pixel Crunch 2.0
 
-## Objetivo
-Crear una herramienta web gratuita, open-source y privada que permita a los usuarios comprimir y convertir imágenes (JPG, PNG, WEBP, AVIF, etc.) directamente en su navegador sin subir archivos a un servidor.
+## Producto
 
-## Filosofía de Desarrollo
-1.  **Privacidad Primero:** Todo el procesamiento ocurre en el navegador (Client-Side). Las imágenes nunca tocan un servidor.
-2.  **Rendimiento:** La UI debe ser instantánea. Usamos Astro para lo estático y React solo para la interactividad.
-3.  **Simplicidad Extrema:** "Hacer una cosa y hacerla bien". Sin login, sin bases de datos y sin almacenamiento local de historial para garantizar limpieza total y privacidad absoluta.
-4.  **Experiencia Dual:** Un solo lugar para comprimir y convertir, alternando instantáneamente.
-5.  **Educativo:** El código debe ser claro y comentado, ya que es un proyecto de aprendizaje.
+Suite pequeña, privada y gratuita para **comprimir, convertir y quitar fondo** en el navegador. Cada herramienta tendrá su propia ruta y versión ES/EN.
 
-## 🛠️ Herramientas de Desarrollo
-Este proyecto usa herramientas MCP (Model Context Protocol) para automatización:
-- **GitHub MCP:** Gestión de Issues, ramas y Pull Requests.
-- **Chrome DevTools MCP:** Validación de errores en consola durante desarrollo.
-- **GitHub Actions:** Pipeline de calidad (`quality.yml`) para asegurar la integridad en cada PR.
+La base actual tiene compresión/conversión. Quitar fondo y la modernización siguen pendientes; [PHASES.md](PHASES.md) define la ejecución.
 
-Ver [AGENTS.md](/AGENTS.md) para más detalles del flujo de trabajo.
+## Decisiones de producto
 
-## Funcionalidades Core
-- **Flujo Dual:** Modo Compresor y Modo Convertidor en una sola experiencia integrada.
-- **Compresión Inteligente:** Control de calidad con vista previa real (Antes/Después).
-- **Conversión Versátil:** Soporte para múltiples formatos (JPG, PNG, WebP, AVIF, etc.).
-- **Procesamiento en Segundo Plano:** Uso de Web Workers para no bloquear la UI.
-- **Privacidad Total:** 100% client-side; tus imágenes nunca tocan un servidor.
-- **Descarga Inteligente:** Descarga individual o empaquetado masivo en .ZIP.
-- **Modo Oscuro/Claro:** Tema Monokai optimizado para desarrolladores.
-- **Bilingüe (i18n):** Interfaz completa en Español e Inglés con nombres de archivo localizados.
-- **SEO Técnico:** Structured data JSON-LD, Open Graph, Twitter Cards, sitemap XML y robots.txt.
-- **Página 404:** Página de error personalizada bilingüe con diseño consistente.
+- Astro estático + React Islands; Cloudflare Pages distribuye aplicación y modelos, sin backend de procesamiento.
+- Fase 1: pnpm 12, Astro 7+ y dependencias estables compatibles; skills mediante autoskills.
+- Preferir tecnología reciente, estable y adecuada al proyecto; evitar versiones preliminares, dependencias innecesarias y funciones experimentales sin necesidad.
+- Imágenes efímeras, sin cuentas ni historial. IA bajo demanda, aislada de las herramientas existentes.
+- Resolución original cuando sea viable; reducción explícita y límites basados en pruebas.
+- ES/EN, accesibilidad, temas claro/oscuro y responsive son parte del producto.
+
+La idea inicial orienta el diseño; la implementación y las decisiones técnicas se confirman con documentación oficial, código y pruebas.
+
+## Alcance inicial
+
+Una imagen por operación de quitar fondo, comparación y exportación PNG/WebP. Preservar batch/ZIP del compresor. Resize, crop, EXIF, batch de IA y edición manual de máscaras quedan para fases posteriores.
+
+MIT sigue vigente hasta ejecutar la migración aprobada a AGPL; ver [LICENSING.md](LICENSING.md).

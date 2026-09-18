@@ -1,55 +1,104 @@
-# Fases De Desarrollo - Pixel Crunch
+# Fases de Pixel Crunch 2.0
 
-Documento actualizado en mayo 2026 con estado real del repositorio.
+**Estado:** planificación; ninguna fase nueva está implementada. Cada fase incorpora pruebas y documentación. Las versiones exactas se fijan al comenzar, usando releases estables compatibles.
 
-## Fase 0: Setup Inicial (Completada)
+## Fase 1 — Modernización del stack y skills
 
-- [x] Astro + React + TailwindCSS configurados.
-- [x] Base de proyecto, docs iniciales y PWA plugin instalado.
+**Objetivo:** actualizar la base antes de añadir funcionalidades.
 
-## Fase 1: UI Base (Completada)
+- [ ] Registrar el estado actual y ejecutar los checks disponibles para distinguir regresiones previas.
+- [ ] Migrar a pnpm 12: fijar packageManager, generar pnpm-lock.yaml, retirar package-lock.json tras validar y ajustar scripts/comandos.
+- [ ] Actualizar Astro a la última estable 7+ y revisar los pasos de migración 5 → 6 → 7; actualizar React, Tailwind, TypeScript, integraciones, pruebas y demás dependencias compatibles.
+- [ ] Unificar Node compatible en local, CI y Cloudflare; revisar peers, configuración obsoleta y scripts de instalación permitidos.
+- [ ] Migrar GitHub Actions y Pages a instalación reproducible con pnpm install --frozen-lockfile y pnpm build.
+- [ ] Ejecutar npx autoskills tras actualizar el stack; seleccionar skills de Astro, React, TypeScript y Tailwind adecuadas a las versiones y al agente. Revisar procedencia, licencia y archivos generados.
+- [ ] Mantener AGENTS.md con reglas propias del proyecto, sin duplicar tutoriales de las skills.
+- [ ] Auditar dependencias y validar tipos, cobertura, build, PWA y compresión/conversión ES/EN.
 
-- [x] Componentes UI base (`Button`, `Card`, `Badge`, `Toaster`).
-- [x] Carga de archivos con drag and drop.
-- [x] Previews y acciones basicas de UI.
-- [x] Tema claro/oscuro e i18n ES/EN.
+**Archivos:** package.json, lockfiles, configuraciones, CI, documentación y directorios de skills generados.
+**Riesgos:** cambios mayores del compilador/bundler, peers, PWA e instalación pnpm.
+**Aceptación:** instalación limpia reproducible, checks verdes, preview estático funcional y skills pertinentes instaladas. No activar funciones experimentales por ser nuevas.
 
-## Fase 2: Compresión Core + UX Home (Completada)
+## Fase 2 — Licencia y distribución de terceros
 
-- [x] Hook `useImageCompression.ts`.
-- [x] Worker `compression.worker.ts`.
-- [x] Componentes `CompressionProgress`, `CompressionStats`, `QualitySlider`, `ImageComparison`.
-- [x] Soporte de compresión de entrada: JPG/JPEG/JFIF, PNG, WebP, GIF y SVG.
-- [x] Home con flujo dual (Compresor + Convertidor) sincronizado entre Hero, panel de carga y bloque informativo.
-- [x] Scaffold UX del modo Converter en Home (zona de carga, acciones, selección de formato y CTA).
-- [x] Descarga individual y masiva en ZIP.
-- [x] Pruebas base con Vitest + cobertura.
-- [x] **Pipeline de Calidad:** GitHub Actions (`quality.yml`) configurado para ejecutar `typecheck`, `test` y `build` en cada PR.
-- [x] Integración de SVG sin romper el pipeline raster.
-- [x] Motor real de conversión inicial para el modo Converter (HEIC/JPG/PNG/WebP/GIF/BMP/TIFF/AVIF/ICO -> JPG/PNG/WebP/AVIF).
-- [x] Soporte de conversión GIF con estrategia para GIF animado (exportación de primer fotograma).
+**Objetivo:** preparar la distribución AGPL con procedencia clara.
 
-## Fase 3: PWA, SEO y Producción (Completada)
+- [ ] Elegir AGPL-3.0-only u or-later; revisar copyright y material incorporado.
+- [ ] Confirmar versiones/licencias del motor, runtime y pesos, incluidas discrepancias de avisos.
+- [ ] Actualizar LICENSE, package/README, avisos y documentación coherentemente.
+- [ ] Definir inventario y acceso al código fuente correspondiente a cada release.
 
-- [x] Integración base PWA (`@vite-pwa/astro`).
-- [x] **CD (Continuous Deployment):** Despliegue automático a **Cloudflare Pages** en cada push a `main`.
-- [x] **Entornos de Preview:** Generación de previews automáticos en Cloudflare para cada Pull Request.
-- [x] Validación offline básica y manifiesto PWA.
-- [x] SEO técnico completo: meta tags (OG, Twitter), structured data JSON-LD, sitemap XML, robots.txt.
-- [x] Localización completa de la interfaz (i18n ES/EN): tabs, Header, Footer, nombres de archivos comprimidos.
-- [x] Página 404 personalizada bilingüe con diseño Monokai.
-- [x] Inyección explícita de `<link rel="manifest">` y registro de Service Worker.
+**Archivos:** LICENSE, package.json, README, avisos y docs.
+**Pruebas:** inventario, textos y enlaces; revisión de artefactos distribuidos.
+**Aceptación:** licencia propia inequívoca y derechos de redistribución trazables; sin eliminar atribuciones previas.
 
-## Fase 4: Post-MVP / Expansiones (Backlog)
+## Fase 3 — Separar herramientas y rutas ES/EN
 
-- [ ] Presets de compresión avanzados.
-- [ ] Flujo batch global mejorado.
-- [ ] Mejoras de accesibilidad AA ampliada.
-- [ ] Optimizaciones de bundle y performance.
-- [ ] Expansiones de conversión (según roadmap de formatos).
+**Objetivo:** compresor y convertidor independientes con una entrada común.
 
-## Fase 5: Mantenimiento Técnico (Backlog)
+- [ ] Crear landing y rutas dedicadas conforme a ARCHITECTURE.md.
+- [ ] Separar ConverterPanel y el panel compresor de los componentes genéricos de carga.
+- [ ] Compartir layout, UI y mapa de rutas; mantener idioma al cambiar de herramienta.
+- [ ] Ajustar canonical/hreflang/sitemap y navegación accesible.
+- [ ] Corregir MIME de exportación y claims de formatos; preservar GIF/SVG, batch/ZIP y nombres localizados.
 
-- [ ] Migración a Astro 6.
-- [ ] Actualización de integraciones y toolchain compatible (`@astrojs/react`, Vite y TypeScript).
-- [ ] Ajustes de configuración y validación completa post-migración.
+**Archivos:** pages, components/features, layouts, i18n, utilidades y tests.
+**Pruebas:** navegación profunda, formatos reales, temas, teclado y 320/768/1024 px.
+**Aceptación:** cada herramienta funciona por URL en ambos idiomas y carga solo lo necesario.
+
+## Fase 4 — Motor local de eliminación de fondo
+
+**Objetivo:** inferencia estable en navegador sin API remota.
+
+- [ ] Elegir versión estable compatible de IMG.LY/ONNX y preparar assets del mismo origen.
+- [ ] Crear worker independiente e imports dinámicos; una operación en vuelo.
+- [ ] Validar GPU real y fallback CPU/WASM; comparar calidad, memoria y tiempo antes de fijar orden de modelos.
+- [ ] Comparar API directa frente a máscara temporal aplicada al original; elegir el flujo más simple que cumpla límites.
+- [ ] Añadir límites de imagen, cancelación, timeout y reintentos acotados; no reducir resolución silenciosamente.
+
+**Archivos:** lib/background-removal, worker, types, hook y scripts.
+**Pruebas:** políticas/protocolo y ejecución real con orientación/alfa, imágenes grandes y fallos.
+**Aceptación:** resultado correcto, recursos liberados y ruta CPU viable; cero descarga IA al comprimir/convertir.
+
+## Fase 5 — Interfaz de quitar fondo
+
+**Objetivo:** flujo sencillo y accesible en ES/EN.
+
+- [ ] Selección, drag & drop/pegado, preview y dimensiones.
+- [ ] Opciones de resolución explícitas, estados de descarga/procesamiento y cancelación.
+- [ ] Comparación antes/después, transparencia visible y exportación PNG/WebP verificada.
+- [ ] Errores recuperables y diagnóstico técnico opcional.
+
+**Archivos:** background-remover, página, traducciones y tests.
+**Pruebas:** estados/acciones, teclado, formatos, tema y responsive.
+**Aceptación:** flujo completo sin persistir imágenes y sin porcentajes ficticios de inferencia.
+
+## Fase 6 — Cloudflare, caché y rendimiento
+
+**Objetivo:** entrega estática eficiente y comportamiento offline honesto.
+
+- [ ] Verificar hashes, manifiesto, avisos y tamaño de cada asset; fragmentar modelos cuando sea necesario.
+- [ ] Configurar headers/MIME y URLs inmutables versionadas.
+- [ ] Excluir IA del precache; caché runtime best-effort solo de recursos públicos.
+- [ ] Probar cuota agotada, descarga interrumpida, actualización del SW y rollback sin perder trabajos activos.
+- [ ] Medir bundle/red/memoria y ajustar estrategia; revisar CSP y fuentes remotas.
+
+**Archivos:** astro.config, public/_headers, scripts, assets y CI.
+**Pruebas:** preview Pages, solicitudes, caché fría/caliente/offline parcial y budgets.
+**Aceptación:** todos los archivos <=25 MiB, rutas existentes sin tráfico IA y caché fallida sin impedir uso online.
+
+## Fase 7 — QA y release
+
+**Objetivo:** publicar capacidades demostradas.
+
+- [ ] Ejecutar checks completos, modelos reales y regresiones del compresor/convertidor.
+- [ ] Validar navegadores/dispositivos objetivo, memoria repetida y calidad visual.
+- [ ] Alinear README, versión, privacidad, compatibilidad y avisos con lo entregado.
+- [ ] Preparar PR/release con resultados y rollback probado.
+
+**Archivos:** tests/CI, README, docs y metadatos de release.
+**Aceptación:** revisión aprobada, build estático validado y limitaciones publicadas; no anunciar como soportado lo no probado.
+
+## Después de 2.0
+
+Resize, crop, inspección/eliminación de metadatos, batch de IA y edición manual de máscaras, según necesidad y rendimiento medido.
