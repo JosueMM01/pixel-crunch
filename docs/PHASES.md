@@ -37,15 +37,16 @@
 
 **Objetivo:** compresor y convertidor independientes con una entrada común.
 
-- [ ] Crear landing y rutas dedicadas conforme a ARCHITECTURE.md.
-- [ ] Separar ConverterPanel y el panel compresor de los componentes genéricos de carga.
-- [ ] Compartir layout, UI y mapa de rutas; mantener idioma al cambiar de herramienta.
-- [ ] Ajustar canonical/hreflang/sitemap y navegación accesible.
-- [ ] Corregir MIME de exportación y claims de formatos; preservar GIF/SVG, batch/ZIP y nombres localizados.
+- [x] Crear landing y rutas dedicadas conforme a ARCHITECTURE.md.
+- [x] Separar ConverterPanel y el panel compresor de los componentes genéricos de carga.
+- [x] Compartir layout, UI y mapa de rutas; mantener idioma al cambiar de herramienta.
+- [x] Ajustar canonical/hreflang/sitemap y navegación accesible.
+- [x] Corregir MIME de exportación y claims de formatos; preservar GIF/SVG, batch/ZIP y nombres localizados.
 
 **Archivos:** pages, components/features, layouts, i18n, utilidades y tests.
 **Pruebas:** navegación profunda, formatos reales, temas, teclado y 320/768/1024 px.
 **Aceptación:** cada herramienta funciona por URL en ambos idiomas y carga solo lo necesario.
+**Resultado:** landing y seis rutas de herramienta generadas como HTML estático; compresor y convertidor hidratan islas separadas. Quitar fondo conserva una página informativa `noindex`, excluida temporalmente del sitemap y sin descargar código o modelos de IA. El convertidor limita sus claims a codecs del navegador y rechaza exportaciones cuyo MIME real no coincide.
 
 ## Fase 4 — Motor local de eliminación de fondo
 
