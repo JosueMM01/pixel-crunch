@@ -27,7 +27,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version-file: .node-version
           cache: pnpm
 
       - name: Install dependencies
@@ -43,5 +43,5 @@ jobs:
         run: pnpm build
 
       - name: Audit dependencies
-        run: pnpm audit
+        run: pnpm run audit
         continue-on-error: true
