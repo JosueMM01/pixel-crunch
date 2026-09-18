@@ -57,6 +57,16 @@ interface SiteContent {
       items: Array<{ title: string; description: string }>;
       sourceLabel: string;
     };
+    technology: {
+      eyebrow: string;
+      title: string;
+      intro: string;
+      flowLabel: string;
+      flow: Array<{ label: string; title: string; description: string }>;
+      boundaryTitle: string;
+      boundaryDescription: string;
+      capabilities: Array<{ title: string; description: string }>;
+    };
     formatGuide: {
       eyebrow: string;
       title: string;
@@ -147,6 +157,25 @@ export const siteContent = {
           { title: 'Red con límites claros', description: 'El navegador sí descarga la aplicación y, en el futuro, el modelo público. Esto no equivale a subir la imagen.' },
         ],
         sourceLabel: 'Revisar el código fuente',
+      },
+      technology: {
+        eyebrow: 'Tecnología y flujo de datos',
+        title: 'Cloudflare entrega la aplicación. Tu navegador procesa la imagen.',
+        intro: 'Pixel Crunch es un sitio estático. No existe una API de Pixel Crunch que reciba la imagen para comprimirla, convertirla o analizarla.',
+        flowLabel: 'Flujo técnico desde la aplicación hasta la descarga',
+        flow: [
+          { label: '01 · Entrega', title: 'Cloudflare Pages', description: 'Sirve el HTML, los estilos, JavaScript y otros recursos públicos de Pixel Crunch.' },
+          { label: '02 · Proceso', title: 'Tu navegador', description: 'Lee la imagen desde tu dispositivo y ejecuta la transformación en memoria con APIs web.' },
+          { label: '03 · Resultado', title: 'Tu descarga', description: 'Genera un Blob local y lo guarda en tu dispositivo como archivo individual o ZIP.' },
+        ],
+        boundaryTitle: 'Qué cruza la red',
+        boundaryDescription: 'Se descargan la aplicación y sus recursos públicos. La imagen que seleccionas no se adjunta a una solicitud de procesamiento. En la futura herramienta de quitar fondo, el modelo también se descargará al navegador antes de ejecutar la inferencia local.',
+        capabilities: [
+          { title: 'File API', description: 'Permite leer los archivos elegidos sin enviarlos a un formulario remoto.' },
+          { title: 'Web Workers', description: 'Mueven tareas compatibles fuera del hilo principal para mantener la interfaz disponible.' },
+          { title: 'Canvas + codecs', description: 'El navegador decodifica y vuelve a codificar los formatos que realmente soporta.' },
+          { title: 'Blob + ZIP', description: 'Construye las descargas en memoria y agrupa resultados por lotes cuando corresponde.' },
+        ],
       },
       formatGuide: {
         eyebrow: 'Guía rápida de formatos',
@@ -275,6 +304,25 @@ export const siteContent = {
           { title: 'Clear network boundaries', description: 'Your browser downloads the application and, later, the public model. That is different from uploading an image.' },
         ],
         sourceLabel: 'Review the source code',
+      },
+      technology: {
+        eyebrow: 'Technology and data flow',
+        title: 'Cloudflare delivers the application. Your browser processes the image.',
+        intro: 'Pixel Crunch is a static site. There is no Pixel Crunch API that receives the image to compress, convert, or analyze it.',
+        flowLabel: 'Technical flow from application delivery to download',
+        flow: [
+          { label: '01 · Delivery', title: 'Cloudflare Pages', description: 'Serves Pixel Crunch HTML, styles, JavaScript, and other public resources.' },
+          { label: '02 · Processing', title: 'Your browser', description: 'Reads the image from your device and performs the transformation in memory with web APIs.' },
+          { label: '03 · Result', title: 'Your download', description: 'Creates a local Blob and saves it to your device as an individual file or ZIP.' },
+        ],
+        boundaryTitle: 'What crosses the network',
+        boundaryDescription: 'The application and its public resources are downloaded. The image you select is not attached to a processing request. For the future background-removal tool, the model will also be downloaded to the browser before local inference runs.',
+        capabilities: [
+          { title: 'File API', description: 'Reads selected files without sending them through a remote form.' },
+          { title: 'Web Workers', description: 'Move compatible tasks off the main thread to keep the interface available.' },
+          { title: 'Canvas + codecs', description: 'The browser decodes and re-encodes the formats it actually supports.' },
+          { title: 'Blob + ZIP', description: 'Builds downloads in memory and groups batch results when supported.' },
+        ],
       },
       formatGuide: {
         eyebrow: 'Quick format guide',

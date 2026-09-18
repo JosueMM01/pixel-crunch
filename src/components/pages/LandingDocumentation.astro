@@ -10,7 +10,7 @@ const { lang } = Astro.props;
 const content = siteContent[lang].landing;
 ---
 
-<section id="how-it-works" class="scroll-mt-28 border-y border-monokai-fg/10 bg-monokai-bg/30 px-4 py-16 md:py-24">
+<section id="overview" class="scroll-mt-28 border-y border-monokai-fg/10 bg-monokai-bg/30 px-4 py-16 md:py-24">
   <div class="mx-auto max-w-6xl">
     <p class="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-monokai-cyan">{content.howItWorks.eyebrow}</p>
     <h2 class="mt-3 max-w-3xl text-3xl font-bold leading-tight text-monokai-fg md:text-4xl">{content.howItWorks.title}</h2>
@@ -25,6 +25,46 @@ const content = siteContent[lang].landing;
         </li>
       ))}
     </ol>
+  </div>
+</section>
+
+<section id="technology" class="scroll-mt-28 border-y border-monokai-fg/10 bg-monokai-bg/30 px-4 py-16 md:py-24">
+  <div class="mx-auto max-w-6xl">
+    <p class="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-monokai-pink">{content.technology.eyebrow}</p>
+    <h2 class="mt-3 max-w-4xl text-3xl font-bold leading-tight text-monokai-fg md:text-4xl">{content.technology.title}</h2>
+    <p class="mt-4 max-w-3xl leading-relaxed text-monokai-fg/70">{content.technology.intro}</p>
+
+    <div class="mt-10 rounded-3xl border border-monokai-cyan/25 bg-monokai-bg/70 p-5 shadow-xl shadow-black/5 md:p-8">
+      <div class="grid items-stretch gap-3 lg:grid-cols-[1fr_auto_1fr_auto_1fr]" aria-label={content.technology.flowLabel}>
+        {content.technology.flow.map((step, index) => (
+          <>
+            <article class="flex min-h-40 flex-col rounded-2xl border border-monokai-fg/15 bg-monokai-bg/80 p-5">
+              <span class="font-mono text-xs font-semibold uppercase tracking-wider text-monokai-cyan">{step.label}</span>
+              <h3 class="mt-4 text-xl font-bold text-monokai-fg">{step.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-monokai-fg/65">{step.description}</p>
+            </article>
+            {index < content.technology.flow.length - 1 ? (
+              <div class="flex items-center justify-center font-mono text-2xl text-monokai-pink" aria-hidden="true">
+                <span class="lg:hidden">↓</span><span class="hidden lg:inline">→</span>
+              </div>
+            ) : null}
+          </>
+        ))}
+      </div>
+      <div class="mt-5 rounded-2xl border border-monokai-green/25 bg-monokai-green/5 p-5">
+        <h3 class="font-bold text-monokai-green">{content.technology.boundaryTitle}</h3>
+        <p class="mt-2 text-sm leading-relaxed text-monokai-fg/70">{content.technology.boundaryDescription}</p>
+      </div>
+    </div>
+
+    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {content.technology.capabilities.map((item) => (
+        <article class="rounded-2xl border border-monokai-fg/15 bg-monokai-bg/45 p-5">
+          <h3 class="font-mono text-sm font-bold text-monokai-cyan">{item.title}</h3>
+          <p class="mt-3 text-sm leading-relaxed text-monokai-fg/65">{item.description}</p>
+        </article>
+      ))}
+    </div>
   </div>
 </section>
 

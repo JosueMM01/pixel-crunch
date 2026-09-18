@@ -13,15 +13,17 @@ const isEnglish = lang === 'en';
 
 const navAriaLabel = isEnglish ? 'Main navigation' : 'Navegación principal';
 const homeAriaLabel = isEnglish ? 'Go to home' : 'Ir a inicio';
-const githubAriaLabel = isEnglish
-  ? 'View repository on GitHub (opens in new tab)'
-  : 'Ver repositorio en GitHub (abre en nueva pestaña)';
 const navigation = [
   { key: 'compress' as const, label: isEnglish ? 'Compress' : 'Comprimir' },
   { key: 'convert' as const, label: isEnglish ? 'Convert' : 'Convertir' },
   { key: 'removeBackground' as const, label: isEnglish ? 'Remove background' : 'Quitar fondo' },
 ];
 const homeHref = getLocalizedRoute(lang, 'home');
+const sectionNavigation = [
+  { href: `${homeHref}#overview`, label: isEnglish ? 'Overview' : 'Descripción' },
+  { href: `${homeHref}#technology`, label: isEnglish ? 'Technology' : 'Tecnología' },
+  { href: `${homeHref}#faq`, label: isEnglish ? 'Support' : 'Soporte' },
+];
 ---
 
 <header class="sticky top-0 z-40 w-full border-b border-gray-200 dark:border-white/10 bg-white/80 dark:bg-monokai-bg/80 backdrop-blur-sm">
@@ -36,7 +38,7 @@ const homeHref = getLocalizedRoute(lang, 'home');
       </a>
 
       <!-- Navegación (desktop) -->
-      <div class="hidden md:flex items-center gap-5">
+      <div class="hidden lg:flex items-center gap-5">
 		{navigation.map((item) => (
 		  <a
 		    href={getLocalizedRoute(lang, item.key)}
@@ -49,15 +51,14 @@ const homeHref = getLocalizedRoute(lang, 'home');
 		    {item.label}
 		  </a>
 		))}
-        <a 
-          href="https://github.com/JosueMM01/pixel-crunch" 
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-brand-blue transition-colors"
-          aria-label={githubAriaLabel}
-        >
-          GitHub
-        </a>
+        {sectionNavigation.map((item) => (
+          <a
+            href={item.href}
+            class="text-sm font-medium text-gray-600 transition-colors hover:text-brand-blue focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-blue dark:text-gray-300"
+          >
+            {item.label}
+          </a>
+        ))}
       </div>
 
       <!-- Theme + Language Switcher -->
@@ -66,7 +67,7 @@ const homeHref = getLocalizedRoute(lang, 'home');
         <LanguageSwitcher lang={lang} route={route} />
       </div>
     </nav>
-    <nav class="flex gap-5 overflow-x-auto pb-3 md:hidden" aria-label={navAriaLabel}>
+    <nav class="flex gap-5 overflow-x-auto pb-3 lg:hidden" aria-label={navAriaLabel}>
       {navigation.map((item) => (
         <a
           href={getLocalizedRoute(lang, item.key)}
@@ -75,6 +76,14 @@ const homeHref = getLocalizedRoute(lang, 'home');
             'min-h-11 shrink-0 content-center text-sm font-medium transition-colors hover:text-brand-blue focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue',
             route === item.key ? 'text-brand-blue dark:text-brand-cyan-light' : 'text-gray-600 dark:text-gray-300',
           ]}
+        >
+          {item.label}
+        </a>
+      ))}
+      {sectionNavigation.map((item) => (
+        <a
+          href={item.href}
+          class="min-h-11 shrink-0 content-center text-sm font-medium text-gray-600 transition-colors hover:text-brand-blue focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue dark:text-gray-300"
         >
           {item.label}
         </a>

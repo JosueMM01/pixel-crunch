@@ -46,7 +46,7 @@
 **Archivos:** pages, components/features, layouts, i18n, utilidades y tests.
 **Pruebas:** navegación profunda, formatos reales, temas, teclado y 320/768/1024 px.
 **Aceptación:** cada herramienta funciona por URL en ambos idiomas y carga solo lo necesario.
-**Resultado:** landing documental y seis rutas de herramienta generadas como HTML estático; la página principal explica flujo, diferencias, privacidad, formatos, límites y preguntas frecuentes en ES/EN. Compresor y convertidor hidratan islas separadas. Quitar fondo conserva una página informativa `noindex`, excluida temporalmente del sitemap y sin descargar código o modelos de IA. El convertidor limita sus claims a codecs del navegador y rechaza exportaciones cuyo MIME real no coincide.
+**Resultado:** landing documental y seis rutas de herramienta generadas como HTML estático; el header enlaza herramientas, descripción, tecnología y soporte. La página principal explica el flujo local, la frontera de red, diferencias, privacidad, formatos, límites y preguntas frecuentes en ES/EN. Compresor y convertidor hidratan islas separadas. Quitar fondo conserva una página informativa `noindex`, excluida temporalmente del sitemap y sin descargar código o modelos de IA. El convertidor limita sus claims a codecs del navegador y rechaza exportaciones cuyo MIME real no coincide.
 
 ## Fase 4 — Motor local de eliminación de fondo
 
