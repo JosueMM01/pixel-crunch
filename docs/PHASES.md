@@ -1,6 +1,6 @@
 # Fases de Pixel Crunch 2.0
 
-**Estado:** Fase 1 completada el 18/09/2026; Fases 2–7 pendientes. Cada fase incorpora pruebas y documentación.
+**Estado:** Fases 1–2 completadas el 18/09/2026; Fases 3–7 pendientes. Cada fase incorpora pruebas y documentación.
 
 ## Fase 1 — Modernización del stack y skills
 
@@ -23,14 +23,15 @@
 
 **Objetivo:** preparar la distribución AGPL con procedencia clara.
 
-- [ ] Elegir AGPL-3.0-only u or-later; revisar copyright y material incorporado.
-- [ ] Confirmar versiones/licencias del motor, runtime y pesos, incluidas discrepancias de avisos.
-- [ ] Actualizar LICENSE, package/README, avisos y documentación coherentemente.
-- [ ] Definir inventario y acceso al código fuente correspondiente a cada release.
+- [x] Elegir AGPL-3.0-only; revisar copyright y material incorporado.
+- [x] Confirmar versiones/licencias del motor, runtime y pesos, incluidas discrepancias de avisos.
+- [x] Actualizar LICENSE, package/README, avisos y documentación coherentemente.
+- [x] Definir inventario y acceso al código fuente correspondiente a cada release.
 
 **Archivos:** LICENSE, package.json, README, avisos y docs.
 **Pruebas:** inventario, textos y enlaces; revisión de artefactos distribuidos.
 **Aceptación:** licencia propia inequívoca y derechos de redistribución trazables; sin eliminar atribuciones previas.
+**Resultado:** Pixel Crunch usa `AGPL-3.0-only`; el inventario fija evidencia y hashes de los candidatos 1.7.0 sin incorporar todavía IA. La discrepancia ISNET se conserva de forma explícita y obliga a incluir tanto el aviso IMG.LY como Apache-2.0 al distribuir esos pesos.
 
 ## Fase 3 — Separar herramientas y rutas ES/EN
 

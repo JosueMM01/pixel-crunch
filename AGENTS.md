@@ -16,8 +16,9 @@ Las guías generales de TypeScript, React, Astro, accesibilidad, SEO y estilos e
 
 ## Flujo y validación
 
-- Revisar la issue asignada o el tablero antes de implementar. Usar GitHub MCP si está disponible.
-- main y development están protegidas: ramas de trabajo desde development, commits Conventional Commits y PR con Closes #issue. Nunca push directo.
+- Revisar la fase, el PR activo y los requisitos antes de implementar. Usar GitHub MCP si está disponible.
+- main y development están protegidas: ramas de trabajo desde development, commits Conventional Commits y PR revisables. Nunca push directo.
+- No crear issues para planificar fases; resolver el trabajo mediante PHASES.md, la rama y el PR correspondiente. Las issues existentes pueden cerrarse al completar su trabajo.
 - Respetar instrucciones explícitas de alcance y autorización; no hacer commit cuando el usuario haya pedido esperar.
 - Validar tipos, cobertura y build por separado. Revisar consola/red con Chrome DevTools MCP, ES/EN, teclado, claro/oscuro y 320/768/1024 px. Si falta una herramienta, informar la validación pendiente.
 - Usar pnpm 12.4.2 y `pnpm-lock.yaml` como único lockfile. Antes de añadir dependencias, justificar valor, compatibilidad, licencia y coste; auditar cambios del manifest/lockfile.

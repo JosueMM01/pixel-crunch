@@ -12,6 +12,6 @@ autoskills 0.3.6 declara CC-BY-NC-4.0: revisar sus términos como herramienta de
 
 ## Motor y herramientas adicionales
 
-IMG.LY/ONNX resuelven inferencia compleja; fijar versiones compatibles y comprobar assets/avisos según [LICENSING.md](LICENSING.md). Revisar también transitivas.
+El candidato auditado es `@imgly/background-removal` 1.7.0 con `onnxruntime-web` 1.21.0 y su paquete estático de assets 1.7.0. No usar el paquete npm de datos 1.4.5 ni actualizar ONNX aisladamente: las versiones deben coincidir con el motor y los hashes de [LICENSING.md](LICENSING.md). Revisar también transitivas.
 
 Preferir Node/Web APIs para verificaciones pequeñas. Añadir Playwright solo al automatizar pruebas que necesitan navegador real; no añadir gestor de estado, decoder o biblioteca de caché sin necesidad demostrada.
