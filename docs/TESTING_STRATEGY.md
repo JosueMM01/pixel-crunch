@@ -1,35 +1,31 @@
-# Estrategia de Testing - Pixel Crunch
+# Pruebas y CI
 
-## Objetivo
+## Base
 
-Introducir una barrera temprana contra regresiones sin depender solo de revisión manual o del build. La idea es validar el comportamiento observable del código antes de mergear.
+Vitest + Testing Library/happy-dom. Umbrales actuales: 80% statements/functions/lines y 70% branches. Typecheck, cobertura y build son checks distintos; no afirmar que pasan sin ejecutarlos.
 
-## Stack Adoptado
+CI usa pnpm con lockfile congelado y valida tipos, cobertura, build y auditoría. La auditoría remota continúa no bloqueante para evitar que una caída del registro invalide el pipeline; cualquier hallazgo real debe revisarse, sin auto-fix indiscriminado.
 
-- **Runner:** Vitest
-- **DOM de pruebas:** happy-dom
-- **Componentes React:** Testing Library
-- **Interacción de usuario:** @testing-library/user-event
+## Cobertura de 2.0
 
-## Qué se prueba primero
+| Nivel | Casos principales |
+| --- | --- |
+| Unitarias | Capacidades, modelos, límites, errores, reintentos y presupuestos |
+| Componentes | Carga/pegado, progreso, error, cancelación, descarga y ES/EN |
+| Worker | Protocolo/id, mensajes inválidos/tardíos, timeout y terminación |
+| Navegador | Rutas, Blob/Canvas, MIME/alfa, descarga y carga diferida |
+| Modelo real | Calidad, memoria, GPU/CPU, caché y recuperación |
 
-- **Utilidades puras** como `formatBytes` y `cn`.
-- **Hooks** con estado y efectos, como `useTheme`.
-- **Componentes con lógica** como `CompressionProgress` y, después, `Button` o `UploaderPanel`.
+Simular inferencia en tests ordinarios; no simular Canvas en una prueba que pretende validar su encoder. Usar fixtures pequeñas con licencia clara, incluida salida PNG cuando se solicita AVIF.
 
-## Criterio práctico
+Ejecutar modelos reales selectivamente al cambiar motor/assets y antes de release. Emulación móvil no certifica hardware real. Comparar calidad con tolerancias y revisión visual, no igualdad exacta GPU/CPU.
 
-- Si una función es pequeña y puede resolverse con Web APIs o lógica local, se implementa en código propio y se prueba.
-- Si un paquete aporta valor claro y reduce riesgo, se acepta con revisión de licencia, mantenimiento y tipos.
-- Los PRs no deberían entrar con una feature nueva sin pruebas que cubran el comportamiento nuevo.
+## Gates de PR
 
-## Validación mínima por PR
+- Instalación reproducible; typecheck, test:coverage y build verdes.
+- Assets/hashes/avisos verificados, archivos <=25 MiB y precache sin IA.
+- Red sin descargas IA en landing/compresión/conversión; ninguna subida de imagen.
+- Consola real, teclado, ES/EN, temas y responsive sin regresiones.
+- Generación reproducible y sin archivos inesperados.
 
-1. `npm run typecheck`
-2. `npm run test:coverage`
-3. `npm run build`
-4. Revisión de consola sin errores con Chrome DevTools MCP cuando aplique interacción manual
-
-## Cobertura inicial
-
-La meta inicial recomendada es 80% global para mantener presión de calidad sin volver el flujo inmanejable. Si el módulo es nuevo y crítico, se espera cobertura alta en esa zona aunque el global todavía esté creciendo.
+Conservar herramientas existentes; scripts Node pequeños para assets/budgets. Evaluar Playwright para E2E de navegador sin modelos en cada PR. El baseline de Fase 1 es 55 pruebas, 87.26% de statements y build estático correcto; medir el motor real en fases 4–7.

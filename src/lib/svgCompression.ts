@@ -29,7 +29,7 @@ export function isSvgFile(file: File): boolean {
 }
 
 async function loadOptimizeFunction() {
-  const module = await import('svgo/dist/svgo.browser.js');
+  const module = await import('svgo/browser');
   return module.optimize;
 }
 

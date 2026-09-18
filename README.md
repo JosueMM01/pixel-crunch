@@ -1,202 +1,31 @@
-# 🎨 Pixel Crunch
+# Pixel Crunch
 
-> Comprime y optimiza imágenes directamente en tu navegador. 100% privado, sin servidores.
+Herramientas para procesar imágenes en el navegador, sin subirlas a una API de procesamiento.
 
-[![Astro](https://img.shields.io/badge/Astro-5.18-FF5D01?style=flat&logo=astro)](https://astro.build)
-[![React](https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react)](https://react.dev)
-[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.2-38B2AC?style=flat&logo=tailwind-css)](https://tailwindcss.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+## Estado
 
----
+El código actual ofrece compresión y conversión, ES/EN, tema claro/oscuro y descargas individuales/ZIP. Usa Astro 7, React 19, Tailwind CSS 4 y pnpm 12; la licencia vigente es [MIT](LICENSE).
 
-## ✨ Características
+La modernización técnica de Pixel Crunch 2.0 está completa. Las rutas independientes para comprimir, convertir y quitar fondo, la inferencia local y el cambio coordinado de licencia continúan en las fases siguientes.
 
-- 🔒 **100% Privado** - Tus imágenes nunca salen de tu navegador
-- ⚡ **Súper Rápido** - Procesamiento en Web Workers (no bloquea la UI)
-- 📦 **Sin Backend** - Todo funciona en el cliente (Client-Side)
-- 🌙 **Modo Oscuro** - Tema claro/oscuro automático
-- 📱 **PWA** - Instálalo como app nativa
-- 🌐 **Bilingüe** - Interfaz completa en Español e Inglés (i18n)
-- 🧩 **Flujo Dual en Home** - Modo Compresor y modo Convertidor en una sola experiencia
-- 🎯 **Múltiples Formatos (Compresión)** - Soporta JPG/JPEG/JFIF, PNG, WebP, GIF y SVG
-- 🔄 **Conversión en Cliente** - Convierte HEIC/JPG/PNG/WebP/GIF/BMP/TIFF/AVIF/ICO a JPG/PNG/WebP/AVIF
-- 🔍 **SEO Optimizado** - Structured data (JSON-LD), Open Graph, sitemap, robots.txt
-- 🚫 **Página 404** - Página de error personalizada bilingüe
+## Privacidad y compatibilidad
 
----
+Las imágenes se procesan localmente. El sitio necesita descargar sus recursos; offline depende de la caché disponible. La entrada/salida de formatos depende de los codecs del navegador. [Privacidad](docs/PRIVACY.md) · [Compatibilidad](docs/BROWSER_COMPATIBILITY.md).
 
-## 🚀 Estado del Proyecto
+## Desarrollo
 
-✨ **Versión 1.0 Estable** - MVP completado y listo para producción.
+Requiere Node 24 y pnpm 12.4.2: `pnpm install --frozen-lockfile`, `pnpm dev` y `pnpm verify`.
 
-📍 **Demo en vivo:** https://pixel-crunch.josuem01.dev/
+Los checks son typecheck, test:coverage y build. [Especificaciones](docs/TECH_SPECS.md) · [Pruebas](docs/TESTING_STRATEGY.md).
 
-✅ **Despliegue:** Cloudflare Pages (activo)
-✅ **CI/CD:** GitHub Actions (validación automática de tipos, tests y build)
+## Documentación
 
-### Roadmap:
-- ✅ **Fase 0:** Setup inicial (Astro + React + TailwindCSS)
-- ✅ **Fase 1:** UI Base (Completada)
-- ✅ **Fase 2:** Compresión Core + UX/UI Home con Flujo Dual (Completada)
-- ✅ **Fase 3:** PWA e Infraestructura de Deploy (Completada)
-- ⏳ **Próximos Pasos:** Mantenimiento y expansión de formatos (ver Backlog).
+- [Objetivo y alcance](docs/PROJECT_CONTEXT.md).
+- [Fases y criterios de aceptación](docs/PHASES.md).
+- [Arquitectura y carpetas](docs/ARCHITECTURE.md).
+- [Eliminación de fondo](docs/BACKGROUND_REMOVAL.md).
+- [Plan e issues](docs/IMPLEMENTATION_PLAN.md).
+- [Licencias de la futura distribución](docs/LICENSING.md).
+- [Flujo de contribución](docs/GIT_WORKFLOW.md).
 
-Ver [PHASES.md](./docs/PHASES.md) para detalles completos.
-
----
-
-## 🛠️ Stack Tecnológico
-
-### Core
-- **[Astro 5](https://astro.build)** - Framework web moderno con Islands Architecture
-- **[React 19](https://react.dev)** - Solo para componentes interactivos
-- **[TailwindCSS v4](https://tailwindcss.com)** - Estilos con utilidades
-
-### Librerías Clave
-- **[browser-image-compression](https://github.com/Donaldcwl/browser-image-compression)** - Compresión de imágenes
-- **[react-dropzone](https://react-dropzone.js.org/)** - Drag & Drop de archivos
-- **[jszip](https://stuk.github.io/jszip/)** - Empaquetado en .zip
-- **[file-saver](https://github.com/eligrey/FileSaver.js)** - Descarga de archivos
-- **[sonner](https://sonner.emilkowal.ski/)** - Notificaciones toast
-- **[lucide-react](https://lucide.dev)** - Iconos
-
----
-
-## 📦 Instalación
-
-### Requisitos Previos
-- **Node.js** 24.x o superior
-- **npm** / **pnpm** / **yarn**
-
-### Pasos
-
-```bash
-# 1. Clonar repositorio
-git clone https://github.com/JosueMM01/pixel-crunch.git
-cd pixel-crunch
-
-# 2. Instalar dependencias
-npm install
-
-# 3. Iniciar servidor de desarrollo
-npm run dev
-```
-
-Abre [http://localhost:4321](http://localhost:4321) en tu navegador.
-
----
-
-## 🧞 Comandos Disponibles
-
-| Comando                | Acción                                             |
-| :--------------------- | :------------------------------------------------- |
-| `npm install`          | Instala dependencias                               |
-| `npm run dev`          | Inicia servidor local en `localhost:4321`          |
-| `npm run typecheck`    | Valida tipos y archivos Astro con `astro check`    |
-| `npm run test:coverage`| Ejecuta pruebas con cobertura                       |
-| `npm run verify`       | Ejecuta typecheck + tests + build                  |
-| `npm run build`        | Genera build de producción en `./dist/`            |
-| `npm run preview`      | Previsualiza build local antes de deploy           |
-| `npm run astro ...`    | Ejecuta comandos de Astro CLI (`astro add`, etc)  |
-
----
-
-## 📂 Estructura del Proyecto
-
-```
-pixel-crunch/
-├── .github/workflows/         # CI/CD (GitHub Actions)
-│   └── quality.yml            # Typecheck + tests + build en cada PR
-├── docs/                      # Documentación del proyecto
-│   ├── PROJECT_CONTEXT.md     # Contexto y filosofía
-│   ├── TECH_SPECS.md          # Especificaciones técnicas
-│   ├── PHASES.md              # Roadmap por fases
-│   ├── ARCHITECTURE.md        # Decisiones de arquitectura
-│   ├── GIT_WORKFLOW.md        # Flujo de trabajo Git
-│   ├── TESTING_STRATEGY.md    # Estrategia de testing
-│   └── DEPENDENCY_POLICY.md   # Política de dependencias
-├── public/                    # Assets estáticos (favicon, icons, logos)
-│   └── robots.txt             # Directivas para crawlers
-├── src/
-│   ├── components/            # Componentes Astro y React
-│   │   ├── ui/                # Componentes base (Button, Card, ThemeToggle)
-│   │   ├── features/          # Lógica de negocio
-│   │   │   ├── compressor/    # CompressionStats, ImageComparison, QualitySlider
-│   │   │   └── uploader/      # UploadZone, UploaderPanel, ConverterPanel, ImagePreview
-│   │   └── layout/            # Header, Footer (con soporte i18n)
-│   ├── hooks/                 # Custom React Hooks
-│   ├── i18n/                  # Traducciones (es.json, en.json)
-│   ├── layouts/               # Layouts de Astro
-│   │   └── Layout.astro       # Layout principal (SEO, OG, JSON-LD)
-│   ├── lib/                   # Utilidades y helpers
-│   │   ├── gifCompression.ts  # Compresión de GIF
-│   │   ├── svgCompression.ts  # Optimización de SVG
-│   │   └── imageConversion.ts # Motor de conversión de formatos
-│   ├── pages/                 # Páginas (rutas)
-│   │   ├── index.astro        # Página principal (ES)
-│   │   ├── en/index.astro     # Página principal (EN)
-│   │   └── 404.astro          # Página de error personalizada
-│   ├── styles/
-│   │   └── global.css         # Estilos globales + TailwindCSS
-│   ├── types/                 # TypeScript types/interfaces
-│   └── workers/               # Web Workers
-│       └── compression.worker.ts
-├── astro.config.mjs           # Configuración de Astro + PWA + Sitemap
-├── vitest.config.ts           # Configuración de Vitest
-├── package.json
-├── tsconfig.json
-└── README.md
-```
-
----
-
-## 🎯 ¿Por qué este proyecto?
-
-### Problemas que resuelve:
-1. **Privacidad**: Herramientas online suben tus fotos a sus servidores
-2. **Velocidad**: Apps nativas requieren instalación
-3. **Costo**: Servicios premium cobran por compresión
-
-### Nuestra solución:
-- ✅ Todo el procesamiento en tu navegador (JavaScript + Canvas API)
-- ✅ Sin instalación, solo abre la web
-- ✅ Gratis y open source
-
----
-
-## 🤝 Contribuir
-
-¡Las contribuciones son bienvenidas! Ver [GIT_WORKFLOW.md](./docs/GIT_WORKFLOW.md) para entender el flujo de trabajo.
-
-### Pasos rápidos:
-1. Fork el proyecto
-2. Crea tu feature branch (`git checkout -b feat/amazing-feature`)
-3. Commit tus cambios (`git commit -m 'feat: add amazing feature'`)
-4. Push al branch (`git push origin feat/amazing-feature`)
-5. Abre un Pull Request
-
----
-
-## 📄 Licencia
-
-Este proyecto está bajo licencia **MIT** - ver el archivo [LICENSE](LICENSE) para detalles.
-
----
-
-## 🙏 Agradecimientos
-
-- [Astro](https://astro.build) por el increíble framework
-- [browser-image-compression](https://github.com/Donaldcwl/browser-image-compression) por la librería de compresión
-- Comunidad de [TailwindCSS](https://tailwindcss.com) por las utilidades CSS
-
----
-
-## 📞 Contacto
-
-¿Preguntas o sugerencias? Abre un [issue](https://github.com/JosueMM01/pixel-crunch/issues) o contacta a [@JosueMM01](https://github.com/JosueMM01).
-
----
-
-<div align="center">
-  <sub>Hecho con ❤️ y mucho ☕</sub>
-</div>
+[Aplicación](https://pixel-crunch.josuem01.dev/) · [Repositorio](https://github.com/JosueMM01/pixel-crunch)

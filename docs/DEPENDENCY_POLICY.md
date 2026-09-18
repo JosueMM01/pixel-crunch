@@ -1,35 +1,17 @@
-# Política de Dependencias - Pixel Crunch
+# Dependencias y skills
 
-## Principio base
+Elegir las versiones estables más recientes que funcionen juntas y aporten valor al producto. No usar betas ni actualizar peers incompatibles solo por alcanzar el número más alto.
 
-Cada dependencia nueva debe justificar por qué no conviene resolver el problema con código propio o con APIs nativas del navegador.
+## Base instalada
 
-## Cuándo sí aceptar un paquete
+El proyecto usa pnpm 12.4.2, Astro 7.3.3, React 19.3.0, Tailwind CSS 4.3.3, TypeScript 6.0.3 y Node 24. `pnpm-lock.yaml` es el único lockfile. TypeScript 7 no se adoptó porque `@astrojs/check` aún declara compatibilidad hasta TypeScript 6.
 
-- Resuelve un problema complejo o costoso de implementar bien.
-- Tiene mantenimiento activo y ecosistema sano.
-- Tiene licencia compatible con el proyecto.
-- Expone tipos TypeScript o buen soporte de tipos.
-- Su impacto en bundle, mantenimiento y superficie de ataque es razonable.
+autoskills 0.3.6 instaló las skills revisadas de Astro, React, TypeScript, Tailwind, accesibilidad, SEO, composición y diseño frontend. Se descartaron las de backend Node y una guía de Vitest 3 incompatible con Vitest 5. El inventario y hashes están en `skills-lock.json`.
 
-## Cuándo preferir código propio
+autoskills 0.3.6 declara CC-BY-NC-4.0: revisar sus términos como herramienta de desarrollo y, separadamente, los de cada skill. Esto no establece por sí solo la licencia de Pixel Crunch. [Proyecto oficial](https://github.com/midudev/autoskills) · [Metadatos del paquete](https://registry.npmjs.org/autoskills/latest).
 
-- La tarea es pequeña y el riesgo de implementación es bajo.
-- La alternativa nativa existe y es suficiente.
-- El paquete aporta poca diferencia frente al costo de dependencia.
-- La funcionalidad se puede cubrir con utilidades internas simples.
+## Motor y herramientas adicionales
 
-## Revisión mínima antes de agregar una dependencia
+IMG.LY/ONNX resuelven inferencia compleja; fijar versiones compatibles y comprobar assets/avisos según [LICENSING.md](LICENSING.md). Revisar también transitivas.
 
-1. Verificar alternativa nativa o interna.
-2. Revisar licencia.
-3. Revisar mantenimiento y comunidad.
-4. Verificar si la dependencia trae tipos o si requiere `@types`.
-5. Evaluar si rompe la filosofía client-side only y privacy first.
-6. Ejecutar auditoría después de instalarla.
-
-## Flujo recomendado
-
-- Si la dependencia entra, documentar el motivo en la issue o PR.
-- Si la dependencia no agrega valor claro, no se acepta.
-- Si cambia `package.json` o `package-lock.json`, revisar `npm audit` y actualizar la documentación si aparece un riesgo nuevo.
+Preferir Node/Web APIs para verificaciones pequeñas. Añadir Playwright solo al automatizar pruebas que necesitan navegador real; no añadir gestor de estado, decoder o biblioteca de caché sin necesidad demostrada.
