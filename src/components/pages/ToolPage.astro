@@ -1,0 +1,48 @@
+---
+interface Props {
+  heading: string;
+  intro: string;
+  bullets: readonly string[];
+  formats?: readonly string[];
+  detailsTitle: string;
+  details: string;
+  accent?: 'cyan' | 'pink' | 'green';
+}
+
+const { heading, intro, bullets, formats = [], detailsTitle, details, accent = 'cyan' } = Astro.props;
+const accentClasses = {
+  cyan: 'text-monokai-cyan border-monokai-cyan/35',
+  pink: 'text-monokai-pink border-monokai-pink/35',
+  green: 'text-monokai-green border-monokai-green/35',
+};
+---
+
+<section class="px-4 pb-8 pt-10 md:pt-14">
+  <div class="mx-auto max-w-6xl">
+    <div class="max-w-4xl">
+      <h1 class:list={['text-4xl font-bold leading-tight md:text-5xl', accentClasses[accent].split(' ')[0]]}>{heading}</h1>
+      <p class="mt-5 text-base leading-relaxed text-monokai-fg/80 md:text-xl">{intro}</p>
+      <ul class="mt-7 grid gap-3 text-sm text-monokai-fg/85 md:grid-cols-3 md:text-base">
+        {bullets.map((bullet) => <li class="rounded-xl border border-monokai-fg/15 bg-monokai-bg/45 p-4">{bullet}</li>)}
+      </ul>
+      {formats.length > 0 ? (
+        <div class="mt-6 flex flex-wrap gap-2">
+          {formats.map((format) => <span class:list={['rounded-md border bg-monokai-bg/70 px-3 py-1.5 text-xs font-semibold md:text-sm', accentClasses[accent]]}>{format}</span>)}
+        </div>
+      ) : null}
+    </div>
+  </div>
+</section>
+
+<section class="px-4 pb-10 md:pb-14" aria-label={heading}>
+  <div class="mx-auto max-w-6xl rounded-2xl border border-monokai-fg/15 bg-monokai-bg/50 p-3 shadow-lg shadow-black/5 md:p-5">
+    <slot />
+  </div>
+</section>
+
+<section class="px-4 pb-16 md:pb-24">
+  <div class="mx-auto max-w-6xl rounded-2xl border border-monokai-fg/15 bg-monokai-bg/35 p-6 md:p-8">
+    <h2 class="text-2xl font-bold text-monokai-fg">{detailsTitle}</h2>
+    <p class="mt-3 max-w-4xl text-sm leading-relaxed text-monokai-fg/75 md:text-base">{details}</p>
+  </div>
+</section>

@@ -144,7 +144,7 @@ export interface CompressionProgressProps {
   compact?: boolean;
 }
 
-export interface UploaderPanelProps {
+export interface CompressorPanelProps {
   uploadCopy?: Partial<UploadZoneCopy>;
   previewCopy?: Partial<ImagePreviewCopy>;
   qualityCopy?: Partial<QualitySliderCopy>;
@@ -158,6 +158,7 @@ export interface ConverterPanelCopy {
   convertingLabel: string;
   saveAllLabel: string;
   savingLabel: string;
+  convertedZipName: string;
   convertedBadgeLabel: string;
   pendingBadgeLabel: string;
   noPendingLabel: string;

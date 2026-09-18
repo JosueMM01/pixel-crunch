@@ -2,9 +2,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import JSZip from 'jszip';
 import imageCompression from 'browser-image-compression';
-import { ImagePreview } from './ImagePreview';
-import { UploadZone } from './UploadZone';
-import { CompressionStats, ImageComparison, QualitySlider } from '../compressor';
+import { ImagePreview } from '../uploader/ImagePreview';
+import { UploadZone } from '../uploader/UploadZone';
+import { CompressionStats } from './CompressionStats';
+import { ImageComparison } from './ImageComparison';
+import { QualitySlider } from './QualitySlider';
 import { Button } from '@/components/ui/Button';
 import { useImageCompression } from '@/hooks/useImageCompression';
 import {
@@ -24,7 +26,7 @@ import type { CompressionResult } from '@/types/compression';
 import type {
   CompressionStatsItem,
   ImagePreviewCompressionMeta,
-  UploaderPanelProps,
+  CompressorPanelProps,
 } from '@/types';
 
 interface SelectedFileItem {
@@ -157,12 +159,12 @@ async function resolveSaveFileFunction(): Promise<SaveFileFunction> {
   return saveFile;
 }
 
-export function UploaderPanel({
+export function CompressorPanel({
   uploadCopy,
   previewCopy,
   qualityCopy,
   compressionStatsCopy,
-}: UploaderPanelProps) {
+}: CompressorPanelProps) {
   const [files, setFiles] = useState<SelectedFileItem[]>([]);
   const [activePreviewIndex, setActivePreviewIndex] = useState<number>(0);
   const [isDetailsOpen, setIsDetailsOpen] = useState<boolean>(false);

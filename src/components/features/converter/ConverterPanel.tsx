@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import JSZip from 'jszip';
-import { UploadZone } from './UploadZone';
-import { ImagePreview } from './ImagePreview';
+import { ImagePreview } from '../uploader/ImagePreview';
+import { UploadZone } from '../uploader/UploadZone';
 import { Button } from '@/components/ui/Button';
 import {
   CONVERTER_INPUT_FORMATS,
@@ -36,7 +36,7 @@ const DEFAULT_UPLOAD_COPY: UploadZoneCopy = {
   idleLabel: 'Arrastra imágenes aquí para convertir',
   draggingLabel: 'Suelta los archivos para convertir',
   processingLabel: 'Convirtiendo archivos...',
-  helperLabel: 'Formatos compatibles: HEIC, JPG/JPEG/JFIF, PNG, WebP, GIF, BMP, TIFF, AVIF e ICO',
+  helperLabel: 'Formatos compatibles: JPG/JPEG/JFIF, PNG, WebP, GIF y AVIF',
   addMoreLabel: 'Agregar',
   clearAllLabel: 'Borrar',
   compressLabel: 'Convertir',
@@ -54,6 +54,7 @@ const DEFAULT_CONVERTER_COPY: ConverterPanelCopy = {
   convertingLabel: 'Convirtiendo...',
   saveAllLabel: 'Guardar todo',
   savingLabel: 'Guardando...',
+  convertedZipName: 'pixel-crunch-convertidas.zip',
   convertedBadgeLabel: 'Convertidos',
   pendingBadgeLabel: 'Pendientes',
   noPendingLabel: 'No hay archivos pendientes por convertir.',
@@ -281,7 +282,7 @@ export function ConverterPanel({
         });
 
         const zipBlob = await zip.generateAsync({ type: 'blob' });
-        saveFile(zipBlob, 'pixel-crunch-convertidas.zip');
+        saveFile(zipBlob, resolvedConverterCopy.convertedZipName);
       }
 
       showSuccess(resolvedConverterCopy.saveSuccessLabel);
