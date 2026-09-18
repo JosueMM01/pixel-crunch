@@ -16,6 +16,9 @@ const licenseLabel = isEnglish ? 'Licensed under AGPL-3.0-only.' : 'Licenciado b
 
 const navTitle = isEnglish ? 'Navigation' : 'Navegación';
 const featuresLabel = isEnglish ? 'Features' : 'Características';
+const howItWorksLabel = isEnglish ? 'How it works' : 'Cómo funciona';
+const privacyLabel = isEnglish ? 'Privacy' : 'Privacidad';
+const faqLabel = isEnglish ? 'Questions' : 'Preguntas';
 const reportBugLabel = isEnglish ? 'Report Bug' : 'Reportar Bug';
 const sourceCodeLabel = isEnglish ? 'Source code' : 'Código fuente';
 const techStackTitle = isEnglish ? 'Tech Stack' : 'Stack Tecnológico';
@@ -67,6 +70,9 @@ const tools = [
         <div class="mx-auto md:mx-0 my-2 h-px w-10 bg-brand-blue/40"></div>
         <ul class="mt-4 space-y-2 text-sm flex flex-col items-center md:items-start">
           <li><a href={`${getLocalizedRoute(lang, 'home')}#tools`} class="hover:text-brand-blue">{featuresLabel}</a></li>
+          <li><a href={`${getLocalizedRoute(lang, 'home')}#how-it-works`} class="hover:text-brand-blue">{howItWorksLabel}</a></li>
+          <li><a href={`${getLocalizedRoute(lang, 'home')}#privacy`} class="hover:text-brand-blue">{privacyLabel}</a></li>
+          <li><a href={`${getLocalizedRoute(lang, 'home')}#faq`} class="hover:text-brand-blue">{faqLabel}</a></li>
           {tools.map((tool) => (
             <li><a href={getLocalizedRoute(lang, tool.route)} class="hover:text-brand-blue">{tool.label}</a></li>
           ))}

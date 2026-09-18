@@ -28,8 +28,46 @@ interface SiteContent {
     intro: string;
     privacyNote: string;
     toolsHeading: string;
+    exploreToolsLabel: string;
+    learnMoreLabel: string;
     tools: ToolCardContent[];
     benefits: Array<{ title: string; description: string }>;
+    howItWorks: {
+      eyebrow: string;
+      title: string;
+      intro: string;
+      steps: Array<{ title: string; description: string }>;
+    };
+    toolGuide: {
+      eyebrow: string;
+      title: string;
+      intro: string;
+      items: Array<{
+        route: Exclude<RouteKey, 'home'>;
+        title: string;
+        description: string;
+        facts: string[];
+        action: string;
+      }>;
+    };
+    privacy: {
+      eyebrow: string;
+      title: string;
+      intro: string;
+      items: Array<{ title: string; description: string }>;
+      sourceLabel: string;
+    };
+    formatGuide: {
+      eyebrow: string;
+      title: string;
+      intro: string;
+      formats: Array<{ name: string; bestFor: string; caution: string }>;
+    };
+    faq: {
+      eyebrow: string;
+      title: string;
+      items: Array<{ question: string; answer: string }>;
+    };
   };
   compress: ToolPageContent;
   convert: ToolPageContent;
@@ -48,6 +86,8 @@ export const siteContent = {
       intro: 'Pixel Crunch reúne herramientas pequeñas y rápidas para trabajar con imágenes sin enviarlas a una API de procesamiento.',
       privacyNote: 'El código y los recursos se descargan desde Pixel Crunch; tus imágenes permanecen en el navegador durante el procesamiento.',
       toolsHeading: 'Elige una herramienta',
+      exploreToolsLabel: 'Explorar herramientas',
+      learnMoreLabel: 'Cómo funciona',
       tools: [
         { route: 'compress', title: 'Comprimir', description: 'Reduce el peso de JPG, PNG, WebP, GIF y SVG con control de calidad y descarga por lotes.', action: 'Comprimir imágenes', accent: 'cyan' },
         { route: 'convert', title: 'Convertir', description: 'Convierte formatos compatibles del navegador a JPG, PNG, WebP o AVIF.', action: 'Convertir imágenes', accent: 'pink' },
@@ -58,6 +98,81 @@ export const siteContent = {
         { title: 'Una URL por tarea', description: 'Comparte o guarda directamente la herramienta que necesitas.' },
         { title: 'Carga enfocada', description: 'Cada página hidrata únicamente su herramienta activa.' },
       ],
+      howItWorks: {
+        eyebrow: 'Cómo funciona',
+        title: 'Del archivo al resultado, sin intermediarios',
+        intro: 'Cada herramienta tiene un flujo breve y conserva el trabajo dentro de la sesión del navegador.',
+        steps: [
+          { title: 'Elige una tarea', description: 'Abre el compresor o el convertidor y selecciona una o varias imágenes compatibles.' },
+          { title: 'Procesa en tu dispositivo', description: 'El navegador lee y transforma los archivos localmente. Pixel Crunch no los envía a una API de procesamiento.' },
+          { title: 'Revisa y descarga', description: 'Comprueba el resultado, ajusta las opciones disponibles y guarda archivos individuales o un ZIP cuando corresponda.' },
+        ],
+      },
+      toolGuide: {
+        eyebrow: 'Qué hace cada herramienta',
+        title: 'Usa la herramienta adecuada para cada imagen',
+        intro: 'Comprimir y convertir resuelven problemas distintos. Quitar fondo se incorporará cuando su motor local esté validado.',
+        items: [
+          {
+            route: 'compress',
+            title: 'Comprimir imágenes',
+            description: 'Reduce el peso del archivo intentando conservar una calidad visual útil. Es apropiado para páginas web, correo y almacenamiento.',
+            facts: ['JPG, PNG, WebP, GIF y SVG', 'Control de calidad y comparación', 'Batch y descarga ZIP'],
+            action: 'Abrir compresor',
+          },
+          {
+            route: 'convert',
+            title: 'Convertir imágenes',
+            description: 'Cambia el formato para mejorar compatibilidad, transparencia o tamaño. La disponibilidad depende de los codecs del navegador.',
+            facts: ['Entrada JPG, PNG, WebP, GIF y AVIF', 'Salida JPG, PNG, WebP o AVIF', 'GIF animado: se exporta el primer fotograma'],
+            action: 'Abrir convertidor',
+          },
+          {
+            route: 'removeBackground',
+            title: 'Quitar fondo',
+            description: 'Usará un modelo ejecutado en el dispositivo para generar una salida transparente, sin una API remota de inferencia.',
+            facts: ['Disponible en una fase posterior', 'Modelo descargado sólo al iniciar', 'Límites de memoria y fallback por validar'],
+            action: 'Conocer el avance',
+          },
+        ],
+      },
+      privacy: {
+        eyebrow: 'Privacidad verificable',
+        title: 'Tus imágenes no forman parte de una solicitud de procesamiento',
+        intro: 'Cloudflare Pages entrega HTML, CSS, JavaScript y recursos públicos. La transformación se ejecuta en el navegador y no existe un endpoint de Pixel Crunch que reciba tus imágenes.',
+        items: [
+          { title: 'Sin cuenta ni historial', description: 'No necesitas registrarte y Pixel Crunch no mantiene una biblioteca de tus archivos.' },
+          { title: 'Archivos efímeros', description: 'Las imágenes se conservan en memoria durante la sesión; puedes borrarlas desde la herramienta.' },
+          { title: 'Código abierto', description: 'El proyecto y su licencia AGPL-3.0-only se pueden revisar públicamente.' },
+          { title: 'Red con límites claros', description: 'El navegador sí descarga la aplicación y, en el futuro, el modelo público. Esto no equivale a subir la imagen.' },
+        ],
+        sourceLabel: 'Revisar el código fuente',
+      },
+      formatGuide: {
+        eyebrow: 'Guía rápida de formatos',
+        title: 'El formato correcto depende del contenido',
+        intro: 'Cambiar de formato no mejora por sí solo una imagen. Elige según calidad, transparencia, animación y compatibilidad.',
+        formats: [
+          { name: 'JPG', bestFor: 'Fotografías y compatibilidad amplia.', caution: 'Usa compresión con pérdida y no admite transparencia.' },
+          { name: 'PNG', bestFor: 'Logos, capturas y gráficos con transparencia.', caution: 'Puede ser pesado para fotografías.' },
+          { name: 'WebP', bestFor: 'Imágenes web con buen equilibrio entre calidad y tamaño.', caution: 'El resultado depende del soporte del navegador.' },
+          { name: 'AVIF', bestFor: 'Reducir imágenes compatibles con navegadores modernos.', caution: 'Codificación y soporte no son uniformes en todos los navegadores.' },
+          { name: 'GIF', bestFor: 'Animaciones sencillas y compatibilidad.', caution: 'El convertidor exporta únicamente el primer fotograma.' },
+          { name: 'SVG', bestFor: 'Logos e ilustraciones vectoriales.', caution: 'Se optimiza en el compresor; no se acepta en el convertidor raster.' },
+        ],
+      },
+      faq: {
+        eyebrow: 'Preguntas frecuentes',
+        title: 'Lo que conviene saber antes de empezar',
+        items: [
+          { question: '¿Pixel Crunch sube mis imágenes?', answer: 'No a un servidor de procesamiento. La aplicación transforma los archivos en el navegador. Tu navegador sí solicita el sitio, sus scripts y otros recursos públicos necesarios para ejecutarlo.' },
+          { question: '¿Cuál es la diferencia entre comprimir y convertir?', answer: 'Comprimir intenta reducir el peso conservando el formato o su propósito. Convertir crea un archivo en otro formato para cambiar compatibilidad, transparencia o eficiencia.' },
+          { question: '¿La calidad puede cambiar?', answer: 'Sí. Los formatos con pérdida y la reducción de colores pueden alterar detalle o color. Por eso el compresor permite ajustar y comparar antes de guardar.' },
+          { question: '¿Existe un límite de tamaño?', answer: 'La interfaz actual acepta archivos de hasta 10 MB. El número y tamaño práctico de las imágenes también dependen de la memoria disponible en tu dispositivo.' },
+          { question: '¿Funciona sin conexión?', answer: 'No se garantiza en la primera visita ni para todos los recursos. Primero necesitas descargar la aplicación; los modelos de IA también requerirán una descarga inicial cuando esa función esté disponible.' },
+          { question: '¿Quitar fondo ya está disponible?', answer: 'Todavía no. La ruta explica el objetivo, pero el motor se habilitará después de validar calidad, memoria, cancelación y fallbacks de navegador.' },
+        ],
+      },
     },
     compress: {
       title: 'Comprimir imágenes en el navegador — Pixel Crunch',
@@ -99,6 +214,8 @@ export const siteContent = {
       intro: 'Pixel Crunch brings together focused image tools that work without sending your files to a processing API.',
       privacyNote: 'Code and resources are downloaded from Pixel Crunch; your images remain in the browser while they are processed.',
       toolsHeading: 'Choose a tool',
+      exploreToolsLabel: 'Explore tools',
+      learnMoreLabel: 'How it works',
       tools: [
         { route: 'compress', title: 'Compress', description: 'Reduce JPG, PNG, WebP, GIF, and SVG file size with quality control and batch downloads.', action: 'Compress images', accent: 'cyan' },
         { route: 'convert', title: 'Convert', description: 'Convert browser-compatible images to JPG, PNG, WebP, or AVIF.', action: 'Convert images', accent: 'pink' },
@@ -109,6 +226,81 @@ export const siteContent = {
         { title: 'One URL per task', description: 'Share or bookmark the exact tool you need.' },
         { title: 'Focused loading', description: 'Each page hydrates only its active tool.' },
       ],
+      howItWorks: {
+        eyebrow: 'How it works',
+        title: 'From file to result, without intermediaries',
+        intro: 'Each tool follows a short workflow and keeps the work inside your browser session.',
+        steps: [
+          { title: 'Choose a task', description: 'Open the compressor or converter and select one or more compatible images.' },
+          { title: 'Process on your device', description: 'The browser reads and transforms the files locally. Pixel Crunch does not send them to a processing API.' },
+          { title: 'Review and download', description: 'Inspect the result, adjust available options, and save individual files or a ZIP when supported.' },
+        ],
+      },
+      toolGuide: {
+        eyebrow: 'What each tool does',
+        title: 'Use the right tool for each image',
+        intro: 'Compression and conversion solve different problems. Background removal will arrive after its local engine is validated.',
+        items: [
+          {
+            route: 'compress',
+            title: 'Compress images',
+            description: 'Reduce file size while aiming to preserve useful visual quality. Suitable for websites, email, and storage.',
+            facts: ['JPG, PNG, WebP, GIF, and SVG', 'Quality controls and comparison', 'Batch processing and ZIP download'],
+            action: 'Open compressor',
+          },
+          {
+            route: 'convert',
+            title: 'Convert images',
+            description: 'Change format for compatibility, transparency, or size. Availability depends on your browser codecs.',
+            facts: ['JPG, PNG, WebP, GIF, and AVIF input', 'JPG, PNG, WebP, or AVIF output', 'Animated GIF: exports the first frame'],
+            action: 'Open converter',
+          },
+          {
+            route: 'removeBackground',
+            title: 'Remove background',
+            description: 'A model running on your device will create transparent output without a remote inference API.',
+            facts: ['Available in a later phase', 'Model loads only after you start', 'Memory limits and fallbacks still require validation'],
+            action: 'View progress',
+          },
+        ],
+      },
+      privacy: {
+        eyebrow: 'Verifiable privacy',
+        title: 'Your images are not part of a processing request',
+        intro: 'Cloudflare Pages delivers HTML, CSS, JavaScript, and public resources. Transformation runs in the browser, and Pixel Crunch has no endpoint that receives your images.',
+        items: [
+          { title: 'No account or history', description: 'You do not need to register, and Pixel Crunch does not maintain a library of your files.' },
+          { title: 'Ephemeral files', description: 'Images stay in memory during the session and can be cleared from the tool.' },
+          { title: 'Open source', description: 'The project and its AGPL-3.0-only license are publicly reviewable.' },
+          { title: 'Clear network boundaries', description: 'Your browser downloads the application and, later, the public model. That is different from uploading an image.' },
+        ],
+        sourceLabel: 'Review the source code',
+      },
+      formatGuide: {
+        eyebrow: 'Quick format guide',
+        title: 'The right format depends on the content',
+        intro: 'Changing format does not improve an image by itself. Choose based on quality, transparency, animation, and compatibility.',
+        formats: [
+          { name: 'JPG', bestFor: 'Photography and broad compatibility.', caution: 'Uses lossy compression and does not support transparency.' },
+          { name: 'PNG', bestFor: 'Logos, screenshots, and graphics with transparency.', caution: 'Can be heavy for photographs.' },
+          { name: 'WebP', bestFor: 'Web images with a useful quality-to-size balance.', caution: 'Output depends on browser support.' },
+          { name: 'AVIF', bestFor: 'Reducing compatible images in modern browsers.', caution: 'Encoding and support are not uniform across browsers.' },
+          { name: 'GIF', bestFor: 'Simple animation and compatibility.', caution: 'The converter exports only the first frame.' },
+          { name: 'SVG', bestFor: 'Logos and vector illustrations.', caution: 'Optimized by the compressor; not accepted by the raster converter.' },
+        ],
+      },
+      faq: {
+        eyebrow: 'Frequently asked questions',
+        title: 'What to know before you start',
+        items: [
+          { question: 'Does Pixel Crunch upload my images?', answer: 'Not to a processing server. The application transforms files in the browser. Your browser still requests the site, scripts, and other public resources required to run it.' },
+          { question: 'What is the difference between compression and conversion?', answer: 'Compression aims to reduce file size while keeping the format or purpose. Conversion creates a different format to change compatibility, transparency, or efficiency.' },
+          { question: 'Can image quality change?', answer: 'Yes. Lossy formats and color reduction can alter detail or color. The compressor lets you adjust and compare before saving.' },
+          { question: 'Is there a file size limit?', answer: 'The current interface accepts files up to 10 MB. The practical number and size of images also depend on available device memory.' },
+          { question: 'Does it work offline?', answer: 'First-visit and complete offline use are not guaranteed. You must download the application first, and AI models will also require an initial download when that feature becomes available.' },
+          { question: 'Is background removal available now?', answer: 'Not yet. Its route explains the goal, but the engine will be enabled after quality, memory, cancellation, and browser fallbacks are validated.' },
+        ],
+      },
     },
     compress: {
       title: 'Compress images in your browser — Pixel Crunch',

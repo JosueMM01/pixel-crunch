@@ -1,0 +1,127 @@
+---
+import { getLocalizedRoute, type Locale } from '../../i18n/routes';
+import { siteContent } from '../../i18n/site';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const content = siteContent[lang].landing;
+---
+
+<section id="how-it-works" class="scroll-mt-28 border-y border-monokai-fg/10 bg-monokai-bg/30 px-4 py-16 md:py-24">
+  <div class="mx-auto max-w-6xl">
+    <p class="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-monokai-cyan">{content.howItWorks.eyebrow}</p>
+    <h2 class="mt-3 max-w-3xl text-3xl font-bold leading-tight text-monokai-fg md:text-4xl">{content.howItWorks.title}</h2>
+    <p class="mt-4 max-w-3xl leading-relaxed text-monokai-fg/70">{content.howItWorks.intro}</p>
+
+    <ol class="mt-10 grid gap-5 md:grid-cols-3">
+      {content.howItWorks.steps.map((step, index) => (
+        <li class="rounded-2xl border border-monokai-fg/15 bg-monokai-bg/60 p-6">
+          <span class="font-mono text-sm font-semibold text-monokai-cyan">0{index + 1}</span>
+          <h3 class="mt-5 text-xl font-bold text-monokai-fg">{step.title}</h3>
+          <p class="mt-3 text-sm leading-relaxed text-monokai-fg/70">{step.description}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<section class="px-4 py-16 md:py-24">
+  <div class="mx-auto max-w-6xl">
+    <p class="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-monokai-pink">{content.toolGuide.eyebrow}</p>
+    <h2 class="mt-3 max-w-3xl text-3xl font-bold leading-tight text-monokai-fg md:text-4xl">{content.toolGuide.title}</h2>
+    <p class="mt-4 max-w-3xl leading-relaxed text-monokai-fg/70">{content.toolGuide.intro}</p>
+
+    <div class="mt-10 space-y-5">
+      {content.toolGuide.items.map((item, index) => (
+        <article class="grid gap-6 rounded-2xl border border-monokai-fg/15 bg-monokai-bg/35 p-6 md:grid-cols-[minmax(0,1fr)_minmax(18rem,0.75fr)] md:p-8">
+          <div>
+            <p class="font-mono text-xs text-monokai-fg/45">0{index + 1}</p>
+            <h3 class="mt-3 text-2xl font-bold text-monokai-fg">{item.title}</h3>
+            <p class="mt-3 max-w-2xl text-sm leading-relaxed text-monokai-fg/70 md:text-base">{item.description}</p>
+            <a
+              href={getLocalizedRoute(lang, item.route)}
+              class="mt-6 inline-flex min-h-11 items-center gap-2 rounded-lg border border-monokai-cyan/40 px-4 py-2 font-semibold text-monokai-cyan transition-colors hover:bg-monokai-cyan/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-monokai-cyan"
+            >
+              {item.action}<span aria-hidden="true">→</span>
+            </a>
+          </div>
+          <ul class="space-y-3 self-center">
+            {item.facts.map((fact) => (
+              <li class="flex gap-3 rounded-xl border border-monokai-fg/10 bg-monokai-bg/55 px-4 py-3 text-sm text-monokai-fg/80">
+                <span class="text-monokai-green" aria-hidden="true">✓</span><span>{fact}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section id="privacy" class="scroll-mt-28 bg-monokai-green/5 px-4 py-16 md:py-24">
+  <div class="mx-auto max-w-6xl">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start">
+      <div>
+        <p class="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-monokai-green">{content.privacy.eyebrow}</p>
+        <h2 class="mt-3 text-3xl font-bold leading-tight text-monokai-fg md:text-4xl">{content.privacy.title}</h2>
+        <p class="mt-5 leading-relaxed text-monokai-fg/70">{content.privacy.intro}</p>
+        <a
+          href="https://github.com/JosueMM01/pixel-crunch"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-7 inline-flex min-h-11 items-center gap-2 rounded-lg border border-monokai-green/40 px-4 py-2 font-semibold text-monokai-green transition-colors hover:bg-monokai-green/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-monokai-green"
+        >
+          {content.privacy.sourceLabel}<span class="sr-only"> (GitHub)</span><span aria-hidden="true">↗</span>
+        </a>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2">
+        {content.privacy.items.map((item) => (
+          <article class="rounded-2xl border border-monokai-green/20 bg-monokai-bg/50 p-5">
+            <h3 class="font-bold text-monokai-fg">{item.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-monokai-fg/70">{item.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="formats" class="scroll-mt-28 px-4 py-16 md:py-24">
+  <div class="mx-auto max-w-6xl">
+    <p class="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-monokai-yellow">{content.formatGuide.eyebrow}</p>
+    <h2 class="mt-3 max-w-3xl text-3xl font-bold leading-tight text-monokai-fg md:text-4xl">{content.formatGuide.title}</h2>
+    <p class="mt-4 max-w-3xl leading-relaxed text-monokai-fg/70">{content.formatGuide.intro}</p>
+
+    <div class="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {content.formatGuide.formats.map((format) => (
+        <article class="rounded-2xl border border-monokai-fg/15 bg-monokai-bg/35 p-5">
+          <h3 class="font-mono text-xl font-bold text-monokai-yellow">{format.name}</h3>
+          <p class="mt-4 text-sm leading-relaxed text-monokai-fg/85">{format.bestFor}</p>
+          <p class="mt-3 border-l-2 border-monokai-pink/50 pl-3 text-xs leading-relaxed text-monokai-fg/60">{format.caution}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="scroll-mt-28 border-t border-monokai-fg/10 bg-monokai-bg/30 px-4 py-16 md:py-24">
+  <div class="mx-auto max-w-4xl">
+    <p class="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-monokai-cyan">{content.faq.eyebrow}</p>
+    <h2 class="mt-3 text-3xl font-bold leading-tight text-monokai-fg md:text-4xl">{content.faq.title}</h2>
+
+    <div class="mt-9 space-y-3">
+      {content.faq.items.map((item) => (
+        <details class="group rounded-xl border border-monokai-fg/15 bg-monokai-bg/55 open:border-monokai-cyan/35">
+          <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 font-semibold text-monokai-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-monokai-cyan">
+            <span>{item.question}</span>
+            <span class="text-xl text-monokai-cyan transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+          </summary>
+          <p class="border-t border-monokai-fg/10 px-5 py-4 text-sm leading-relaxed text-monokai-fg/70 md:text-base">{item.answer}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,6 +1,7 @@
 ---
 import { getLocalizedRoute, type Locale } from '../../i18n/routes';
 import { siteContent } from '../../i18n/site';
+import LandingDocumentation from './LandingDocumentation.astro';
 
 interface Props {
   lang: Locale;
@@ -30,6 +31,14 @@ const accentClasses = {
       <h1 class="mt-4 text-4xl font-bold leading-tight text-monokai-fg md:text-6xl">{content.heading}</h1>
       <p class="mt-6 max-w-3xl text-lg leading-relaxed text-monokai-fg/80 md:text-xl">{content.intro}</p>
       <p class="mt-4 max-w-3xl border-l-2 border-monokai-green pl-4 text-sm leading-relaxed text-monokai-fg/70">{content.privacyNote}</p>
+      <div class="mt-7 flex flex-wrap gap-3">
+        <a href="#tools" class="inline-flex min-h-11 items-center rounded-lg bg-monokai-cyan px-5 py-2.5 font-semibold text-monokai-bg transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-monokai-cyan">
+          {content.exploreToolsLabel}
+        </a>
+        <a href="#how-it-works" class="inline-flex min-h-11 items-center rounded-lg border border-monokai-fg/25 px-5 py-2.5 font-semibold text-monokai-fg transition-colors hover:border-monokai-cyan/60 hover:text-monokai-cyan focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-monokai-cyan">
+          {content.learnMoreLabel}
+        </a>
+      </div>
     </div>
 
     <h2 id="tools" class="mt-14 text-2xl font-bold text-monokai-fg md:text-3xl">{content.toolsHeading}</h2>
@@ -62,3 +71,5 @@ const accentClasses = {
     </div>
   </div>
 </section>
+
+<LandingDocumentation lang={lang} />
