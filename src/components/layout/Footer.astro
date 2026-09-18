@@ -68,7 +68,7 @@ const tools = [
           {navTitle}
         </h3>
         <div class="mx-auto md:mx-0 my-2 h-px w-10 bg-brand-blue/40"></div>
-        <ul class="mt-4 space-y-2 text-sm flex flex-col items-center md:items-start">
+        <ul class="mt-4 grid grid-cols-2 gap-x-6 gap-y-2 text-sm text-left">
           <li><a href={`${getLocalizedRoute(lang, 'home')}#tools`} class="hover:text-brand-blue">{featuresLabel}</a></li>
           <li><a href={`${getLocalizedRoute(lang, 'home')}#overview`} class="hover:text-brand-blue">{howItWorksLabel}</a></li>
           <li><a href={`${getLocalizedRoute(lang, 'home')}#technology`} class="hover:text-brand-blue">{techStackTitle}</a></li>

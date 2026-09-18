@@ -91,7 +91,7 @@ export const siteContent = {
   es: {
     landing: {
       title: 'Pixel Crunch — Herramientas privadas para imágenes',
-      description: 'Comprime, convierte y próximamente quita fondos de imágenes directamente en tu navegador, sin subir tus archivos a un servidor.',
+      description: 'Comprime, convierte y quita fondos de imágenes directamente en tu navegador, sin enviar tus archivos a una API de procesamiento.',
       heading: 'Tus imágenes. Tu dispositivo. Tus herramientas.',
       intro: 'Pixel Crunch reúne herramientas pequeñas y rápidas para trabajar con imágenes sin enviarlas a una API de procesamiento.',
       privacyNote: 'El código y los recursos se descargan desde Pixel Crunch; tus imágenes permanecen en el navegador durante el procesamiento.',
@@ -101,7 +101,7 @@ export const siteContent = {
       tools: [
         { route: 'compress', title: 'Comprimir', description: 'Reduce el peso de JPG, PNG, WebP, GIF y SVG con control de calidad y descarga por lotes.', action: 'Comprimir imágenes', accent: 'cyan' },
         { route: 'convert', title: 'Convertir', description: 'Convierte formatos compatibles del navegador a JPG, PNG, WebP o AVIF.', action: 'Convertir imágenes', accent: 'pink' },
-        { route: 'removeBackground', title: 'Quitar fondo', description: 'Eliminación de fondo local mediante un modelo cargado sólo cuando lo necesites.', action: 'Ver avance', status: 'Próximamente', accent: 'green' },
+        { route: 'removeBackground', title: 'Quitar fondo', description: 'Elimina el fondo localmente mediante un modelo cargado sólo cuando inicias el proceso.', action: 'Quitar fondo', accent: 'green' },
       ],
       benefits: [
         { title: 'Privacidad práctica', description: 'No existe una API remota que reciba tus imágenes.' },
@@ -113,7 +113,7 @@ export const siteContent = {
         title: 'Del archivo al resultado, sin intermediarios',
         intro: 'Cada herramienta tiene un flujo breve y conserva el trabajo dentro de la sesión del navegador.',
         steps: [
-          { title: 'Elige una tarea', description: 'Abre el compresor o el convertidor y selecciona una o varias imágenes compatibles.' },
+          { title: 'Elige una tarea', description: 'Abre la herramienta que necesitas y selecciona una o varias imágenes compatibles.' },
           { title: 'Procesa en tu dispositivo', description: 'El navegador lee y transforma los archivos localmente. Pixel Crunch no los envía a una API de procesamiento.' },
           { title: 'Revisa y descarga', description: 'Comprueba el resultado, ajusta las opciones disponibles y guarda archivos individuales o un ZIP cuando corresponda.' },
         ],
@@ -121,7 +121,7 @@ export const siteContent = {
       toolGuide: {
         eyebrow: 'Qué hace cada herramienta',
         title: 'Usa la herramienta adecuada para cada imagen',
-        intro: 'Comprimir y convertir resuelven problemas distintos. Quitar fondo se incorporará cuando su motor local esté validado.',
+        intro: 'Comprimir, convertir y quitar fondo resuelven problemas distintos, pero mantienen el procesamiento en tu navegador.',
         items: [
           {
             route: 'compress',
@@ -140,9 +140,9 @@ export const siteContent = {
           {
             route: 'removeBackground',
             title: 'Quitar fondo',
-            description: 'Usará un modelo ejecutado en el dispositivo para generar una salida transparente, sin una API remota de inferencia.',
-            facts: ['Disponible en una fase posterior', 'Modelo descargado sólo al iniciar', 'Límites de memoria y fallback por validar'],
-            action: 'Conocer el avance',
+            description: 'Ejecuta un modelo en el dispositivo para separar el sujeto y generar una salida transparente, sin una API remota de inferencia.',
+            facts: ['Entrada JPG, PNG o WebP', 'Modelo cargado sólo al iniciar', 'Salida transparente PNG o WebP'],
+            action: 'Quitar fondo',
           },
         ],
       },
@@ -154,7 +154,7 @@ export const siteContent = {
           { title: 'Sin cuenta ni historial', description: 'No necesitas registrarte y Pixel Crunch no mantiene una biblioteca de tus archivos.' },
           { title: 'Archivos efímeros', description: 'Las imágenes se conservan en memoria durante la sesión; puedes borrarlas desde la herramienta.' },
           { title: 'Código abierto', description: 'El proyecto y su licencia AGPL-3.0-only se pueden revisar públicamente.' },
-          { title: 'Red con límites claros', description: 'El navegador sí descarga la aplicación y, en el futuro, el modelo público. Esto no equivale a subir la imagen.' },
+          { title: 'Red con límites claros', description: 'El navegador descarga la aplicación y el modelo público cuando quitas un fondo. Esto no equivale a subir la imagen.' },
         ],
         sourceLabel: 'Revisar el código fuente',
       },
@@ -169,7 +169,7 @@ export const siteContent = {
           { label: '03 · Resultado', title: 'Tu descarga', description: 'Genera un Blob local y lo guarda en tu dispositivo como archivo individual o ZIP.' },
         ],
         boundaryTitle: 'Qué cruza la red',
-        boundaryDescription: 'Se descargan la aplicación y sus recursos públicos. La imagen que seleccionas no se adjunta a una solicitud de procesamiento. En la futura herramienta de quitar fondo, el modelo también se descargará al navegador antes de ejecutar la inferencia local.',
+        boundaryDescription: 'Se descargan la aplicación y sus recursos públicos. La imagen que seleccionas no se adjunta a una solicitud de procesamiento. Al quitar fondo, el modelo se descarga al navegador antes de ejecutar la inferencia local.',
         capabilities: [
           { title: 'File API', description: 'Permite leer los archivos elegidos sin enviarlos a un formulario remoto.' },
           { title: 'Web Workers', description: 'Mueven tareas compatibles fuera del hilo principal para mantener la interfaz disponible.' },
@@ -198,8 +198,8 @@ export const siteContent = {
           { question: '¿Cuál es la diferencia entre comprimir y convertir?', answer: 'Comprimir intenta reducir el peso conservando el formato o su propósito. Convertir crea un archivo en otro formato para cambiar compatibilidad, transparencia o eficiencia.' },
           { question: '¿La calidad puede cambiar?', answer: 'Sí. Los formatos con pérdida y la reducción de colores pueden alterar detalle o color. Por eso el compresor permite ajustar y comparar antes de guardar.' },
           { question: '¿Existe un límite de tamaño?', answer: 'La interfaz actual acepta archivos de hasta 10 MB. El número y tamaño práctico de las imágenes también dependen de la memoria disponible en tu dispositivo.' },
-          { question: '¿Funciona sin conexión?', answer: 'No se garantiza en la primera visita ni para todos los recursos. Primero necesitas descargar la aplicación; los modelos de IA también requerirán una descarga inicial cuando esa función esté disponible.' },
-          { question: '¿Quitar fondo ya está disponible?', answer: 'Todavía no. La ruta explica el objetivo, pero el motor se habilitará después de validar calidad, memoria, cancelación y fallbacks de navegador.' },
+          { question: '¿Funciona sin conexión?', answer: 'No se garantiza en la primera visita ni para todos los recursos. Primero necesitas descargar la aplicación; Quitar fondo también necesita descargar el modelo antes de ejecutar la inferencia local.' },
+          { question: '¿Cómo funciona Quitar fondo?', answer: 'El navegador descarga el modelo, analiza la imagen en el dispositivo y genera una salida transparente. La imagen no se envía a una API remota de inferencia; la velocidad y memoria disponible dependen del dispositivo.' },
         ],
       },
     },
@@ -225,20 +225,20 @@ export const siteContent = {
     },
     removeBackground: {
       title: 'Quitar fondo en el navegador — Pixel Crunch',
-      description: 'Próxima herramienta de Pixel Crunch para quitar fondos localmente en el navegador, sin una API de procesamiento remoto.',
+      description: 'Quita fondos localmente en el navegador mediante un modelo ejecutado en el dispositivo, sin una API remota de inferencia.',
       heading: 'Quitar fondo',
-      intro: 'Esta herramienta ejecutará la segmentación en tu dispositivo y descargará el modelo sólo al iniciar el proceso.',
+      intro: 'La herramienta ejecuta la segmentación en tu dispositivo y descarga el modelo sólo cuando inicias el proceso.',
       bullets: ['Inferencia completamente en el navegador.', 'Worker independiente y carga bajo demanda.', 'Salida transparente en PNG o WebP.'],
       detailsTitle: 'Privacidad desde el diseño',
-      details: 'El modelo será un recurso estático servido por Pixel Crunch. Procesamiento local no significa que funcione offline desde la primera visita.',
-      pendingLabel: 'En preparación',
-      pendingDescription: 'La interfaz se habilitará después de validar el motor, los límites de memoria y los fallbacks de navegador.',
+      details: 'El modelo es un recurso estático servido por Pixel Crunch. Procesamiento local no significa que funcione offline desde la primera visita.',
+      pendingLabel: 'Procesamiento local',
+      pendingDescription: 'El modelo se descarga en el navegador y la imagen permanece en el dispositivo durante la segmentación y la exportación.',
     },
   },
   en: {
     landing: {
       title: 'Pixel Crunch — Private image tools',
-      description: 'Compress, convert, and soon remove image backgrounds directly in your browser without uploading files to a server.',
+      description: 'Compress, convert, and remove image backgrounds directly in your browser without sending files to a processing API.',
       heading: 'Your images. Your device. Your tools.',
       intro: 'Pixel Crunch brings together focused image tools that work without sending your files to a processing API.',
       privacyNote: 'Code and resources are downloaded from Pixel Crunch; your images remain in the browser while they are processed.',
@@ -248,7 +248,7 @@ export const siteContent = {
       tools: [
         { route: 'compress', title: 'Compress', description: 'Reduce JPG, PNG, WebP, GIF, and SVG file size with quality control and batch downloads.', action: 'Compress images', accent: 'cyan' },
         { route: 'convert', title: 'Convert', description: 'Convert browser-compatible images to JPG, PNG, WebP, or AVIF.', action: 'Convert images', accent: 'pink' },
-        { route: 'removeBackground', title: 'Remove background', description: 'Local background removal with a model loaded only when you need it.', action: 'View progress', status: 'Coming soon', accent: 'green' },
+        { route: 'removeBackground', title: 'Remove background', description: 'Remove backgrounds locally with a model loaded only after you start processing.', action: 'Remove background', accent: 'green' },
       ],
       benefits: [
         { title: 'Practical privacy', description: 'No remote processing API receives your images.' },
@@ -260,7 +260,7 @@ export const siteContent = {
         title: 'From file to result, without intermediaries',
         intro: 'Each tool follows a short workflow and keeps the work inside your browser session.',
         steps: [
-          { title: 'Choose a task', description: 'Open the compressor or converter and select one or more compatible images.' },
+          { title: 'Choose a task', description: 'Open the tool you need and select one or more compatible images.' },
           { title: 'Process on your device', description: 'The browser reads and transforms the files locally. Pixel Crunch does not send them to a processing API.' },
           { title: 'Review and download', description: 'Inspect the result, adjust available options, and save individual files or a ZIP when supported.' },
         ],
@@ -268,7 +268,7 @@ export const siteContent = {
       toolGuide: {
         eyebrow: 'What each tool does',
         title: 'Use the right tool for each image',
-        intro: 'Compression and conversion solve different problems. Background removal will arrive after its local engine is validated.',
+        intro: 'Compression, conversion, and background removal solve different problems while keeping processing in your browser.',
         items: [
           {
             route: 'compress',
@@ -287,9 +287,9 @@ export const siteContent = {
           {
             route: 'removeBackground',
             title: 'Remove background',
-            description: 'A model running on your device will create transparent output without a remote inference API.',
-            facts: ['Available in a later phase', 'Model loads only after you start', 'Memory limits and fallbacks still require validation'],
-            action: 'View progress',
+            description: 'A model running on your device separates the subject and creates transparent output without a remote inference API.',
+            facts: ['JPG, PNG, or WebP input', 'Model loads only after you start', 'Transparent PNG or WebP output'],
+            action: 'Remove background',
           },
         ],
       },
@@ -301,7 +301,7 @@ export const siteContent = {
           { title: 'No account or history', description: 'You do not need to register, and Pixel Crunch does not maintain a library of your files.' },
           { title: 'Ephemeral files', description: 'Images stay in memory during the session and can be cleared from the tool.' },
           { title: 'Open source', description: 'The project and its AGPL-3.0-only license are publicly reviewable.' },
-          { title: 'Clear network boundaries', description: 'Your browser downloads the application and, later, the public model. That is different from uploading an image.' },
+          { title: 'Clear network boundaries', description: 'Your browser downloads the application and the public model when removing a background. That is different from uploading an image.' },
         ],
         sourceLabel: 'Review the source code',
       },
@@ -316,7 +316,7 @@ export const siteContent = {
           { label: '03 · Result', title: 'Your download', description: 'Creates a local Blob and saves it to your device as an individual file or ZIP.' },
         ],
         boundaryTitle: 'What crosses the network',
-        boundaryDescription: 'The application and its public resources are downloaded. The image you select is not attached to a processing request. For the future background-removal tool, the model will also be downloaded to the browser before local inference runs.',
+        boundaryDescription: 'The application and its public resources are downloaded. The image you select is not attached to a processing request. When removing a background, the model is downloaded to the browser before local inference runs.',
         capabilities: [
           { title: 'File API', description: 'Reads selected files without sending them through a remote form.' },
           { title: 'Web Workers', description: 'Move compatible tasks off the main thread to keep the interface available.' },
@@ -345,8 +345,8 @@ export const siteContent = {
           { question: 'What is the difference between compression and conversion?', answer: 'Compression aims to reduce file size while keeping the format or purpose. Conversion creates a different format to change compatibility, transparency, or efficiency.' },
           { question: 'Can image quality change?', answer: 'Yes. Lossy formats and color reduction can alter detail or color. The compressor lets you adjust and compare before saving.' },
           { question: 'Is there a file size limit?', answer: 'The current interface accepts files up to 10 MB. The practical number and size of images also depend on available device memory.' },
-          { question: 'Does it work offline?', answer: 'First-visit and complete offline use are not guaranteed. You must download the application first, and AI models will also require an initial download when that feature becomes available.' },
-          { question: 'Is background removal available now?', answer: 'Not yet. Its route explains the goal, but the engine will be enabled after quality, memory, cancellation, and browser fallbacks are validated.' },
+          { question: 'Does it work offline?', answer: 'First-visit and complete offline use are not guaranteed. You must download the application first; background removal also needs to download its model before local inference runs.' },
+          { question: 'How does background removal work?', answer: 'The browser downloads the model, analyzes the image on your device, and creates transparent output. The image is not sent to a remote inference API; speed and available memory depend on the device.' },
         ],
       },
     },
@@ -372,14 +372,14 @@ export const siteContent = {
     },
     removeBackground: {
       title: 'Remove image backgrounds in your browser — Pixel Crunch',
-      description: 'Upcoming Pixel Crunch tool for local background removal in the browser without a remote processing API.',
+      description: 'Remove backgrounds locally in the browser with a model running on the device and no remote inference API.',
       heading: 'Remove background',
-      intro: 'This tool will run segmentation on your device and download its model only after you start processing.',
+      intro: 'The tool runs segmentation on your device and downloads its model only after you start processing.',
       bullets: ['Inference runs entirely in the browser.', 'Independent worker and on-demand loading.', 'Transparent PNG or WebP output.'],
       detailsTitle: 'Privacy by design',
-      details: 'The model will be a static resource served by Pixel Crunch. Local processing does not mean first-visit offline support.',
-      pendingLabel: 'In preparation',
-      pendingDescription: 'The interface will be enabled after the engine, memory limits, and browser fallbacks are validated.',
+      details: 'The model is a static resource served by Pixel Crunch. Local processing does not mean first-visit offline support.',
+      pendingLabel: 'Local processing',
+      pendingDescription: 'The model is downloaded in the browser, and the image remains on the device during segmentation and export.',
     },
   },
 } as const satisfies Record<Locale, SiteContent>;

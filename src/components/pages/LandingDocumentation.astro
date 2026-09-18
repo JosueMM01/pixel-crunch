@@ -10,7 +10,7 @@ const { lang } = Astro.props;
 const content = siteContent[lang].landing;
 ---
 
-<section id="overview" class="scroll-mt-28 border-y border-monokai-fg/10 bg-monokai-bg/30 px-4 py-16 md:py-24">
+<section id="overview" class="scroll-mt-28 border-y border-monokai-fg/10 px-4 py-16 md:py-24">
   <div class="mx-auto max-w-6xl">
     <p class="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-monokai-cyan">{content.howItWorks.eyebrow}</p>
     <h2 class="mt-3 max-w-3xl text-3xl font-bold leading-tight text-monokai-fg md:text-4xl">{content.howItWorks.title}</h2>
@@ -28,7 +28,7 @@ const content = siteContent[lang].landing;
   </div>
 </section>
 
-<section id="technology" class="scroll-mt-28 border-y border-monokai-fg/10 bg-monokai-bg/30 px-4 py-16 md:py-24">
+<section id="technology" class="scroll-mt-28 border-b border-monokai-fg/10 px-4 py-16 md:py-24">
   <div class="mx-auto max-w-6xl">
     <p class="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-monokai-pink">{content.technology.eyebrow}</p>
     <h2 class="mt-3 max-w-4xl text-3xl font-bold leading-tight text-monokai-fg md:text-4xl">{content.technology.title}</h2>
@@ -51,7 +51,7 @@ const content = siteContent[lang].landing;
           </>
         ))}
       </div>
-      <div class="mt-5 rounded-2xl border border-monokai-green/25 bg-monokai-green/5 p-5">
+      <div class="mt-5 rounded-2xl border border-monokai-green/25 p-5">
         <h3 class="font-bold text-monokai-green">{content.technology.boundaryTitle}</h3>
         <p class="mt-2 text-sm leading-relaxed text-monokai-fg/70">{content.technology.boundaryDescription}</p>
       </div>
@@ -101,7 +101,7 @@ const content = siteContent[lang].landing;
   </div>
 </section>
 
-<section id="privacy" class="scroll-mt-28 bg-monokai-green/5 px-4 py-16 md:py-24">
+<section id="privacy" class="scroll-mt-28 border-y border-monokai-fg/10 px-4 py-16 md:py-24">
   <div class="mx-auto max-w-6xl">
     <div class="grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start">
       <div>
@@ -147,7 +147,7 @@ const content = siteContent[lang].landing;
   </div>
 </section>
 
-<section id="faq" class="scroll-mt-28 border-t border-monokai-fg/10 bg-monokai-bg/30 px-4 py-16 md:py-24">
+<section id="faq" class="scroll-mt-28 border-t border-monokai-fg/10 px-4 py-16 md:py-24">
   <div class="mx-auto max-w-4xl">
     <p class="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-monokai-cyan">{content.faq.eyebrow}</p>
     <h2 class="mt-3 text-3xl font-bold leading-tight text-monokai-fg md:text-4xl">{content.faq.title}</h2>
