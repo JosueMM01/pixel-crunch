@@ -1,7 +1,7 @@
 {
   "name": "Pixel Crunch",
   "short_name": "Pixel Crunch",
-  "description": "Compresion y conversion de imagenes en tu navegador, gratis y privado.",
+  "description": "Compresión y conversión de imágenes en tu navegador, gratis y privado.",
   "lang": "es",
   "start_url": "/",
   "scope": "/",
@@ -13,19 +13,19 @@
       "src": "/Logo.svg",
       "sizes": "any",
       "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/Logo.png",
-      "sizes": "160x133",
+      "src": "/icon-512.png",
+      "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/favicon.png",
-      "sizes": "139x99",
-      "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
   ]
 }

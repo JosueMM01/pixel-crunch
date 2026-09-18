@@ -15,14 +15,14 @@ lifting state, and composing internals.
 
 ## Rules
 
-### Component Architecture (CRITICAL)
+### Component Architecture (HIGH)
 
 - `architecture-avoid-boolean-props.md` - Don't add boolean props to customize
   behavior
 - `architecture-compound-components.md` - Structure as compound components with
   shared context
 
-### State Management (HIGH)
+### State Management (MEDIUM)
 
 - `state-lift-state.md` - Lift state into provider components
 - `state-context-interface.md` - Define clear context interfaces
