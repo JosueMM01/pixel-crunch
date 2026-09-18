@@ -11,13 +11,12 @@ const footerDescription = isEnglish
   ? 'Compress and optimize images directly in your browser. 100% private, free, and open source.'
   : 'Comprime y optimiza imágenes directamente en tu navegador. 100% privado, gratuito y open source.';
 
-const copyright = isEnglish
-  ? 'All rights reserved.'
-  : 'Todos los derechos reservados.';
+const licenseLabel = isEnglish ? 'Licensed under AGPL-3.0-only.' : 'Licenciado bajo AGPL-3.0-only.';
 
 const navTitle = isEnglish ? 'Navigation' : 'Navegación';
 const featuresLabel = isEnglish ? 'Features' : 'Características';
 const reportBugLabel = isEnglish ? 'Report Bug' : 'Reportar Bug';
+const sourceCodeLabel = isEnglish ? 'Source code' : 'Código fuente';
 const techStackTitle = isEnglish ? 'Tech Stack' : 'Stack Tecnológico';
 const homeAriaLabel = isEnglish ? 'Go to home' : 'Ir a inicio';
 ---
@@ -42,7 +41,15 @@ const homeAriaLabel = isEnglish ? 'Go to home' : 'Ir a inicio';
         
         <!-- Copyright -->
         <p class="mt-4 text-xs text-gray-500 dark:text-gray-500">
-          © <span id="current-year"></span> Pixel Crunch. {copyright}
+          © <span id="current-year"></span> Pixel Crunch.
+          <a
+            href="https://github.com/JosueMM01/pixel-crunch/blob/main/LICENSE"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-brand-blue"
+          >
+            {licenseLabel}
+          </a>
         </p>
       </div>
 
@@ -69,7 +76,7 @@ const homeAriaLabel = isEnglish ? 'Go to home' : 'Ir a inicio';
               class="hover:text-brand-blue inline-flex items-center gap-2"
             >
               <img src="/logos/github.svg" alt="GitHub" class="h-5 w-5 dark:invert" />
-              <span>GitHub</span>
+              <span>{sourceCodeLabel}</span>
             </a>
           </li>
           <li>
