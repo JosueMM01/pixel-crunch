@@ -1,31 +1,39 @@
 # Licencias de Pixel Crunch
 
-**Vigente: MIT.** La migración prevista es AGPL v3; aún no se ha cambiado LICENSE.
+Pixel Crunch se distribuye bajo `AGPL-3.0-only` desde la Fase 2. Se eligió la variante *only* porque el artefacto auditado de IMG.LY incluye GNU AGPL versión 3 sin una concesión explícita “or later”. Las versiones publicadas previamente siguen disponibles bajo [su licencia MIT original](licenses/PIXEL-CRUNCH-MIT-HISTORICAL.txt); el cambio no las revoca.
 
-## Qué se debe distinguir
+## Alcance
 
-| Componente | Estado |
-| --- | --- |
-| Pixel Crunch | Elegir AGPL-3.0-only u or-later antes de migrar |
-| @imgly/background-removal | AGPL v3 en la versión 1.7.0 revisada |
-| @imgly/background-removal-data | Paquete AGPL; revisar licencias de su contenido |
-| onnxruntime-web | MIT en 1.21.0; conservar avisos de runtime/binarios |
-| Modelos | Confirmar procedencia/licencia de los pesos concretos, no inferirla de la biblioteca |
+- `LICENSE` gobierna el código propio de Pixel Crunch.
+- Dependencias, modelos, WASM, documentación incorporada y assets conservan sus licencias.
+- Las imágenes procesadas por el usuario no pasan a ser AGPL por usar la aplicación.
+- No se requieren cabeceras extensas en cada archivo; el aviso visible, `LICENSE`, el historial y [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md) concentran la información.
 
-Los avisos IMG.LY identifican ISNET como MIT, mientras el origen DIS publica Apache-2.0. Resolver la discrepancia mediante versión, hash y evidencia de los pesos seleccionados antes de redistribuirlos. No significa que la inferencia necesite servidor ni que el modelo sea necesariamente AGPL.
+## Artefactos de eliminación de fondo auditados
 
-## Migración en fase 2
+Todavía no forman parte del repositorio ni del despliegue. La Fase 4 debe usar exactamente estas versiones o repetir la auditoría.
 
-- Revisar titularidad y conservar atribuciones MIT/terceros; las versiones MIT ya distribuidas no se revocan.
-- Actualizar LICENSE, package/lockfile, README y documentación de forma consistente.
-- Publicar inventario con componente, versión/origen, licencia, hash y texto/NOTICE aplicable, incluidos modelos/WASM/fuentes.
-- Facilitar fuentes y scripts correspondientes a la versión desplegada; no enlazar únicamente a una rama que cambia.
-- Preservar avisos en los artefactos distribuidos; no añadir cabeceras extensas a todos los archivos por rutina.
+| Componente | Evidencia auditada | Licencia/aviso |
+| --- | --- | --- |
+| `@imgly/background-removal` | 1.7.0; SHA-256 del `.tgz`: `0e7b6813978296b23bb9c5fa3d86a8f8e618b88174e08d6c61f230b0e18d13e6` | GNU AGPL v3; clasificado conservadoramente como `AGPL-3.0-only` |
+| Assets `@imgly/background-removal-data` | paquete estático 1.7.0; SHA-256: `a44fdaf4f3b06a952dcd9a61720bac1e6bc41392aa474e68863a2e54ca2d0df5` | paquete AGPL v3; incluye avisos de ONNX e ISNET |
+| `onnxruntime-web` | peer estable 1.21.0 del motor; el paquete de datos usa un build dev compatible de 1.21.0 | MIT; conservar el aviso de Microsoft con JS/WASM |
+| ISNET | `isnet`, `isnet_fp16`, `isnet_quint8`; IMG.LY señala como origen `xuebinqin/DIS` | IMG.LY declara MIT, mientras DIS publica Apache-2.0; conservar ambas evidencias y el texto Apache-2.0 |
 
-AGPL permite uso comercial; no convierte automáticamente las fotografías del usuario en obras AGPL. El alcance de obra combinada y las obligaciones exactas de código correspondiente requieren interpretación jurídica del conjunto distribuido; separar workers no elimina ese análisis.
+El paquete npm `@imgly/background-removal-data` termina en 1.4.5 y no corresponde al motor 1.7.0. Para esa versión, IMG.LY publica el paquete de assets en `staticimgly.com`; no deben mezclarse.
+
+El manifiesto 1.7.0 reconstruye siete recursos: dos módulos JS de ONNX (49,241 y 25,539 bytes), dos WASM (23,013,109 y 11,819,815 bytes) y tres modelos (`isnet_quint8` 44,348,940; `isnet_fp16` 88,152,708; `isnet` 176,149,806 bytes). Sus fragmentos tienen hashes SHA-256 como nombre. El `package.json` menciona `NOTICE.md`, pero el archivo no está presente en el tarball auditado; sí incluye `LICENSE.md` y `ThirdPartyLicenses.json`.
+
+## Reglas de distribución
+
+1. El script de preparación de assets debe fijar versión y SHA-256 del archivo fuente, verificar cada fragmento contra `resources.json` y fallar ante cualquier diferencia.
+2. Al publicar los assets se deben copiar los avisos originales de IMG.LY, el aviso MIT de ONNX y el texto Apache-2.0 de DIS. No se debe corregir silenciosamente la afirmación MIT del proveedor.
+3. `pnpm-lock.yaml` fija las dependencias de cada release. Ejecutar `pnpm licenses list --prod --json` y revisar licencias nuevas antes de publicar.
+4. Cada despliegue debe corresponder a un commit etiquetado y a un GitHub Release que conserve el código, lockfile, scripts, avisos y hashes utilizados. El enlace “Código fuente” de la interfaz apunta al repositorio público.
+5. Una versión o asset diferente exige actualizar el inventario; una URL mutable no es evidencia suficiente.
+
+Los detalles sobre obra combinada, titulares o sublicencias pueden requerir asesoría jurídica. Esta documentación registra evidencia técnica y adopta la conservación más estricta de avisos; no sustituye una opinión legal.
 
 ## Fuentes
 
-[IMG.LY: licencia](https://github.com/imgly/background-removal-js/blob/main/packages/web/LICENSE.md) · [Avisos](https://raw.githubusercontent.com/imgly/background-removal-js/main/packages/web/ThirdPartyLicenses.json) · [ONNX 1.21.0](https://raw.githubusercontent.com/microsoft/onnxruntime/v1.21.0/LICENSE) · [DIS](https://raw.githubusercontent.com/xuebinqin/DIS/main/LICENSE.md) · [AGPL oficial](https://www.gnu.org/licenses/agpl-3.0.html).
-
-Revalidar todos los artefactos al elegir versiones para la implementación.
+[IMG.LY 1.7.0](https://www.npmjs.com/package/@imgly/background-removal/v/1.7.0) · [licencia IMG.LY](https://github.com/imgly/background-removal-js/blob/main/packages/web/LICENSE.md) · [avisos IMG.LY](https://github.com/imgly/background-removal-js/blob/main/packages/web/ThirdPartyLicenses.json) · [ONNX Runtime 1.21.0](https://github.com/microsoft/onnxruntime/blob/v1.21.0/LICENSE) · [DIS](https://github.com/xuebinqin/DIS) · [AGPL oficial](https://www.gnu.org/licenses/agpl-3.0.html).
