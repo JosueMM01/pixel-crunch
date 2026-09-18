@@ -17,14 +17,14 @@ Completado: stack modernizado, skills revisadas y migración a `AGPL-3.0-only` c
 
 La auditoría previa fue estática; pruebas y benchmarks se ejecutarán en las fases correspondientes. El diseño se decide con evidencia del proyecto y proveedores.
 
-## Issues propuestas
+## Unidades de trabajo
 
-Cada fila representa una unidad de trabajo revisable; criterios completos en la fase indicada.
+El proyecto no crea issues para planificar las fases. Cada fila representa una unidad revisable mediante su rama y PR; los criterios completos están en la fase indicada.
 
-| Issue | Objetivo y tareas | Aceptación | Dependencia |
+| Unidad | Objetivo y tareas | Aceptación | Dependencia |
 | --- | --- | --- | --- |
 | ~~Modernizar stack y skills~~ | Completada en la rama de Fase 1 | Instalación, checks y preview validados | Ninguna |
-| ~~Preparar licencia AGPL (#46)~~ | Completada en la rama de Fase 2 | Licencia, inventario, avisos y fuentes trazables | Fase 1 |
+| ~~Preparar licencia AGPL~~ | Completada en la rama de Fase 2 | Licencia, inventario, avisos y fuentes trazables | Fase 1 |
 | Separar herramientas ES/EN | Rutas, carpetas, navegación, SEO y MIME | Flujos actuales sin regresión; fase 3 | Fase 1 |
 | Integrar motor local | Worker, límites, resolución, GPU/WASM | Resultado real y cancelación; fase 4 | Fases 1–2 |
 | Crear UI de quitar fondo | Carga, comparación, estados y exportación | Accesible ES/EN; fase 5 | Rutas y contrato del motor |

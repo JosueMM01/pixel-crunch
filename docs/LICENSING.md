@@ -16,7 +16,7 @@ Todavía no forman parte del repositorio ni del despliegue. La Fase 4 debe usar 
 | Componente | Evidencia auditada | Licencia/aviso |
 | --- | --- | --- |
 | `@imgly/background-removal` | 1.7.0; SHA-256 del `.tgz`: `0e7b6813978296b23bb9c5fa3d86a8f8e618b88174e08d6c61f230b0e18d13e6` | GNU AGPL v3; clasificado conservadoramente como `AGPL-3.0-only` |
-| Assets `@imgly/background-removal-data` | paquete estático 1.7.0; SHA-256: `a44fdaf4f3b06a952dcd9a61720bac1e6bc41392aa474e68863a2e54ca2d0df5` | paquete AGPL v3; incluye avisos de ONNX e ISNET |
+| Assets `@imgly/background-removal-data` | paquete estático 1.7.0 de `https://staticimgly.com/@imgly/background-removal-data/1.7.0/package.tgz`; SHA-256: `a44fdaf4f3b06a952dcd9a61720bac1e6bc41392aa474e68863a2e54ca2d0df5` | paquete AGPL v3; incluye avisos de ONNX e ISNET |
 | `onnxruntime-web` | peer estable 1.21.0 del motor; el paquete de datos usa un build dev compatible de 1.21.0 | MIT; conservar el aviso de Microsoft con JS/WASM |
 | ISNET | `isnet`, `isnet_fp16`, `isnet_quint8`; IMG.LY señala como origen `xuebinqin/DIS` | IMG.LY declara MIT, mientras DIS publica Apache-2.0; conservar ambas evidencias y el texto Apache-2.0 |
 

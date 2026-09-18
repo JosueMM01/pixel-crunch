@@ -30,7 +30,7 @@ El código fuente correspondiente a la versión desplegada debe estar disponible
 - [Fases y criterios de aceptación](docs/PHASES.md).
 - [Arquitectura y carpetas](docs/ARCHITECTURE.md).
 - [Eliminación de fondo](docs/BACKGROUND_REMOVAL.md).
-- [Plan e issues](docs/IMPLEMENTATION_PLAN.md).
+- [Plan de implementación](docs/IMPLEMENTATION_PLAN.md).
 - [Licencias y distribución de terceros](docs/LICENSING.md).
 - [ADR de licencia](docs/decisions/ADR-001-AGPL-AND-THIRD-PARTY-DISTRIBUTION.md).
 - [Flujo de contribución](docs/GIT_WORKFLOW.md).

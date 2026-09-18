@@ -25,7 +25,7 @@ Transitive packages and development tools are not relicensed by Pixel Crunch. Th
 
 ## Audited future background-removal distribution
 
-The following artifacts are approved candidates but are not yet committed or served:
+The following artifacts are audited candidates but are not yet committed or served:
 
 | Component | Version | License evidence |
 | --- | --- | --- |
