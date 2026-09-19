@@ -31,6 +31,7 @@
   "dependencies": {
     "@astrojs/react": "6.0.6",
     "@astrojs/sitemap": "3.7.4",
+    "@imgly/background-removal": "1.7.0",
     "@tailwindcss/vite": "4.3.3",
     "astro": "7.3.3",
     "browser-image-compression": "2.0.2",
@@ -40,6 +41,7 @@
     "gifuct-js": "2.1.2",
     "jszip": "3.10.2",
     "lucide-react": "1.47.0",
+    "onnxruntime-web": "1.21.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-dropzone": "20.1.2",
