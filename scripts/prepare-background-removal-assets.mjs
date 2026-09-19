@@ -84,26 +84,33 @@ async function verifyGeneratedAssets() {
   if (!(await fileExists(resourcesPath))) return null;
 
   const resources = JSON.parse(await readFile(resourcesPath, 'utf8'));
-  const chunkSizes = new Map();
+  const chunks = new Map();
 
   for (const resource of Object.values(resources)) {
     for (const chunk of resource.chunks) {
       const expectedSize = chunk.offsets[1] - chunk.offsets[0];
-      const previousSize = chunkSizes.get(chunk.name);
-      if (previousSize !== undefined && previousSize !== expectedSize) {
-        throw new Error(`Conflicting sizes for asset chunk ${chunk.name}`);
+      const previous = chunks.get(chunk.name);
+      if (previous && (previous.size !== expectedSize || previous.hash !== chunk.hash)) {
+        throw new Error(`Conflicting metadata for asset chunk ${chunk.name}`);
       }
-      chunkSizes.set(chunk.name, expectedSize);
+      if (chunk.name !== chunk.hash) {
+        throw new Error(`Asset chunk name does not match its declared hash: ${chunk.name}`);
+      }
+      chunks.set(chunk.name, { hash: chunk.hash, size: expectedSize });
     }
   }
 
   let totalBytes = 0;
-  for (const [name, expectedSize] of chunkSizes) {
+  for (const [name, expected] of chunks) {
     const chunkPath = resolve(DIST_ROOT, name);
     assertInside(DIST_ROOT, chunkPath);
     const chunkStat = await stat(chunkPath);
-    if (chunkStat.size !== expectedSize) {
-      throw new Error(`Invalid size for asset chunk ${name}: expected ${expectedSize}, received ${chunkStat.size}`);
+    if (chunkStat.size !== expected.size) {
+      throw new Error(`Invalid size for asset chunk ${name}: expected ${expected.size}, received ${chunkStat.size}`);
+    }
+    const actualHash = await sha256(chunkPath);
+    if (actualHash !== expected.hash) {
+      throw new Error(`Invalid SHA-256 for asset chunk ${name}: received ${actualHash}`);
     }
     if (chunkStat.size > 25 * 1024 * 1024) {
       throw new Error(`Asset chunk ${name} exceeds the Cloudflare Pages 25 MiB limit`);
@@ -117,7 +124,7 @@ async function verifyGeneratedAssets() {
     source: ARCHIVE_URL,
     archiveSha256: ARCHIVE_SHA256,
     resourceCount: Object.keys(resources).length,
-    chunkCount: chunkSizes.size,
+    chunkCount: chunks.size,
     totalBytes,
   };
 }
