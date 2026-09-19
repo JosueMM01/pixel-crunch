@@ -1,6 +1,6 @@
 # Compatibilidad
 
-La matriz es objetivo de validación, no una certificación de funcionamiento actual de quitar fondo.
+La matriz es objetivo de validación, no una certificación de funcionamiento actual de quitar fondo. La Fase 4 validó CPU/WASM + `isnet_quint8` de extremo a extremo en el entorno Chromium local; no sustituye pruebas en los navegadores y dispositivos siguientes.
 
 | Navegador | Estrategia a validar |
 | --- | --- |

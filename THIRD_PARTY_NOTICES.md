@@ -9,6 +9,8 @@ Pixel Crunch is licensed under `AGPL-3.0-only`. Third-party components remain un
 | Astro, `@astrojs/react`, `@astrojs/sitemap` | 7.3.3 / 6.0.6 / 3.7.4 | MIT |
 | React, React DOM | 19.3.0 | MIT |
 | Tailwind CSS, `@tailwindcss/vite` | 4.3.3 | MIT |
+| `@imgly/background-removal` | 1.7.0 | GNU AGPL version 3 in the package `LICENSE.md` |
+| `onnxruntime-web` | 1.21.0 | MIT, Microsoft Corporation |
 | browser-image-compression | 2.0.2 | MIT |
 | clsx | 2.1.1 | MIT |
 | FileSaver.js | 2.0.5 | MIT |
@@ -23,17 +25,15 @@ Pixel Crunch is licensed under `AGPL-3.0-only`. Third-party components remain un
 
 Transitive packages and development tools are not relicensed by Pixel Crunch. Their package manifests and license files remain authoritative; release validation uses `pnpm licenses list --prod --json`.
 
-## Audited future background-removal distribution
+## Background-removal assets
 
-The following artifacts are audited candidates but are not yet committed or served:
+The static build prepares this audited asset set from the pinned upstream archive. Generated files are served from a versioned same-origin path and are intentionally excluded from Git:
 
 | Component | Version | License evidence |
 | --- | --- | --- |
-| `@imgly/background-removal` | 1.7.0 | GNU AGPL version 3 in the package `LICENSE.md` |
 | `@imgly/background-removal-data` static asset package | 1.7.0 | GNU AGPL version 3 plus `ThirdPartyLicenses.json` |
-| `onnxruntime-web` | 1.21.0 | MIT, Microsoft Corporation |
 | ISNET models | 1.7.0 asset set | Vendor notice says MIT; cited DIS source is Apache-2.0 |
 
-Pixel Crunch preserves the IMG.LY notice and, conservatively, the Apache-2.0 license for DIS-derived ISNET assets. Exact archive hashes, sizes and distribution rules are in [docs/LICENSING.md](docs/LICENSING.md). Full relevant texts are under [docs/licenses](docs/licenses).
+The preparation script verifies the archive and every content-addressed fragment, enforces Cloudflare Pages' per-file limit, and copies the upstream license and notices into the deployed asset directory. Pixel Crunch also preserves the Apache-2.0 license for DIS-derived ISNET assets conservatively. Exact hashes, sizes and distribution rules are in [docs/LICENSING.md](docs/LICENSING.md); relevant texts are under [docs/licenses](docs/licenses).
 
 Copyright and trademark notices identify their respective owners. No endorsement is implied.

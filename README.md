@@ -6,7 +6,7 @@ Herramientas para procesar imágenes en el navegador, sin subirlas a una API de 
 
 El código actual ofrece compresión y conversión, ES/EN, tema claro/oscuro y descargas individuales/ZIP. Usa Astro 7, React 19, Tailwind CSS 4 y pnpm 12.
 
-La modernización técnica y la migración de licencia de Pixel Crunch 2.0 están completas. Las rutas independientes y la eliminación de fondo local continúan en las fases siguientes.
+La modernización, la migración de licencia, las rutas independientes y el motor local de eliminación de fondo están completos. La interfaz de quitar fondo y su validación multidispositivo continúan en las fases siguientes.
 
 ## Privacidad y compatibilidad
 
@@ -33,6 +33,7 @@ El código fuente correspondiente a la versión desplegada debe estar disponible
 - [Plan de implementación](docs/IMPLEMENTATION_PLAN.md).
 - [Licencias y distribución de terceros](docs/LICENSING.md).
 - [ADR de licencia](docs/decisions/ADR-001-AGPL-AND-THIRD-PARTY-DISTRIBUTION.md).
+- [ADR del motor local](docs/decisions/ADR-002-LOCAL-BACKGROUND-REMOVAL-ENGINE.md).
 - [Flujo de contribución](docs/GIT_WORKFLOW.md).
 
 [Aplicación](https://pixel-crunch.josuem01.dev/) · [Repositorio](https://github.com/JosueMM01/pixel-crunch)
