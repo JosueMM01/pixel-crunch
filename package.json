@@ -18,7 +18,8 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "pnpm assets:prepare && astro build",
+    "assets:prepare": "node scripts/prepare-background-removal-assets.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "typecheck": "astro check",

@@ -1,6 +1,8 @@
 # build output
 dist/
 coverage/
+.cache/
+public/vendor/background-removal/
 
 # generated types
 .astro/
