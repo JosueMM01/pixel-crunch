@@ -15,7 +15,7 @@ Publicar como funcional o funcional mediante fallback solo lo ensayado. Las ruta
 
 ## Formatos
 
-El convertidor actual usa codecs nativos: HEIC/TIFF/AVIF no son universales. Comprobar decodificación y MIME real de salida; Canvas puede devolver PNG para un formato no disponible. GIF animado se convierte por primer frame.
+El convertidor acepta JPG/JPEG/JFIF, PNG, WebP, GIF y AVIF mediante codecs nativos. AVIF no es universal y la salida WebP/AVIF depende del navegador. Pixel Crunch comprueba el MIME devuelto por Canvas y rechaza fallbacks silenciosos; los GIF animados se convierten usando el primer fotograma.
 
 Quitar fondo comienza con JPG/PNG/WebP y salida PNG/WebP transparente, según soporte real.
 

@@ -58,4 +58,21 @@ describe('useTheme', () => {
     expect(result.current.resolvedTheme).toBe('dark');
     expect(document.documentElement.classList.contains('dark')).toBe(true);
   });
+
+  it('synchronizes multiple theme controls on the same page', async () => {
+    const first = renderHook(() => useTheme());
+    const second = renderHook(() => useTheme());
+
+    await waitFor(() => {
+      expect(first.result.current.resolvedTheme).toBe('light');
+      expect(second.result.current.resolvedTheme).toBe('light');
+    });
+
+    act(() => {
+      first.result.current.setTheme('dark');
+    });
+
+    expect(second.result.current.theme).toBe('dark');
+    expect(second.result.current.resolvedTheme).toBe('dark');
+  });
 });

@@ -1,0 +1,14 @@
+---
+import ComingSoonPanel from '../../../components/pages/ComingSoonPanel.astro';
+import ToolPage from '../../../components/pages/ToolPage.astro';
+import { siteContent } from '../../../i18n/site';
+import Layout from '../../../layouts/Layout.astro';
+
+const content = siteContent.en.removeBackground;
+---
+
+<Layout title={content.title} description={content.description} lang="en" route="removeBackground" noindex featureList={[...content.bullets]}>
+  <ToolPage {...content} accent="green">
+    <ComingSoonPanel label={content.pendingLabel} description={content.pendingDescription} />
+  </ToolPage>
+</Layout>

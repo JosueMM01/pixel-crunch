@@ -1,0 +1,22 @@
+---
+import { CompressorPanel } from '../../components/features/compressor';
+import ToolPage from '../../components/pages/ToolPage.astro';
+import translations from '../../i18n/es.json';
+import { siteContent } from '../../i18n/site';
+import Layout from '../../layouts/Layout.astro';
+
+const content = siteContent.es.compress;
+---
+
+<Layout title={content.title} description={content.description} lang="es" route="compress" featureList={[...content.bullets]}>
+  <ToolPage {...content} accent="cyan">
+    <CompressorPanel
+      client:load
+      uploadCopy={translations.upload}
+      qualityCopy={translations.compression.quality}
+      compressionProgressCopy={translations.compression.progress}
+      compressionStatsCopy={translations.compression.stats}
+      previewCopy={translations.preview}
+    />
+  </ToolPage>
+</Layout>

@@ -12,7 +12,7 @@ export type {
 	CompressionProgressStatus,
 	CompressionProgressCopy,
 	CompressionProgressProps,
-	UploaderPanelProps,
+	CompressorPanelProps,
 	ConverterPanelCopy,
 	ConverterPanelProps,
 } from './upload';

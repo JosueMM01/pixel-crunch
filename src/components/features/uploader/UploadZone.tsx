@@ -148,7 +148,7 @@ export const UploadZone = ({
                     })}
                     aria-live="polite"
                 >
-                    <input {...getInputProps()} aria-label="Seleccionar archivos" />
+                    <input {...getInputProps()} aria-label={resolvedCopy.title} />
 
                     {hasFiles && children ? (
                         <div className="space-y-3" onClick={(event) => event.stopPropagation()}>
