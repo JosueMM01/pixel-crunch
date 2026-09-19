@@ -76,10 +76,10 @@ function installCanvasMock(options?: {
       fillRect,
     } as unknown as CanvasRenderingContext2D);
 
-  const toBlob = vi.fn((callback: BlobCallback) => {
+  const toBlob = vi.fn((callback: BlobCallback, mimeType?: string) => {
     const outputBlob = options && 'outputBlob' in options
       ? options.outputBlob
-      : new Blob(['converted'], { type: 'image/png' });
+      : new Blob(['converted'], { type: mimeType || 'image/png' });
 
     callback(outputBlob ?? null);
   });
@@ -131,17 +131,15 @@ afterEach(() => {
 });
 
 describe('imageConversion constants', () => {
-  it('exposes converter formats for heic/jpg/png/webp/gif/bmp/tiff/avif/ico and avif output', () => {
-    expect(CONVERTER_INPUT_FORMATS).toContain('image/heic');
+  it('exposes only browser-native input formats and includes avif output', () => {
     expect(CONVERTER_INPUT_FORMATS).toContain('image/jpeg');
     expect(CONVERTER_INPUT_FORMATS).toContain('image/png');
     expect(CONVERTER_INPUT_FORMATS).toContain('image/webp');
     expect(CONVERTER_INPUT_FORMATS).toContain('image/gif');
-    expect(CONVERTER_INPUT_FORMATS).toContain('image/bmp');
-    expect(CONVERTER_INPUT_FORMATS).toContain('image/tiff');
     expect(CONVERTER_INPUT_FORMATS).toContain('image/avif');
-    expect(CONVERTER_INPUT_FORMATS).toContain('image/x-icon');
     expect(CONVERTER_INPUT_FORMATS).not.toContain('image/svg+xml');
+    expect(CONVERTER_INPUT_FORMATS).not.toContain('image/heic');
+    expect(CONVERTER_INPUT_FORMATS).not.toContain('image/bmp');
     expect(CONVERTER_OUTPUT_FORMATS.map((item) => item.mimeType)).toContain('image/avif');
   });
 });
@@ -203,15 +201,11 @@ describe('gif helpers', () => {
 describe('isSupportedConverterInput', () => {
   it('accepts supported mime types directly', () => {
     const files = [
-      new File([new Uint8Array([1])], 'photo.heic', { type: 'image/heic' }),
       new File([new Uint8Array([1])], 'photo.jpg', { type: 'image/jpeg' }),
       new File([new Uint8Array([1])], 'photo.png', { type: 'image/png' }),
       new File([new Uint8Array([1])], 'photo.webp', { type: 'image/webp' }),
       new File([new Uint8Array([1])], 'photo.gif', { type: 'image/gif' }),
-      new File([new Uint8Array([1])], 'photo.bmp', { type: 'image/bmp' }),
-      new File([new Uint8Array([1])], 'photo.tiff', { type: 'image/tiff' }),
       new File([new Uint8Array([1])], 'photo.avif', { type: 'image/avif' }),
-      new File([new Uint8Array([1])], 'photo.ico', { type: 'image/x-icon' }),
     ];
 
     files.forEach((file) => {
@@ -220,7 +214,7 @@ describe('isSupportedConverterInput', () => {
   });
 
   it('accepts unknown mime type only when extension is supported', () => {
-    const good = new File([new Uint8Array([1])], 'graphic.ico', {
+    const good = new File([new Uint8Array([1])], 'graphic.avif', {
       type: 'application/octet-stream',
     });
 
@@ -275,6 +269,19 @@ describe('convertImageFile', () => {
   it('fails when output mime export is unsupported by canvas', async () => {
     installImageSuccessMocks();
     installCanvasMock({ outputBlob: null });
+
+    const input = new File([new Uint8Array([1, 2, 3])], 'photo.png', {
+      type: 'image/png',
+    });
+
+    await expect(
+      convertImageFile(input, { outputMimeType: 'image/avif' })
+    ).rejects.toThrow('AVIF');
+  });
+
+  it('rejects a browser fallback blob with a different MIME type', async () => {
+    installImageSuccessMocks();
+    installCanvasMock({ outputBlob: new Blob(['fallback'], { type: 'image/png' }) });
 
     const input = new File([new Uint8Array([1, 2, 3])], 'photo.png', {
       type: 'image/png',

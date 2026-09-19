@@ -59,7 +59,7 @@
       "idleLabel": "Drag images here to convert",
       "draggingLabel": "Drop files to convert",
       "processingLabel": "Converting files...",
-      "helperLabel": "Supported formats: HEIC, JPG/JPEG/JFIF, PNG, WebP, GIF, BMP, TIFF, AVIF, and ICO",
+      "helperLabel": "Supported formats: JPG/JPEG/JFIF, PNG, WebP, GIF, and AVIF",
       "addMoreLabel": "Add",
       "clearAllLabel": "Clear",
       "compressLabel": "Convert",
@@ -76,6 +76,7 @@
       "convertingLabel": "Converting...",
       "saveAllLabel": "Save all",
       "savingLabel": "Saving...",
+      "convertedZipName": "pixel-crunch-converted.zip",
       "convertedBadgeLabel": "Converted",
       "pendingBadgeLabel": "Pending",
       "noPendingLabel": "There are no pending files to convert.",
@@ -97,7 +98,11 @@
     "emptyStateLabel": "No images uploaded yet.",
     "removeLabel": "Remove image",
     "previewAltPrefix": "Preview of",
-    "saveSingleLabel": "Save"
+    "saveSingleLabel": "Save",
+    "previousImageLabel": "Previous image",
+    "nextImageLabel": "Next image",
+    "carouselLabel": "Image carousel",
+    "viewImageLabel": "View image {index}"
   },
   "compression": {
     "quality": {

@@ -1,57 +1,227 @@
 ---
-import LanguageSwitcher from '../LanguageSwitcher';
+import LanguageSwitcher from '../LanguageSwitcher.astro';
 import ThemeToggle from '../ui/ThemeToggle';
+import { getLocalizedRoute, type Locale, type RouteKey } from '../../i18n/routes';
 
 interface Props {
-  lang?: 'es' | 'en';
+  lang?: Locale;
+  route?: RouteKey;
 }
 
-const { lang = 'es' } = Astro.props;
+const { lang = 'es', route = 'home' } = Astro.props;
 const isEnglish = lang === 'en';
 
-const featuresLabel = isEnglish ? 'Features' : 'Características';
 const navAriaLabel = isEnglish ? 'Main navigation' : 'Navegación principal';
+const mobileNavAriaLabel = isEnglish ? 'Mobile navigation' : 'Navegación móvil';
 const homeAriaLabel = isEnglish ? 'Go to home' : 'Ir a inicio';
-const githubAriaLabel = isEnglish
-  ? 'View repository on GitHub (opens in new tab)'
-  : 'Ver repositorio en GitHub (abre en nueva pestaña)';
+const openMenuLabel = isEnglish ? 'Open navigation menu' : 'Abrir menú de navegación';
+const closeMenuLabel = isEnglish ? 'Close navigation menu' : 'Cerrar menú de navegación';
+const navigation = [
+  { key: 'compress' as const, label: isEnglish ? 'Compress' : 'Comprimir' },
+  { key: 'convert' as const, label: isEnglish ? 'Convert' : 'Convertir' },
+  { key: 'removeBackground' as const, label: isEnglish ? 'Remove background' : 'Quitar fondo' },
+];
+const homeHref = getLocalizedRoute(lang, 'home');
+const sectionNavigation = [
+  { href: `${homeHref}#overview`, label: isEnglish ? 'Overview' : 'Descripción' },
+  { href: `${homeHref}#technology`, label: isEnglish ? 'Technology' : 'Tecnología' },
+  { href: `${homeHref}#faq`, label: isEnglish ? 'Support' : 'Soporte' },
+];
+
+const navLinkClasses =
+  'flex min-h-12 items-center border-b border-monokai-fg/10 px-1 text-base font-medium text-monokai-fg/80 transition-colors hover:text-brand-blue focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue dark:hover:text-brand-cyan-light';
 ---
 
-<header class="sticky top-0 z-40 w-full border-b border-gray-200 dark:border-white/10 bg-white/80 dark:bg-monokai-bg/80 backdrop-blur-sm">
-  <div class="container mx-auto px-6">
-    <nav class="h-16 flex flex-wrap items-center justify-between gap-4" aria-label={navAriaLabel}>
-      <!-- Logo -->
-      <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity group" aria-label={homeAriaLabel}>
-        <img src="/Logo.svg" alt="Pixel Crunch Logo" class="w-8 h-8 transition-transform group-hover:scale-110" />
-        <span class="text-xl font-bold text-brand-blue">
-          Pixel Crunch
-        </span>
+<header class="sticky top-0 z-40 w-full border-b border-gray-200 bg-white/80 backdrop-blur-sm dark:border-white/10 dark:bg-monokai-bg/80">
+  <div class="container mx-auto px-4 sm:px-6">
+    <nav class="flex h-16 items-center justify-between gap-3" aria-label={navAriaLabel}>
+      <a href={homeHref} class="group flex min-w-0 items-center gap-2 transition-opacity hover:opacity-80 sm:gap-3" aria-label={homeAriaLabel}>
+        <img src="/Logo.svg" alt="" class="h-8 w-8 shrink-0 transition-transform group-hover:scale-110" />
+        <span class="truncate text-lg font-bold text-brand-blue sm:text-xl">Pixel Crunch</span>
       </a>
 
-      <!-- Navegación (desktop) -->
-      <div class="hidden md:flex items-center gap-6">
-        <a 
-          href="/#features" 
-          class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-brand-blue transition-colors"
-        >
-          {featuresLabel}
-        </a>
-        <a 
-          href="https://github.com/JosueMM01/pixel-crunch" 
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-brand-blue transition-colors"
-          aria-label={githubAriaLabel}
-        >
-          GitHub
-        </a>
+      <div class="hidden items-center gap-5 lg:flex">
+        {navigation.map((item) => (
+          <a
+            href={getLocalizedRoute(lang, item.key)}
+            aria-current={route === item.key ? 'page' : undefined}
+            class:list={[
+              'text-sm font-medium transition-colors hover:text-brand-blue focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-blue',
+              route === item.key ? 'text-brand-blue dark:text-brand-cyan-light' : 'text-gray-600 dark:text-gray-300',
+            ]}
+          >
+            {item.label}
+          </a>
+        ))}
+        {sectionNavigation.map((item) => (
+          <a
+            href={item.href}
+            class="text-sm font-medium text-gray-600 transition-colors hover:text-brand-blue focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-blue dark:text-gray-300"
+          >
+            {item.label}
+          </a>
+        ))}
       </div>
 
-      <!-- Theme + Language Switcher -->
-      <div class="flex items-center gap-2">
-        <ThemeToggle client:load />
-        <LanguageSwitcher client:load />
+      <div class="hidden shrink-0 items-center gap-2 lg:flex">
+        <ThemeToggle lang={lang} client:load />
+        <LanguageSwitcher lang={lang} route={route} />
       </div>
+
+      <button
+        type="button"
+        class="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white/70 text-gray-700 transition-colors hover:border-brand-blue hover:text-brand-blue focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue dark:border-brand-cyan/30 dark:bg-monokai-bg/80 dark:text-brand-cyan-light lg:hidden"
+        aria-label={openMenuLabel}
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        data-mobile-menu-open
+      >
+        <svg aria-hidden="true" viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
     </nav>
   </div>
+
+  <dialog
+    id="mobile-menu"
+    class="fixed inset-y-0 left-0 m-0 h-dvh max-h-none w-[68vw] min-w-60 max-w-96 overflow-y-auto border-0 border-r border-monokai-fg/15 bg-monokai-bg p-0 text-monokai-fg shadow-2xl backdrop:bg-slate-950/45 backdrop:backdrop-blur-sm sm:w-1/2 lg:hidden"
+    aria-labelledby="mobile-menu-title"
+    data-mobile-menu
+  >
+    <div class="flex min-h-full flex-col px-5 pb-6 pt-4 sm:px-6">
+      <div class="flex min-h-12 items-center justify-between gap-3 border-b border-monokai-fg/10 pb-4">
+        <a href={homeHref} class="flex min-w-0 items-center gap-2" aria-label={homeAriaLabel} data-mobile-menu-link>
+          <img src="/Logo.svg" alt="" class="h-8 w-8 shrink-0" />
+          <span id="mobile-menu-title" class="text-base font-bold leading-tight text-brand-blue">Pixel Crunch</span>
+        </a>
+        <button
+          type="button"
+          class="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full border border-monokai-fg/25 text-monokai-fg transition-colors hover:border-brand-blue hover:text-brand-blue focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue dark:hover:text-brand-cyan-light"
+          aria-label={closeMenuLabel}
+          data-mobile-menu-close
+        >
+          <svg aria-hidden="true" viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="m6 6 12 12M18 6 6 18"></path>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="mt-5" aria-label={mobileNavAriaLabel}>
+        <ul>
+          {navigation.map((item) => (
+            <li>
+              <a
+                href={getLocalizedRoute(lang, item.key)}
+                aria-current={route === item.key ? 'page' : undefined}
+                class:list={[navLinkClasses, route === item.key && 'text-brand-blue dark:text-brand-cyan-light']}
+                data-mobile-menu-link
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+          {sectionNavigation.map((item) => (
+            <li>
+              <a href={item.href} class={navLinkClasses} data-mobile-menu-link>{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="mt-auto flex items-center gap-2 border-t border-monokai-fg/10 pt-6">
+        <ThemeToggle lang={lang} client:load />
+        <LanguageSwitcher lang={lang} route={route} />
+      </div>
+    </div>
+  </dialog>
 </header>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('[data-mobile-menu]');
+  const openButton = document.querySelector<HTMLButtonElement>('[data-mobile-menu-open]');
+  const closeButton = dialog?.querySelector<HTMLButtonElement>('[data-mobile-menu-close]');
+  const menuLinks = dialog?.querySelectorAll<HTMLAnchorElement>('[data-mobile-menu-link]');
+
+  const closeMenu = () => {
+    if (!dialog?.open) return;
+    delete document.documentElement.dataset.mobileMenuOpen;
+    openButton?.setAttribute('aria-expanded', 'false');
+    dialog.close();
+  };
+
+  const openMenu = () => {
+    if (!dialog || dialog.open) return;
+    dialog.showModal();
+    document.documentElement.dataset.mobileMenuOpen = '';
+    openButton?.setAttribute('aria-expanded', 'true');
+  };
+
+  openButton?.addEventListener('click', openMenu);
+  closeButton?.addEventListener('click', closeMenu);
+  menuLinks?.forEach((link) => link.addEventListener('click', closeMenu));
+
+  dialog?.addEventListener('click', (event) => {
+    const bounds = dialog.getBoundingClientRect();
+    const clickedOutside =
+      event.clientX < bounds.left ||
+      event.clientX > bounds.right ||
+      event.clientY < bounds.top ||
+      event.clientY > bounds.bottom;
+
+    if (clickedOutside) closeMenu();
+  });
+
+  dialog?.addEventListener('cancel', (event) => {
+    event.preventDefault();
+    closeMenu();
+  });
+
+  dialog?.addEventListener('close', () => {
+    delete document.documentElement.dataset.mobileMenuOpen;
+    openButton?.setAttribute('aria-expanded', 'false');
+  });
+
+  window.matchMedia('(min-width: 64rem)').addEventListener('change', (event) => {
+    if (event.matches) closeMenu();
+  });
+</script>
+
+<style>
+  :global(html[data-mobile-menu-open]) {
+    overflow: hidden;
+  }
+
+  #mobile-menu[open] {
+    animation: mobile-menu-enter 180ms ease-out;
+  }
+
+  #mobile-menu[open]::backdrop {
+    animation: mobile-backdrop-enter 180ms ease-out;
+  }
+
+  @keyframes mobile-menu-enter {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes mobile-backdrop-enter {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #mobile-menu[open],
+    #mobile-menu[open]::backdrop {
+      animation: none;
+    }
+  }
+</style>

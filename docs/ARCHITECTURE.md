@@ -13,9 +13,9 @@ Sitio estático con landing y una página por herramienta. React solo hidrata la
 
 Cada ruta tiene canonical, hreflang, título y contenido propios. El selector de idioma mantiene la herramienta. Navegación mediante enlaces accesibles; un mapa tipado de rutas evita duplicación.
 
-## Estructura de carpetas de destino
+## Estructura de carpetas
 
-La estructura siguiente es propuesta: el código actual todavía agrupa los paneles de compresión/conversión en features/uploader.
+La fase 3 separó los paneles de compresión y conversión. Las carpetas de eliminación de fondo se crearán cuando exista implementación en fases posteriores.
 
 - **src/**
   - **components/**
@@ -25,20 +25,20 @@ La estructura siguiente es propuesta: el código actual todavía agrupa los pane
       - **uploader/** — selección, drag & drop y preview reutilizables.
       - **compressor/** — panel y controles exclusivos de compresión.
       - **converter/** — panel y controles exclusivos de conversión.
-      - **background-remover/** — interfaz de eliminación de fondo.
+      - **background-remover/** — interfaz de eliminación de fondo (fase 5).
   - **hooks/** — coordinación y estado por herramienta.
   - **lib/**
     - **compression/** — utilidades específicas de compresión.
     - **conversion/** — decodificación, formatos y exportación.
     - **background-removal/** — capacidades, estrategia, límites y cliente del worker.
     - **formats.ts / utils.ts** — utilidades realmente compartidas.
-  - **workers/** — compression.worker.ts y background-removal.worker.ts; conversión tendrá worker si el perfilado lo justifica.
+  - **workers/** — compression.worker.ts y, en fase 4, background-removal.worker.ts; conversión tendrá worker solo si el perfilado lo justifica.
   - **types/** — contratos y mensajes.
   - **i18n/** — es.json, en.json y mapa de rutas.
   - **layouts/** — Layout.astro y layout común de herramientas.
   - **pages/** — landing y páginas de herramientas ES/EN.
   - **styles/** — estilos globales.
-- **public/vendor/background-removal/** — modelos/runtime versionados generados.
+- **public/vendor/background-removal/** — modelos/runtime versionados generados en fase 4.
 - **scripts/** — preparación y verificación de assets.
 - **tests/** — configuración y pruebas de navegador; unitarias junto a los módulos.
 - **docs/** — especificaciones y fases.

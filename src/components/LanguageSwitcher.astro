@@ -1,0 +1,32 @@
+---
+import {
+  getAlternateLocale,
+  getAlternateRoute,
+  type Locale,
+  type RouteKey,
+} from '../i18n/routes';
+
+interface Props {
+  lang: Locale;
+  route: RouteKey;
+}
+
+const { lang, route } = Astro.props;
+const alternateLocale = getAlternateLocale(lang);
+const alternateHref = getAlternateRoute(lang, route);
+const label = lang === 'es' ? 'Cambiar a inglés' : 'Switch to Spanish';
+const flagSrc = alternateLocale === 'en' ? '/flags/us.svg' : '/flags/mx.svg';
+const flagAlt = alternateLocale === 'en' ? 'English' : 'Español';
+---
+
+<a
+  href={alternateHref}
+  hreflang={alternateLocale}
+  lang={alternateLocale}
+  class="inline-flex min-h-11 items-center gap-2 rounded-lg border border-gray-200 bg-white/70 px-3 py-2 transition-colors hover:border-brand-blue focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue dark:border-brand-cyan/30 dark:bg-monokai-bg/80 dark:hover:border-brand-cyan-light"
+  aria-label={label}
+>
+  <img src={flagSrc} alt="" class="h-3 w-4 rounded-sm" />
+  <span class="text-sm font-bold text-gray-700 dark:text-brand-cyan-light">{alternateLocale.toUpperCase()}</span>
+  <span class="sr-only">{flagAlt}</span>
+</a>

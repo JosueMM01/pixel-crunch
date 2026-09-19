@@ -1,0 +1,20 @@
+---
+import { ConverterPanel } from '../../components/features/converter';
+import ToolPage from '../../components/pages/ToolPage.astro';
+import translations from '../../i18n/es.json';
+import { siteContent } from '../../i18n/site';
+import Layout from '../../layouts/Layout.astro';
+
+const content = siteContent.es.convert;
+---
+
+<Layout title={content.title} description={content.description} lang="es" route="convert" featureList={[...content.bullets]}>
+  <ToolPage {...content} accent="pink">
+    <ConverterPanel
+      client:load
+      uploadCopy={translations.converter.upload}
+      previewCopy={translations.preview}
+      converterCopy={translations.converter.panel}
+    />
+  </ToolPage>
+</Layout>
