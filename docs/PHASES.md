@@ -1,6 +1,6 @@
 # Fases de Pixel Crunch 2.0
 
-**Estado:** Fases 1–2 completadas el 18/09/2026; Fases 3–7 pendientes. Cada fase incorpora pruebas y documentación.
+**Estado:** Fases 1–4 completadas el 18/09/2026; Fases 5–7 pendientes. Cada fase incorpora pruebas y documentación.
 
 ## Fase 1 — Modernización del stack y skills
 
@@ -52,15 +52,16 @@
 
 **Objetivo:** inferencia estable en navegador sin API remota.
 
-- [ ] Elegir versión estable compatible de IMG.LY/ONNX y preparar assets del mismo origen.
-- [ ] Crear worker independiente e imports dinámicos; una operación en vuelo.
-- [ ] Validar GPU real y fallback CPU/WASM; comparar calidad, memoria y tiempo antes de fijar orden de modelos.
-- [ ] Comparar API directa frente a máscara temporal aplicada al original; elegir el flujo más simple que cumpla límites.
-- [ ] Añadir límites de imagen, cancelación, timeout y reintentos acotados; no reducir resolución silenciosamente.
+- [x] Fijar IMG.LY 1.7.0 y ONNX Runtime Web 1.21.0; preparar y verificar assets del mismo origen.
+- [x] Crear worker independiente e imports dinámicos; una operación por worker.
+- [x] Detectar adaptador WebGPU real, definir fallback CPU/WASM y empezar por quint8 en dispositivos limitados.
+- [x] Elegir la API directa, que conserva dimensiones sin duplicar una composición manual sobre el original.
+- [x] Añadir límites de bytes/píxeles, cancelación, timeout y reintentos acotados; no reducir resolución silenciosamente.
 
 **Archivos:** lib/background-removal, worker, types, hook y scripts.
-**Pruebas:** políticas/protocolo y ejecución real con orientación/alfa, imágenes grandes y fallos.
+**Pruebas:** políticas, encabezados/dimensiones, protocolo, errores y ejecución real CPU/WASM con assets del mismo origen.
 **Aceptación:** resultado correcto, recursos liberados y ruta CPU viable; cero descarga IA al comprimir/convertir.
+**Resultado:** dependencias y assets fijados con hashes; 86 fragmentos cumplen el límite de 25 MiB. El cliente selecciona rutas adaptativas, termina cada worker y limita reintentos. CPU/WASM + `isnet_quint8` produjo PNG correcto dos veces en el entorno Chromium local. WebGPU y la matriz de dispositivos físicos permanecen en QA de Fase 7; no se anuncian como soporte validado.
 
 ## Fase 5 — Interfaz de quitar fondo
 
