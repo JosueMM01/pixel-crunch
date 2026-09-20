@@ -86,6 +86,7 @@
       "saveErrorLabel": "Could not save converted files.",
       "animatedGifWarningLabel": "Detected {count} animated GIF file(s). Only the first frame was exported.",
       "gifStrategyLabel": "GIF note: animated GIF files are converted using the first frame to keep output compatibility.",
+      "unsupportedFormatLabel": "Not available in this browser",
       "outputFormats": {
         "jpg": "JPG",
         "png": "PNG",

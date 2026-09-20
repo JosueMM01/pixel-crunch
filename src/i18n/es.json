@@ -86,6 +86,7 @@
       "saveErrorLabel": "No se pudieron guardar los archivos convertidos.",
       "animatedGifWarningLabel": "Se detectaron {count} GIF animado(s). Se exportó solo el primer fotograma.",
       "gifStrategyLabel": "Nota GIF: si el archivo es animado, la conversión exporta el primer fotograma para mantener compatibilidad de salida.",
+      "unsupportedFormatLabel": "No disponible en este navegador",
       "outputFormats": {
         "jpg": "JPG",
         "png": "PNG",

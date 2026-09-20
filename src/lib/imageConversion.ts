@@ -150,6 +150,22 @@ function canvasToBlob(
   });
 }
 
+export function canEncodeImageType(mimeType: ConverterOutputMimeType): Promise<boolean> {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1;
+  canvas.height = 1;
+
+  if (typeof canvas.toBlob !== 'function') return Promise.resolve(false);
+
+  return new Promise((resolve) => {
+    canvas.toBlob(
+      (blob) => resolve(blob?.type.toLowerCase() === mimeType),
+      mimeType,
+      0.8,
+    );
+  });
+}
+
 export function isGifFile(file: File): boolean {
   const normalizedType = file.type.toLowerCase().trim();
 
