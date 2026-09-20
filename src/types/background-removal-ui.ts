@@ -1,4 +1,15 @@
-import type { BackgroundRemovalErrorCode, BackgroundRemovalStage } from './background-removal';
+import type {
+  BackgroundRemovalErrorCode,
+  BackgroundRemovalResult,
+  BackgroundRemovalStage,
+} from './background-removal';
+
+export interface BackgroundRemovalQueueItem {
+  id: string;
+  file: File;
+  result?: BackgroundRemovalResult;
+  editedOutput?: Blob;
+}
 
 export interface BackgroundRemovalPanelCopy {
   uploadTitle: string;
@@ -8,7 +19,7 @@ export interface BackgroundRemovalPanelCopy {
   pasteLabel: string;
   formatsLabel: string;
   privacyLabel: string;
-  replaceLabel: string;
+  addImagesLabel: string;
   removeLabel: string;
   processLabel: string;
   processingLabel: string;
@@ -33,6 +44,22 @@ export interface BackgroundRemovalPanelCopy {
   attemptsLabel: string;
   dimensionsLabel: string;
   memoryNote: string;
+  queueLabel: string;
+  queueCountLabel: string;
+  queueLimitErrorLabel: string;
+  queueSizeErrorLabel: string;
+  pendingLabel: string;
+  processedLabel: string;
+  editLabel: string;
+  editorTitle: string;
+  editorDescription: string;
+  eraseLabel: string;
+  restoreLabel: string;
+  brushSizeLabel: string;
+  undoLabel: string;
+  redoLabel: string;
+  applyEditLabel: string;
+  closeEditorLabel: string;
   pasteSuccessLabel: string;
   invalidPasteLabel: string;
   sizeErrorLabel: string;

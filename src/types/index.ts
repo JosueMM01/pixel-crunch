@@ -41,6 +41,7 @@ export type {
 } from './background-removal';
 
 export type {
-	BackgroundRemovalPanelCopy,
-	BackgroundRemoverPanelProps,
+  BackgroundRemovalQueueItem,
+  BackgroundRemovalPanelCopy,
+  BackgroundRemoverPanelProps,
 } from './background-removal-ui';
