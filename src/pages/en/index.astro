@@ -6,6 +6,6 @@ import Layout from '../../layouts/Layout.astro';
 const content = siteContent.en.landing;
 ---
 
-<Layout title={content.title} description={content.description} lang="en" route="home">
+<Layout title={content.title} description={content.description} lang="en" route="home" faqItems={content.faq.items}>
   <LandingPage lang="en" />
 </Layout>

@@ -1,0 +1,29 @@
+# Pixel Crunch
+
+Pixel Crunch is a free, open-source image toolkit that processes user images locally in the browser. Cloudflare Pages serves the static application and public model files; Pixel Crunch does not provide a remote image-processing or inference API.
+
+## Spanish pages
+
+- Home and product documentation: https://pixel-crunch.josuem01.dev/
+- Compress images: https://pixel-crunch.josuem01.dev/comprimir/
+- Convert images: https://pixel-crunch.josuem01.dev/convertir/
+- Remove image backgrounds: https://pixel-crunch.josuem01.dev/quitar-fondo/
+
+## English pages
+
+- Home and product documentation: https://pixel-crunch.josuem01.dev/en/
+- Image compressor: https://pixel-crunch.josuem01.dev/en/compress/
+- Image converter: https://pixel-crunch.josuem01.dev/en/convert/
+- Background remover: https://pixel-crunch.josuem01.dev/en/remove-background/
+
+## Product facts
+
+- Compression supports JPG, JPEG, JFIF, PNG, WebP, GIF, and SVG.
+- Conversion accepts browser-decodable JPG, PNG, WebP, GIF, and AVIF files and exports JPG, PNG, WebP, or AVIF when the browser supports the codec.
+- Background removal downloads a public model on demand and runs inference on the user's device.
+- Selected images are held in browser memory during the session and are not uploaded to a Pixel Crunch processing service.
+- First-visit or complete offline operation is not guaranteed.
+- Source code: https://github.com/JosueMM01/pixel-crunch
+- License: AGPL-3.0-only
+
+For the canonical, localized description of a feature, use the corresponding page above.

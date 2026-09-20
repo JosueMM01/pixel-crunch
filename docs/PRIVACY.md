@@ -14,6 +14,6 @@ Offline requiere aplicación y motor descargados; cuotas, modo privado o evicci�
 
 ## Pendientes de verificación
 
-El código actual solicita Google Fonts y guarda preferencias. Revisar fuentes locales/sistema y tráfico real del despliegue.
+Fira Code se sirve desde el mismo origen. La preferencia de tema y la caché best-effort de recursos públicos del modelo son los únicos datos persistentes propios de la aplicación.
 
 Antes de release: inspeccionar red/almacenamiento durante todos los flujos, confirmar cero subida de fotos y cero descarga IA al comprimir/convertir. No añadir analytics de usuarios en este alcance.

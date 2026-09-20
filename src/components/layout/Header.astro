@@ -1,6 +1,6 @@
 ---
 import LanguageSwitcher from '../LanguageSwitcher.astro';
-import ThemeToggle from '../ui/ThemeToggle';
+import ThemeToggle from '../ui/ThemeToggle.astro';
 import { getLocalizedRoute, type Locale, type RouteKey } from '../../i18n/routes';
 
 interface Props {
@@ -64,7 +64,7 @@ const navLinkClasses =
       </div>
 
       <div class="hidden shrink-0 items-center gap-2 lg:flex">
-        <ThemeToggle lang={lang} client:load />
+        <ThemeToggle lang={lang} />
         <LanguageSwitcher lang={lang} route={route} />
       </div>
 
@@ -130,7 +130,7 @@ const navLinkClasses =
       </nav>
 
       <div class="mt-auto flex items-center gap-2 border-t border-monokai-fg/10 pt-6">
-        <ThemeToggle lang={lang} client:load />
+        <ThemeToggle lang={lang} />
         <LanguageSwitcher lang={lang} route={route} />
       </div>
     </div>

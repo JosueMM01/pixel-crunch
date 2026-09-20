@@ -1,0 +1,63 @@
+---
+interface Props {
+  lang?: 'es' | 'en';
+}
+
+const { lang = 'es' } = Astro.props;
+const activateLight = lang === 'en' ? 'Activate light mode' : 'Activar modo claro';
+const activateDark = lang === 'en' ? 'Activate dark mode' : 'Activar modo oscuro';
+---
+
+<button
+  type="button"
+  class="inline-flex items-center justify-center rounded-lg border border-gray-200 bg-white/70 p-2.5 text-gray-700 backdrop-blur-sm transition-colors hover:border-brand-blue dark:border-brand-cyan/30 dark:bg-monokai-bg/80 dark:text-brand-cyan-light dark:hover:border-brand-cyan-light"
+  aria-label={activateDark}
+  title={activateDark}
+  data-theme-toggle
+  data-label-dark={activateDark}
+  data-label-light={activateLight}
+>
+  <svg data-theme-icon="moon" aria-hidden="true" viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9"></path>
+  </svg>
+  <svg data-theme-icon="sun" aria-hidden="true" viewBox="0 0 24 24" class="hidden h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.42"></path>
+  </svg>
+</button>
+
+<script>
+  const themeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+  function updateThemeButtons() {
+    const isDark = document.documentElement.classList.contains('dark');
+    document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((button) => {
+      const label = isDark ? button.dataset.labelLight : button.dataset.labelDark;
+      if (label) {
+        button.setAttribute('aria-label', label);
+        button.title = label;
+      }
+      button.querySelector<SVGElement>('[data-theme-icon="moon"]')?.classList.toggle('hidden', isDark);
+      button.querySelector<SVGElement>('[data-theme-icon="sun"]')?.classList.toggle('hidden', !isDark);
+    });
+  }
+
+  function applySystemTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme && savedTheme !== 'system') return;
+    document.documentElement.classList.toggle('dark', themeMediaQuery.matches);
+    updateThemeButtons();
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const nextTheme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+      localStorage.setItem('theme', nextTheme);
+      document.documentElement.classList.toggle('dark', nextTheme === 'dark');
+      updateThemeButtons();
+    });
+  });
+
+  themeMediaQuery.addEventListener('change', applySystemTheme);
+  updateThemeButtons();
+</script>

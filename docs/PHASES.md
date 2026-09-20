@@ -1,6 +1,6 @@
 # Fases de Pixel Crunch 2.0
 
-**Estado:** Fases 1–4 completadas; Fase 5 implementada localmente y pendiente de revisión visual; Fases 6–7 pendientes. Cada fase incorpora pruebas y documentación.
+**Estado:** Fases 1–5 completadas y en producción; Fase 6 implementada en rama y pendiente de validación tras desplegar; Fase 7 pendiente. Cada fase incorpora pruebas y documentación.
 
 ## Fase 1 — Modernización del stack y skills
 
@@ -77,21 +77,24 @@
 **Archivos:** background-remover, página, traducciones y tests.
 **Pruebas:** estados/acciones, teclado, formatos, tema y responsive.
 **Aceptación:** flujo completo sin persistir imágenes y sin porcentajes ficticios de inferencia.
-**Resultado provisional:** las tres herramientas usan páginas operativas compactas; la documentación extensa permanece en la landing. Quitar fondo mantiene hasta 20 imágenes y 200 MiB por sesión, una inferencia a la vez, resultados independientes, pegado, comparación y corrección local. El selector explica Original/Equilibrado/Ligero y recomienda 4096 px. Cache Storage conserva solo recursos públicos del modelo de forma best-effort y distingue descarga de carga local. Falta la aprobación visual del propietario antes de promover la rama.
+**Resultado:** las tres herramientas usan páginas operativas compactas. Quitar fondo mantiene hasta 20 imágenes y 200 MiB por sesión, una inferencia a la vez, resultados independientes, pegado, comparación y corrección local. Cache Storage conserva sólo recursos públicos del modelo de forma best-effort y distingue descarga de carga local. La fase fue aprobada y desplegada.
 
-## Fase 6 — Cloudflare, caché y rendimiento
+## Fase 6 — SEO, Cloudflare y rendimiento
 
-**Objetivo:** entrega estática eficiente y comportamiento offline honesto.
+**Objetivo:** facilitar descubrimiento en ES/EN y mantener una entrega estática eficiente.
 
-- [ ] Verificar hashes, manifiesto, avisos y tamaño de cada asset; fragmentar modelos cuando sea necesario.
-- [ ] Configurar headers/MIME y URLs inmutables versionadas.
-- [ ] Excluir IA del precache; caché runtime best-effort solo de recursos públicos.
-- [ ] Probar cuota agotada, descarga interrumpida, actualización del SW y rollback sin perder trabajos activos.
-- [ ] Medir bundle/red/memoria y ajustar estrategia; revisar CSP y fuentes remotas.
+- [x] Publicar títulos, descripciones, canonical/hreflang, contenido semántico y datos estructurados por ruta.
+- [x] Declarar `WebSite` en la raíz para el nombre Pixel Crunch; mantener sitemap, robots y resumen `llms.txt`.
+- [x] Verificar hashes, manifiesto, avisos y límite de 25 MiB de cada asset distribuido.
+- [x] Configurar headers y caché inmutable para assets versionados; mantener SW y manifiesto revalidables.
+- [x] Excluir IA del precache; caché runtime best-effort sólo de recursos públicos.
+- [x] Eliminar React de la landing, autoalojar la fuente y fijar budgets de JS/CSS/assets en CI.
+- [ ] Verificar headers, Search Console y métricas de campo después del despliegue.
 
-**Archivos:** astro.config, public/_headers, scripts, assets y CI.
-**Pruebas:** preview Pages, solicitudes, caché fría/caliente/offline parcial y budgets.
-**Aceptación:** todos los archivos <=25 MiB, rutas existentes sin tráfico IA y caché fallida sin impedir uso online.
+**Archivos:** layout, páginas, contenido ES/EN, `public/_headers`, assets, scripts, CI y documentación SEO.
+**Pruebas:** HTML generado, schema, rutas ES/EN, consola, responsive, caché fría/caliente y budgets.
+**Aceptación:** páginas rastreables con metadatos coherentes; todos los archivos <=25 MiB; landing sin JS inicial; comprimir/convertir sin recursos IA; caché fallida sin impedir uso online.
+**Resultado provisional:** las ocho rutas canónicas permanecen en el sitemap. La landing referencia 0 KiB de JS inicial; compresor 311.7 KiB, convertidor 215.8 KiB y quitar fondo 241.0 KiB minificados antes de compresión, con 73.3 KiB de CSS compartido. Los límites se validan en CI. La confirmación de headers y Core Web Vitals requiere el despliegue.
 
 ## Fase 7 — QA y release
 

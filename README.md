@@ -13,6 +13,7 @@
   <a href="https://pixel-crunch.josuem01.dev/">Abrir Pixel Crunch</a> ·
   <a href="docs/ARCHITECTURE.md">Arquitectura</a> ·
   <a href="docs/PRIVACY.md">Privacidad</a> ·
+  <a href="docs/SEO.md">SEO</a> ·
   <a href="docs/PHASES.md">Roadmap</a>
 </p>
 
@@ -59,7 +60,7 @@ pnpm dev
 pnpm verify
 ```
 
-`pnpm verify` ejecuta typecheck, cobertura y build. El build prepara los assets de eliminación de fondo desde un archivo fijado por versión y SHA-256; los modelos generados no se guardan en Git.
+`pnpm verify` ejecuta typecheck, cobertura, build y presupuestos de entrega. El build prepara los assets de eliminación de fondo desde un archivo fijado por versión y SHA-256; los modelos generados no se guardan en Git.
 
 ## Licencia y terceros
 
@@ -75,5 +76,6 @@ La carpeta [`docs/`](docs) forma parte del repositorio porque registra decisione
 - [Fases de implementación](docs/PHASES.md)
 - [Pruebas y CI](docs/TESTING_STRATEGY.md)
 - [Especificaciones técnicas](docs/TECH_SPECS.md)
+- [SEO y descubrimiento](docs/SEO.md)
 - [Flujo de contribución](docs/GIT_WORKFLOW.md)
 - [Decisiones arquitectónicas](docs/decisions)
