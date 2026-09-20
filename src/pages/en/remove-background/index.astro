@@ -1,14 +1,15 @@
 ---
-import ComingSoonPanel from '../../../components/pages/ComingSoonPanel.astro';
+import { BackgroundRemoverPanel } from '../../../components/features/background-remover';
 import ToolPage from '../../../components/pages/ToolPage.astro';
+import translations from '../../../i18n/en.json';
 import { siteContent } from '../../../i18n/site';
 import Layout from '../../../layouts/Layout.astro';
 
 const content = siteContent.en.removeBackground;
 ---
 
-<Layout title={content.title} description={content.description} lang="en" route="removeBackground" noindex featureList={[...content.bullets]}>
+<Layout title={content.title} description={content.description} lang="en" route="removeBackground" featureList={[...content.bullets]}>
   <ToolPage {...content} accent="green">
-    <ComingSoonPanel label={content.pendingLabel} description={content.pendingDescription} />
+    <BackgroundRemoverPanel client:load copy={translations.backgroundRemoval} />
   </ToolPage>
 </Layout>

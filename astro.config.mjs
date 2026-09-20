@@ -12,9 +12,7 @@ export default defineConfig({
   site: 'https://pixel-crunch.josuem01.dev',
   integrations: [
     react(),
-    sitemap({
-      filter: (page) => !page.endsWith('/quitar-fondo/') && !page.endsWith('/en/remove-background/')
-    })
+    sitemap()
   ],
 
   devToolbar: {

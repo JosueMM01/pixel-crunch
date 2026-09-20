@@ -137,5 +137,68 @@
       "errorLabel": "La compresión falló",
       "progressLabel": "Progreso"
     }
+  },
+  "backgroundRemoval": {
+    "uploadTitle": "Sube una imagen para quitar el fondo",
+    "uploadDescription": "Selecciona, arrastra o pega una imagen. El archivo se procesa en este navegador y no se envía a una API.",
+    "uploadButton": "Cargar imagen",
+    "dropLabel": "o arrastra una imagen aquí",
+    "pasteLabel": "También puedes pegar con Ctrl + V",
+    "formatsLabel": "JPG, PNG o WebP · máximo 25 MB",
+    "privacyLabel": "Procesamiento privado en tu navegador",
+    "replaceLabel": "Cambiar",
+    "removeLabel": "Borrar",
+    "processLabel": "Quitar fondo",
+    "processingLabel": "Quitando el fondo",
+    "cancelLabel": "Cancelar",
+    "retryLabel": "Volver a intentar",
+    "newImageLabel": "Procesar otra imagen",
+    "downloadLabel": "Descargar resultado",
+    "beforeLabel": "Original",
+    "afterLabel": "Sin fondo",
+    "comparisonLabel": "Comparar imagen original y resultado",
+    "resolutionLabel": "Resolución de salida",
+    "resolutionOptions": {
+      "original": { "label": "Original", "description": "Conserva las dimensiones cuando el dispositivo puede procesarlas." },
+      "optimized": { "label": "Optimizada", "description": "Limita el lado mayor a 4096 px para equilibrar detalle y memoria." },
+      "reduced": { "label": "Reducida", "description": "Limita el lado mayor a 2048 px para dispositivos con menos recursos." }
+    },
+    "formatLabel": "Formato de descarga",
+    "formatOptions": { "png": "PNG transparente", "webp": "WebP transparente" },
+    "stageLabels": {
+      "preparing": "Preparando la imagen",
+      "loading-runtime": "Preparando el motor local",
+      "downloading-assets": "Preparando el modelo",
+      "decoding": "Leyendo la imagen",
+      "inference": "Detectando el sujeto",
+      "applying-mask": "Aplicando transparencia",
+      "encoding": "Generando el resultado"
+    },
+    "downloadingModelLabel": "Descargando el modelo para esta ruta. Se guardará en caché cuando sea posible.",
+    "cachedModelLabel": "Cargando el modelo guardado en este navegador.",
+    "modelReadyLabel": "Comprobando los recursos locales del modelo.",
+    "progressLabel": "Progreso del procesamiento",
+    "diagnosticsLabel": "Diagnóstico técnico",
+    "routeLabel": "Ruta utilizada",
+    "attemptsLabel": "Intentos",
+    "dimensionsLabel": "Dimensiones originales",
+    "memoryNote": "La imagen y el resultado viven solo en memoria durante esta página; se eliminan al borrarlos o cerrar la pestaña.",
+    "pasteSuccessLabel": "Imagen pegada desde el portapapeles.",
+    "invalidPasteLabel": "El portapapeles no contiene una imagen compatible.",
+    "sizeErrorLabel": "La imagen supera el límite de 25 MB.",
+    "typeErrorLabel": "Usa una imagen JPG, PNG o WebP válida.",
+    "exportErrorLabel": "El navegador no pudo generar el formato de descarga elegido.",
+    "errors": {
+      "cancelled": "El procesamiento se canceló. Puedes volver a intentarlo.",
+      "timeout": "El procesamiento tardó demasiado. Prueba la resolución reducida.",
+      "invalid-image": "La imagen está dañada o su contenido no coincide con el formato.",
+      "image-too-large": "La imagen supera los límites seguros de este dispositivo. Elige una resolución menor.",
+      "asset-download": "No se pudieron cargar los recursos del modelo. Revisa tu conexión y vuelve a intentarlo.",
+      "webgpu-unavailable": "WebGPU no está disponible. Pixel Crunch intentó continuar mediante CPU.",
+      "insufficient-memory": "El dispositivo no tiene memoria suficiente. Prueba la resolución reducida.",
+      "inference-failed": "No se pudo separar el sujeto de esta imagen.",
+      "worker-failed": "El proceso local se detuvo inesperadamente.",
+      "unknown": "Ocurrió un error inesperado al quitar el fondo."
+    }
   }
 }

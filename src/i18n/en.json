@@ -137,5 +137,68 @@
       "errorLabel": "Compression failed",
       "progressLabel": "Progress"
     }
+  },
+  "backgroundRemoval": {
+    "uploadTitle": "Upload an image to remove its background",
+    "uploadDescription": "Select, drag, or paste an image. The file is processed in this browser and is not sent to an API.",
+    "uploadButton": "Upload image",
+    "dropLabel": "or drag an image here",
+    "pasteLabel": "You can also paste with Ctrl + V",
+    "formatsLabel": "JPG, PNG, or WebP · 25 MB maximum",
+    "privacyLabel": "Private processing in your browser",
+    "replaceLabel": "Replace",
+    "removeLabel": "Clear",
+    "processLabel": "Remove background",
+    "processingLabel": "Removing the background",
+    "cancelLabel": "Cancel",
+    "retryLabel": "Try again",
+    "newImageLabel": "Process another image",
+    "downloadLabel": "Download result",
+    "beforeLabel": "Original",
+    "afterLabel": "Background removed",
+    "comparisonLabel": "Compare the original image and result",
+    "resolutionLabel": "Output resolution",
+    "resolutionOptions": {
+      "original": { "label": "Original", "description": "Keeps the dimensions when the device can process them." },
+      "optimized": { "label": "Optimized", "description": "Limits the longest edge to 4096 px to balance detail and memory." },
+      "reduced": { "label": "Reduced", "description": "Limits the longest edge to 2048 px for devices with fewer resources." }
+    },
+    "formatLabel": "Download format",
+    "formatOptions": { "png": "Transparent PNG", "webp": "Transparent WebP" },
+    "stageLabels": {
+      "preparing": "Preparing the image",
+      "loading-runtime": "Preparing the local engine",
+      "downloading-assets": "Preparing the model",
+      "decoding": "Reading the image",
+      "inference": "Detecting the subject",
+      "applying-mask": "Applying transparency",
+      "encoding": "Generating the result"
+    },
+    "downloadingModelLabel": "Downloading the model for this route. It will be cached when possible.",
+    "cachedModelLabel": "Loading the model saved in this browser.",
+    "modelReadyLabel": "Checking local model resources.",
+    "progressLabel": "Processing progress",
+    "diagnosticsLabel": "Technical diagnostics",
+    "routeLabel": "Route used",
+    "attemptsLabel": "Attempts",
+    "dimensionsLabel": "Original dimensions",
+    "memoryNote": "The image and result live only in memory on this page; they are removed when cleared or when the tab closes.",
+    "pasteSuccessLabel": "Image pasted from the clipboard.",
+    "invalidPasteLabel": "The clipboard does not contain a compatible image.",
+    "sizeErrorLabel": "The image exceeds the 25 MB limit.",
+    "typeErrorLabel": "Use a valid JPG, PNG, or WebP image.",
+    "exportErrorLabel": "The browser could not generate the selected download format.",
+    "errors": {
+      "cancelled": "Processing was cancelled. You can try again.",
+      "timeout": "Processing took too long. Try the reduced resolution.",
+      "invalid-image": "The image is damaged or its content does not match the format.",
+      "image-too-large": "The image exceeds safe limits for this device. Choose a smaller resolution.",
+      "asset-download": "The model resources could not be loaded. Check your connection and try again.",
+      "webgpu-unavailable": "WebGPU is unavailable. Pixel Crunch attempted to continue on the CPU.",
+      "insufficient-memory": "The device does not have enough memory. Try the reduced resolution.",
+      "inference-failed": "The subject could not be separated from this image.",
+      "worker-failed": "The local process stopped unexpectedly.",
+      "unknown": "An unexpected error occurred while removing the background."
+    }
   }
 }
