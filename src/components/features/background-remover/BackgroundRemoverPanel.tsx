@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Clipboard, Download, ImagePlus, Info, LoaderCircle, Paintbrush, RefreshCw, ShieldCheck, Sparkles, Trash2, X } from 'lucide-react';
+import { Download, ImagePlus, Info, LoaderCircle, Paintbrush, RefreshCw, ShieldCheck, Sparkles, Trash2, X } from 'lucide-react';
 import { BackgroundComparison } from './BackgroundComparison';
 import { BackgroundImageQueue } from './BackgroundImageQueue';
 import { BackgroundMaskEditor } from './BackgroundMaskEditor';
@@ -11,6 +11,7 @@ import type { BackgroundRemovalOutputFormat, BackgroundRemovalResolution } from 
 import { showError, showSuccess } from '@/lib/toast';
 import { cn, formatBytes } from '@/lib/utils';
 import type { BackgroundRemovalQueueItem, BackgroundRemoverPanelProps } from '@/types';
+import type { BackgroundRemovalRoute } from '@/types/background-removal';
 
 const ACCEPT = {
   'image/jpeg': ['.jpg', '.jpeg'],
@@ -20,6 +21,16 @@ const ACCEPT = {
 const MAX_FILE_SIZE = 25 * 1024 * 1024;
 const MAX_FILES = 20;
 const MAX_SESSION_SIZE = 200 * 1024 * 1024;
+const MODEL_BYTES = { isnet: 176_149_806, isnet_fp16: 88_152_708, isnet_quint8: 44_348_940 } as const;
+const RUNTIME_BYTES = { cpu: 11_845_354, gpu: 23_062_350 } as const;
+
+function modelDownloadNotice(copy: BackgroundRemoverPanelProps['copy'], route: BackgroundRemovalRoute): string {
+  const modelSize = `${(MODEL_BYTES[route.model] / 1_000_000).toFixed(1)} MB`;
+  const downloadSize = `${((MODEL_BYTES[route.model] + RUNTIME_BYTES[route.device]) / 1_000_000).toFixed(1)} MB`;
+  return copy.modelDownloadNotice
+    .replace('{modelSize}', modelSize)
+    .replace('{downloadSize}', downloadSize);
+}
 
 function useObjectUrl(blob: Blob | null): string | null {
   const [url, setUrl] = useState<string | null>(null);
@@ -55,6 +66,7 @@ export function BackgroundRemoverPanel({ copy }: BackgroundRemoverPanelProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [needsModelDownload, setNeedsModelDownload] = useState(false);
+  const [plannedRoute, setPlannedRoute] = useState<BackgroundRemovalRoute | null>(null);
   const engine = useBackgroundRemoval();
   const activeItem = items.find((item) => item.id === activeId) ?? null;
   const activeOutput = activeItem?.editedOutput ?? activeItem?.result?.output ?? null;
@@ -66,11 +78,26 @@ export function BackgroundRemoverPanel({ copy }: BackgroundRemoverPanelProps) {
   useEffect(() => {
     let cancelled = false;
     setNeedsModelDownload(false);
+    setPlannedRoute(null);
     if (!activeItem || activeOutput || isBusy) return;
     void detectBackgroundRemovalCapabilities()
-      .then((capabilities) => isBackgroundRemovalRouteCached(selectBackgroundRemovalRoutes(capabilities)[0]))
-      .then((cached) => { if (!cancelled) setNeedsModelDownload(!cached); })
-      .catch(() => { if (!cancelled) setNeedsModelDownload(true); });
+      .then(async (capabilities) => {
+        const nextRoute = selectBackgroundRemovalRoutes(capabilities)[0];
+        const cached = await isBackgroundRemovalRouteCached(nextRoute);
+        return { cached, nextRoute };
+      })
+      .then(({ cached, nextRoute }) => {
+        if (!cancelled) {
+          setPlannedRoute(nextRoute);
+          setNeedsModelDownload(!cached);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setPlannedRoute({ device: 'cpu', model: 'isnet_fp16' });
+          setNeedsModelDownload(true);
+        }
+      });
     return () => { cancelled = true; };
   }, [activeId, Boolean(activeOutput), isBusy]);
 
@@ -223,15 +250,12 @@ export function BackgroundRemoverPanel({ copy }: BackgroundRemoverPanelProps) {
         ) })} aria-label={copy.uploadTitle}>
           <input {...getInputProps()} aria-hidden="true" tabIndex={-1} />
           <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-monokai-green/10 blur-3xl" />
-          <div className="relative mx-auto flex max-w-2xl flex-col items-center">
-            <span className="grid h-14 w-14 place-items-center rounded-2xl border border-monokai-green/35 bg-monokai-green/10 text-monokai-green"><ImagePlus className="h-6 w-6" aria-hidden="true" /></span>
-            <Button type="button" onClick={open} className="mt-4 min-h-11 w-full max-w-64 !bg-monokai-green text-sm font-bold !text-monokai-bg hover:!bg-monokai-green/85" icon={<ImagePlus className="h-4 w-4" />}>{copy.uploadButton}</Button>
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-monokai-fg/70">{copy.uploadDescription}</p>
-            <div className="mt-3 flex flex-wrap justify-center gap-2 text-xs text-monokai-fg/60">
-              <span className="rounded-full border border-monokai-fg/15 px-3 py-1.5">{copy.dropLabel}</span>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-monokai-fg/15 px-3 py-1.5"><Clipboard className="h-3.5 w-3.5" aria-hidden="true" />{copy.pasteLabel}</span>
-            </div>
-            <span className="mt-3 inline-flex items-center gap-1.5 text-xs text-monokai-green"><ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />{copy.privacyLabel}</span>
+          <div className="relative mx-auto flex max-w-2xl flex-col items-center gap-2">
+            <span className="grid h-12 w-12 place-items-center rounded-xl border border-monokai-green/35 bg-monokai-green/10 text-monokai-green"><ImagePlus className="h-5 w-5" aria-hidden="true" /></span>
+            <p className="text-base font-semibold text-monokai-fg md:text-lg">{copy.uploadDescription}</p>
+            <p className="text-xs text-monokai-fg/60 md:text-sm">{copy.formatsLabel}<span className="hidden sm:inline"> · {copy.pasteLabel}</span></p>
+            <Button type="button" onClick={open} size="sm" className="mt-1 min-h-11 !bg-monokai-green font-bold !text-monokai-bg hover:!bg-monokai-green/85" icon={<ImagePlus className="h-4 w-4" />}>{copy.uploadButton}</Button>
+            <span className="inline-flex items-center gap-1.5 text-xs text-monokai-green"><ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />{copy.privacyLabel}</span>
           </div>
         </section>
       ) : activeItem ? (
@@ -257,7 +281,7 @@ export function BackgroundRemoverPanel({ copy }: BackgroundRemoverPanelProps) {
                 <span className="mt-1.5 block text-xs font-normal leading-relaxed text-monokai-fg/55">{copy.resolutionOptions[resolution].description}</span>
               </label>
               <Button type="button" onClick={handleProcess} className="min-h-11 whitespace-nowrap !bg-monokai-green font-bold !text-monokai-bg hover:!bg-monokai-green/85" icon={<Sparkles className="h-5 w-5" />}>{copy.processLabel}</Button>
-              {needsModelDownload ? <p role="status" className="text-xs leading-relaxed text-monokai-fg/65 md:col-span-2">{copy.modelDownloadNotice}</p> : null}
+              {needsModelDownload && plannedRoute ? <p role="status" className="text-xs leading-relaxed text-monokai-fg/65 md:col-span-2">{modelDownloadNotice(copy, plannedRoute)}</p> : null}
             </div>
           ) : null}
 

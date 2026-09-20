@@ -28,7 +28,7 @@ PNG transparente es la salida del motor. La interfaz permite descargar PNG o Web
 
 ## Progreso y errores
 
-Antes de procesar una imagen, se consulta la caché de la ruta seleccionada. Si faltan recursos, aparece un aviso de descarga; si están completos, se omite. Los pesos miden 44,35 MB (quint8) o 88,15 MB (fp16); junto al runtime, una ruta inicial requiere aproximadamente 56,2–111,2 MB sin compresión HTTP. Un fallback puede necesitar recursos adicionales. La caché es best-effort.
+Antes de procesar una imagen, se detectan dispositivo, memoria expuesta, núcleos lógicos y un adaptador WebGPU real; la interfaz no pide al usuario elegir un modelo. Después se consulta la caché de la primera ruta. Si faltan recursos, aparece el peso exacto de esa ruta; si están completos, se omite el aviso. Los modelos pesan 44,35 MB (quint8) u 88,15 MB (fp16); junto al runtime, la primera ruta requiere aproximadamente 56,2 MB en equipos limitados, 100,0 MB en CPU fp16 o 111,2 MB en WebGPU fp16, antes de compresión HTTP. Un fallback puede necesitar recursos adicionales. La caché es best-effort.
 
 El protocolo expone etapas reales: carga del runtime, descarga de assets, preparación, inferencia, aplicación de transparencia y codificación. Los porcentajes solo se muestran cuando IMG.LY entrega bytes actuales y totales. El cliente clasifica entrada inválida, descarga, memoria, WebGPU, inferencia, worker, timeout y cancelación.
 

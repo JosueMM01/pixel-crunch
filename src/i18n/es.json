@@ -140,7 +140,7 @@
   },
   "backgroundRemoval": {
     "uploadTitle": "Selecciona tus imágenes",
-    "uploadDescription": "Arrástralas aquí o pégalas desde el portapapeles.",
+    "uploadDescription": "Arrastra o pega imágenes aquí",
     "uploadButton": "Seleccionar imágenes",
     "dropLabel": "JPG, PNG o WebP",
     "pasteLabel": "También puedes pegar con Ctrl + V",
@@ -175,7 +175,7 @@
       "encoding": "Generando el resultado"
     },
     "downloadingModelLabel": "Descargando el modelo para esta ruta. Se guardará en caché cuando sea posible.",
-    "modelDownloadNotice": "Al quitar el fondo se descargarán los recursos que falten (aprox. 56–112 MB en una primera descarga, según tu dispositivo). El navegador intentará guardarlos para la próxima vez. Tus imágenes no se suben.",
+    "modelDownloadNotice": "Descarga inicial: modelo {modelSize}; {downloadSize} con el motor necesario. Se guardará en caché cuando sea posible. Tus imágenes no se suben.",
     "cachedModelLabel": "Cargando el modelo guardado en este navegador.",
     "modelReadyLabel": "Comprobando los recursos locales del modelo.",
     "progressLabel": "Progreso del procesamiento",

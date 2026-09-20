@@ -140,7 +140,7 @@
   },
   "backgroundRemoval": {
     "uploadTitle": "Select your images",
-    "uploadDescription": "Drop them here or paste them from the clipboard.",
+    "uploadDescription": "Drag or paste images here",
     "uploadButton": "Select images",
     "dropLabel": "JPG, PNG, or WebP",
     "pasteLabel": "You can also paste with Ctrl + V",
@@ -175,7 +175,7 @@
       "encoding": "Generating the result"
     },
     "downloadingModelLabel": "Downloading the model for this route. It will be cached when possible.",
-    "modelDownloadNotice": "Removing the background will download any missing resources (about 56–112 MB on a first download, depending on your device). Your browser will try to save them for next time. Your images are not uploaded.",
+    "modelDownloadNotice": "Initial download: {modelSize} model; {downloadSize} with the required runtime. It will be cached when possible. Your images are not uploaded.",
     "cachedModelLabel": "Loading the model saved in this browser.",
     "modelReadyLabel": "Checking local model resources.",
     "progressLabel": "Processing progress",

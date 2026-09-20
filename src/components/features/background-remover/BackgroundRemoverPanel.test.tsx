@@ -65,7 +65,7 @@ describe('BackgroundRemoverPanel', () => {
     cachedRouteMock.mockResolvedValue(false);
     render(<BackgroundRemoverPanel copy={translations.backgroundRemoval} />);
     pasteImage();
-    expect(await screen.findByText(translations.backgroundRemoval.modelDownloadNotice)).toBeTruthy();
+    expect(await screen.findByText(/Descarga inicial: modelo 88\.2 MB; 100\.0 MB/)).toBeTruthy();
     expect(process).not.toHaveBeenCalled();
   });
 
@@ -75,7 +75,7 @@ describe('BackgroundRemoverPanel', () => {
     await screen.findAllByText('portrait.png');
     await act(async () => {});
     expect(cachedRouteMock).toHaveBeenCalled();
-    expect(screen.queryByText(translations.backgroundRemoval.modelDownloadNotice)).toBeNull();
+    expect(screen.queryByText(/Descarga inicial:/)).toBeNull();
   });
 
   it('keeps a pasted image in memory and starts the selected operation', async () => {
