@@ -4,6 +4,12 @@ import translations from '@/i18n/es.json';
 import { BackgroundRemoverPanel } from './BackgroundRemoverPanel';
 
 const useBackgroundRemovalMock = vi.hoisted(() => vi.fn());
+const cachedRouteMock = vi.hoisted(() => vi.fn());
+
+vi.mock('@/lib/background-removal', async (importOriginal) => ({
+  ...await importOriginal<typeof import('@/lib/background-removal')>(),
+  isBackgroundRemovalRouteCached: cachedRouteMock,
+}));
 
 vi.mock('@/hooks/useBackgroundRemoval', () => ({
   useBackgroundRemoval: useBackgroundRemovalMock,
@@ -41,6 +47,7 @@ function pasteImage(file = new File(['image'], 'portrait.png', { type: 'image/pn
 describe('BackgroundRemoverPanel', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    cachedRouteMock.mockResolvedValue(true);
     vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:preview');
     vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => undefined);
     useBackgroundRemovalMock.mockReturnValue(engineState());
@@ -52,6 +59,23 @@ describe('BackgroundRemoverPanel', () => {
     expect(screen.getByRole('button', { name: 'Seleccionar imágenes' })).toBeTruthy();
     expect(screen.getByText(/Ctrl \+ V/)).toBeTruthy();
     expect(screen.getByText(/JPG, PNG o WebP/)).toBeTruthy();
+  });
+
+  it('warns before processing only when the required resources are missing from cache', async () => {
+    cachedRouteMock.mockResolvedValue(false);
+    render(<BackgroundRemoverPanel copy={translations.backgroundRemoval} />);
+    pasteImage();
+    expect(await screen.findByText(translations.backgroundRemoval.modelDownloadNotice)).toBeTruthy();
+    expect(process).not.toHaveBeenCalled();
+  });
+
+  it('does not show a download notice when the route is cached', async () => {
+    render(<BackgroundRemoverPanel copy={translations.backgroundRemoval} />);
+    pasteImage();
+    await screen.findAllByText('portrait.png');
+    await act(async () => {});
+    expect(cachedRouteMock).toHaveBeenCalled();
+    expect(screen.queryByText(translations.backgroundRemoval.modelDownloadNotice)).toBeNull();
   });
 
   it('keeps a pasted image in memory and starts the selected operation', async () => {
@@ -106,8 +130,8 @@ describe('BackgroundRemoverPanel', () => {
     }));
     view.rerender(<BackgroundRemoverPanel copy={translations.backgroundRemoval} />);
 
-    expect(await screen.findByRole('button', { name: 'Descargar resultado' })).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Editar máscara' })).toBeTruthy();
+    expect(await screen.findByRole('button', { name: 'Descargar' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Editar' })).toBeTruthy();
     expect(clear).toHaveBeenCalled();
   });
 

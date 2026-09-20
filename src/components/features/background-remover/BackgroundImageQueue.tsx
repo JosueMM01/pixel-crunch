@@ -82,7 +82,7 @@ export function BackgroundImageQueue({
   onAdd,
 }: BackgroundImageQueueProps) {
   return (
-    <div className="border-b border-monokai-fg/10 pb-4">
+    <div className="min-w-0">
       <div className="mb-3 flex items-center justify-between gap-3">
         <h2 className="text-sm font-semibold text-monokai-fg">{copy.queueLabel}</h2>
         <span className="text-xs text-monokai-fg/55">{copy.queueCountLabel.replace('{count}', String(items.length))}</span>

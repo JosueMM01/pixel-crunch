@@ -218,16 +218,16 @@ export function BackgroundMaskEditor({ original, result, copy, onApply, onClose 
 
   return (
     <div ref={dialogRef} className="fixed inset-0 z-[70] flex items-center justify-center bg-black/70 p-3 backdrop-blur-sm md:p-6" role="dialog" aria-modal="true" aria-labelledby="mask-editor-title">
-      <div className="flex max-h-[95vh] w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-monokai-fg/20 bg-monokai-bg shadow-2xl">
-        <header className="flex items-start justify-between gap-4 border-b border-monokai-fg/10 p-4 md:p-5">
-          <div><h2 id="mask-editor-title" className="text-lg font-bold text-monokai-fg">{copy.editorTitle}</h2><p className="mt-1 max-w-2xl text-xs leading-relaxed text-monokai-fg/60 md:text-sm">{copy.editorDescription}</p></div>
+      <div className="flex max-h-[95dvh] w-full min-w-0 max-w-5xl flex-col overflow-hidden rounded-2xl border border-monokai-fg/20 bg-monokai-bg shadow-2xl">
+        <header className="flex shrink-0 items-start justify-between gap-4 border-b border-monokai-fg/10 p-4 md:p-5">
+          <div><h2 id="mask-editor-title" className="text-lg font-bold text-monokai-fg">{copy.editorTitle}</h2><p className="mt-1 hidden max-w-2xl text-xs sm:block leading-relaxed text-monokai-fg/60 md:text-sm">{copy.editorDescription}</p></div>
           <button ref={closeButtonRef} type="button" onClick={onClose} className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-monokai-fg/70 hover:bg-monokai-fg/10 focus:outline-none focus:ring-2 focus:ring-monokai-green" aria-label={copy.closeEditorLabel}><X className="h-5 w-5" aria-hidden="true" /></button>
         </header>
 
-        <div className="flex flex-wrap items-end gap-3 border-b border-monokai-fg/10 p-3 md:px-5">
-          <div className="flex rounded-xl border border-monokai-fg/15 p-1">
-            <button type="button" onClick={() => setMode('restore')} className={cn('inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold', mode === 'restore' ? 'bg-monokai-green text-monokai-bg' : 'text-monokai-fg')}><RotateCcw className="h-4 w-4" aria-hidden="true" />{copy.restoreLabel}</button>
-            <button type="button" onClick={() => setMode('erase')} className={cn('inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold', mode === 'erase' ? 'bg-monokai-green text-monokai-bg' : 'text-monokai-fg')}><Eraser className="h-4 w-4" aria-hidden="true" />{copy.eraseLabel}</button>
+        <div className="flex shrink-0 flex-wrap items-end gap-3 border-b border-monokai-fg/10 p-3 md:px-5">
+          <div className="grid w-full min-w-0 grid-cols-2 rounded-xl border border-monokai-fg/15 p-1 sm:w-auto">
+            <button type="button" onClick={() => setMode('restore')} aria-pressed={mode === 'restore'} className={cn('inline-flex min-h-11 items-center justify-center gap-1 rounded-lg px-2 py-2 text-xs font-semibold sm:text-sm', mode === 'restore' ? 'bg-monokai-green text-monokai-bg' : 'text-monokai-fg')}><RotateCcw className="h-4 w-4" aria-hidden="true" />{copy.restoreLabel}</button>
+            <button type="button" onClick={() => setMode('erase')} aria-pressed={mode === 'erase'} className={cn('inline-flex min-h-11 items-center justify-center gap-1 rounded-lg px-2 py-2 text-xs font-semibold sm:text-sm', mode === 'erase' ? 'bg-monokai-green text-monokai-bg' : 'text-monokai-fg')}><Eraser className="h-4 w-4" aria-hidden="true" />{copy.eraseLabel}</button>
           </div>
           <label className="min-w-40 flex-1 text-xs font-semibold text-monokai-fg md:max-w-64">{copy.brushSizeLabel}<input type="range" min="8" max="160" value={brushSize} onChange={(event) => setBrushSize(Number(event.currentTarget.value))} className="mt-2 block w-full accent-monokai-green" /></label>
           <div className="flex gap-1">
@@ -237,10 +237,10 @@ export function BackgroundMaskEditor({ original, result, copy, onApply, onClose 
         </div>
 
         <div className="min-h-0 flex-1 overflow-auto p-3 md:p-5" style={checkerboard}>
-          <canvas ref={canvasRef} className={cn('mx-auto block max-h-[62vh] max-w-full touch-none object-contain', !isReady && 'min-h-64 animate-pulse bg-monokai-fg/5')} onPointerDown={startStroke} onPointerMove={moveStroke} onPointerUp={endStroke} onPointerCancel={endStroke} />
+          <canvas ref={canvasRef} className={cn('mx-auto block max-h-[50dvh] max-w-full touch-none object-contain', !isReady && 'min-h-64 animate-pulse bg-monokai-fg/5')} onPointerDown={startStroke} onPointerMove={moveStroke} onPointerUp={endStroke} onPointerCancel={endStroke} />
         </div>
 
-        <footer className="flex justify-end gap-3 border-t border-monokai-fg/10 p-4">
+        <footer className="grid shrink-0 grid-cols-1 gap-2 border-t border-monokai-fg/10 p-3 sm:flex sm:justify-end sm:p-4">
           <Button type="button" variant="ghost" onClick={onClose}>{copy.closeEditorLabel}</Button>
           <Button type="button" onClick={apply} loading={isApplying} disabled={!isReady} icon={<Save className="h-4 w-4" />} className="!bg-monokai-green font-bold !text-monokai-bg">{copy.applyEditLabel}</Button>
         </footer>

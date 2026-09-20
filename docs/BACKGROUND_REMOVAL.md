@@ -28,10 +28,12 @@ PNG transparente es la salida del motor. La interfaz permite descargar PNG o Web
 
 ## Progreso y errores
 
+Antes de procesar una imagen, se consulta la caché de la ruta seleccionada. Si faltan recursos, aparece un aviso de descarga; si están completos, se omite. Los pesos miden 44,35 MB (quint8) o 88,15 MB (fp16); junto al runtime, una ruta inicial requiere aproximadamente 56,2–111,2 MB sin compresión HTTP. Un fallback puede necesitar recursos adicionales. La caché es best-effort.
+
 El protocolo expone etapas reales: carga del runtime, descarga de assets, preparación, inferencia, aplicación de transparencia y codificación. Los porcentajes solo se muestran cuando IMG.LY entrega bytes actuales y totales. El cliente clasifica entrada inválida, descarga, memoria, WebGPU, inferencia, worker, timeout y cancelación.
 
 La ruta CPU/WASM + `isnet_quint8` se ejecutó dos veces de extremo a extremo en el entorno Chromium local, usando assets del mismo origen y salida PNG. La matriz WebGPU y de navegadores físicos sigue siendo trabajo de QA; no se presenta como compatibilidad certificada.
 
-La interfaz acepta selector múltiple, drag & drop y pegado desde el portapapeles. Mantiene hasta 20 imágenes y 200 MiB por sesión para cambiar entre trabajos sin perder resultados, pero procesa solo una imagen a la vez. Cada elemento se elimina de forma individual y todas las Blob URLs se revocan al borrarlo o desmontar la página.
+La interfaz acepta selector múltiple, drag & drop y pegado desde el portapapeles. Mantiene hasta 20 imágenes y 200 MiB por sesión para cambiar entre trabajos sin perder resultados, pero procesa solo una imagen a la vez. Cada elemento se elimina de forma individual y todas las Blob URLs se revocan al borrarlo o desmontar la página. La vista muestra primero el resultado sobre damero; los botones Sin fondo/Original alternan una sola imagen, sin superponer el original bajo la transparencia. Las acciones quedan arriba y las miniaturas debajo.
 
 El editor local permite restaurar sujeto, borrar fondo, ajustar pincel y deshacer/rehacer hasta 30 trazos. La edición se compone en un canvas sobre el resultado y solo se conserva como Blob en memoria. No persiste imágenes, máscaras, nombres ni historial, y no integra servicios externos.

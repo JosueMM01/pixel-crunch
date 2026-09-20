@@ -36,6 +36,7 @@ export interface BackgroundRemovalPanelCopy {
   formatOptions: Record<'png' | 'webp', string>;
   stageLabels: Record<BackgroundRemovalStage | 'preparing', string>;
   downloadingModelLabel: string;
+  modelDownloadNotice: string;
   cachedModelLabel: string;
   modelReadyLabel: string;
   progressLabel: string;
