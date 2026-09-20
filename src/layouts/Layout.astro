@@ -163,7 +163,7 @@ const structuredDataJson = JSON.stringify(structuredData);
 		<main id="main-content" class="flex-1 pb-8" tabindex="-1">
 			<slot />
 		</main>
-		<Toaster client:load />
+		{route !== 'home' ? <Toaster client:load /> : null}
 		<Footer lang={lang} />
 	</body>
 </html>
