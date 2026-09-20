@@ -24,7 +24,7 @@ La API directa de IMG.LY compone la máscara sobre la imagen de entrada y conser
 
 Se aceptan JPG, PNG y WebP de hasta 25 MiB. El encabezado real debe coincidir con el MIME y declarar dimensiones válidas antes de decodificar. El límite es 24 MP en equipos capaces y 12 MP en dispositivos restringidos. Pixel Crunch rechaza el archivo con un mensaje claro; no reduce silenciosamente a 1080 px.
 
-PNG transparente es la salida del motor. La interfaz permite descargar PNG o WebP y valida el MIME real del encoder. **Original** conserva dimensiones; **Optimizada** limita el lado mayor a 4096 px y **Reducida** a 2048 px. Las opciones pequeñas nunca amplían una imagen.
+PNG transparente es la salida del motor. La interfaz permite descargar PNG o WebP y valida el MIME real del encoder. **Original** conserva dimensiones; **Equilibrado** limita el lado mayor a 4096 px y es la opción recomendada; **Ligero** limita a 2048 px para priorizar estabilidad móvil. Las opciones limitadas nunca amplían una imagen.
 
 ## Progreso y errores
 

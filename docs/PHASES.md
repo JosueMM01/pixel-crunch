@@ -77,7 +77,7 @@
 **Archivos:** background-remover, página, traducciones y tests.
 **Pruebas:** estados/acciones, teclado, formatos, tema y responsive.
 **Aceptación:** flujo completo sin persistir imágenes y sin porcentajes ficticios de inferencia.
-**Resultado provisional:** interfaz ES/EN con hasta 20 imágenes y 200 MiB por sesión, una inferencia a la vez, resultados independientes, pegado, comparación y corrección local de máscara. El selector compacto explica Original/Optimizada/Reducida. Cache Storage conserva solo recursos públicos del modelo de forma best-effort y distingue descarga de carga local. Falta la aprobación visual del propietario antes de promover la rama.
+**Resultado provisional:** las tres herramientas usan páginas operativas compactas; la documentación extensa permanece en la landing. Quitar fondo mantiene hasta 20 imágenes y 200 MiB por sesión, una inferencia a la vez, resultados independientes, pegado, comparación y corrección local. El selector explica Original/Equilibrado/Ligero y recomienda 4096 px. Cache Storage conserva solo recursos públicos del modelo de forma best-effort y distingue descarga de carga local. Falta la aprobación visual del propietario antes de promover la rama.
 
 ## Fase 6 — Cloudflare, caché y rendimiento
 
