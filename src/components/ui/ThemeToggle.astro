@@ -43,7 +43,8 @@ const activateDark = lang === 'en' ? 'Activate dark mode' : 'Activar modo oscuro
   }
 
   function applySystemTheme() {
-    if (localStorage.getItem('theme') !== 'system') return;
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme && savedTheme !== 'system') return;
     document.documentElement.classList.toggle('dark', themeMediaQuery.matches);
     updateThemeButtons();
   }
