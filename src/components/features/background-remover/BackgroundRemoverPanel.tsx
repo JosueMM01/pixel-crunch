@@ -49,7 +49,7 @@ export function BackgroundRemoverPanel({ copy }: BackgroundRemoverPanelProps) {
   const [items, setItems] = useState<BackgroundRemovalQueueItem[]>([]);
   const [activeId, setActiveId] = useState('');
   const [processingId, setProcessingId] = useState<string | null>(null);
-  const [resolution, setResolution] = useState<BackgroundRemovalResolution>('original');
+  const [resolution, setResolution] = useState<BackgroundRemovalResolution>('optimized');
   const [outputFormat, setOutputFormat] = useState<BackgroundRemovalOutputFormat>('image/png');
   const [dimensions, setDimensions] = useState<{ width: number; height: number } | null>(null);
   const [isSaving, setIsSaving] = useState(false);
@@ -205,23 +205,22 @@ export function BackgroundRemoverPanel({ copy }: BackgroundRemoverPanelProps) {
     <div className="mx-auto w-full max-w-5xl space-y-5">
       {items.length === 0 ? (
         <section {...getRootProps({ role: 'region', tabIndex: -1, className: cn(
-          'relative overflow-hidden rounded-3xl border-2 border-dashed px-5 py-12 text-center transition-all md:px-10 md:py-16',
+          'relative overflow-hidden rounded-2xl border-2 border-dashed px-5 py-8 text-center transition-all md:px-8 md:py-10',
           'border-monokai-green/40 bg-monokai-bg/65 shadow-xl shadow-black/5 focus-within:ring-2 focus-within:ring-monokai-green',
           isDragActive && 'scale-[1.01] border-monokai-green bg-monokai-green/10',
         ) })} aria-label={copy.uploadTitle}>
           <input {...getInputProps()} aria-hidden="true" tabIndex={-1} />
           <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-monokai-green/10 blur-3xl" />
           <div className="relative mx-auto flex max-w-2xl flex-col items-center">
-            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-monokai-green/35 bg-monokai-green/10 px-3 py-1.5 text-xs font-semibold text-monokai-green"><ShieldCheck className="h-4 w-4" aria-hidden="true" />{copy.privacyLabel}</span>
-            <span className="grid h-20 w-20 place-items-center rounded-3xl border border-monokai-green/35 bg-monokai-green/10 text-monokai-green"><ImagePlus className="h-9 w-9" aria-hidden="true" /></span>
-            <h2 className="mt-6 text-2xl font-bold text-monokai-fg md:text-3xl">{copy.uploadTitle}</h2>
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-monokai-fg/70 md:text-base">{copy.uploadDescription}</p>
-            <Button type="button" onClick={open} size="lg" className="mt-7 min-w-52 !bg-monokai-green font-bold !text-monokai-bg hover:!bg-monokai-green/85" icon={<ImagePlus className="h-5 w-5" />}>{copy.uploadButton}</Button>
-            <p className="mt-4 text-sm text-monokai-fg/65">{copy.dropLabel}</p>
-            <div className="mt-4 flex flex-wrap justify-center gap-2 text-xs text-monokai-fg/65">
+            <span className="grid h-14 w-14 place-items-center rounded-2xl border border-monokai-green/35 bg-monokai-green/10 text-monokai-green"><ImagePlus className="h-6 w-6" aria-hidden="true" /></span>
+            <h2 className="mt-4 text-xl font-bold text-monokai-fg md:text-2xl">{copy.uploadTitle}</h2>
+            <p className="mt-2 max-w-xl text-sm leading-relaxed text-monokai-fg/70">{copy.uploadDescription}</p>
+            <Button type="button" onClick={open} size="lg" className="mt-5 min-w-52 !bg-monokai-green font-bold !text-monokai-bg hover:!bg-monokai-green/85" icon={<ImagePlus className="h-5 w-5" />}>{copy.uploadButton}</Button>
+            <div className="mt-3 flex flex-wrap justify-center gap-2 text-xs text-monokai-fg/60">
+              <span className="rounded-full border border-monokai-fg/15 px-3 py-1.5">{copy.dropLabel}</span>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-monokai-fg/15 px-3 py-1.5"><Clipboard className="h-3.5 w-3.5" aria-hidden="true" />{copy.pasteLabel}</span>
-              <span className="rounded-full border border-monokai-fg/15 px-3 py-1.5">{copy.formatsLabel}</span>
             </div>
+            <span className="mt-3 inline-flex items-center gap-1.5 text-xs text-monokai-green"><ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />{copy.privacyLabel}</span>
           </div>
         </section>
       ) : activeItem ? (
@@ -229,18 +228,17 @@ export function BackgroundRemoverPanel({ copy }: BackgroundRemoverPanelProps) {
           <input {...getInputProps()} aria-hidden="true" tabIndex={-1} />
           <BackgroundImageQueue items={items} activeId={activeId} disabled={isBusy} copy={copy} onSelect={selectItem} onRemove={removeItem} onAdd={open} />
 
-          <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center">
-            {originalUrl ? <div className="h-20 w-20 shrink-0 overflow-hidden rounded-2xl border border-monokai-fg/15 bg-monokai-fg/5"><img src={originalUrl} alt={activeItem.file.name} className="h-full w-full object-contain" onLoad={(event) => setDimensions({ width: event.currentTarget.naturalWidth, height: event.currentTarget.naturalHeight })} /></div> : null}
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+            {originalUrl ? <img src={originalUrl} alt="" aria-hidden="true" className="absolute h-px w-px opacity-0" onLoad={(event) => setDimensions({ width: event.currentTarget.naturalWidth, height: event.currentTarget.naturalHeight })} /> : null}
             <div className="min-w-0 flex-1">
               <p className="truncate font-semibold text-monokai-fg">{activeItem.file.name}</p>
               <p className="mt-1 text-xs text-monokai-fg/60">{dimensions ? `${dimensions.width} × ${dimensions.height} · ` : ''}{formatBytes(activeItem.file.size)}</p>
-              <p className="mt-1 text-xs leading-relaxed text-monokai-fg/55">{copy.memoryNote}</p>
             </div>
             <Button type="button" variant="ghost" size="sm" onClick={() => removeItem(activeId)} disabled={isBusy} icon={<Trash2 className="h-4 w-4" />} className="self-start text-monokai-pink sm:self-auto">{copy.removeLabel}</Button>
           </div>
 
           {!activeOutput && !isBusy ? (
-            <div className="mt-5 grid gap-4 border-t border-monokai-fg/10 pt-5 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] md:items-end">
+            <div className="mt-4 grid gap-3 border-t border-monokai-fg/10 pt-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
               <label className="block text-sm font-semibold text-monokai-fg">
                 {copy.resolutionLabel}
                 <select value={resolution} onChange={(event) => setResolution(event.currentTarget.value as BackgroundRemovalResolution)} className="mt-2 w-full rounded-xl border border-monokai-fg/20 bg-monokai-bg px-3 py-2.5 text-sm text-monokai-fg focus:border-monokai-green focus:outline-none focus:ring-2 focus:ring-monokai-green/30">
@@ -248,17 +246,6 @@ export function BackgroundRemoverPanel({ copy }: BackgroundRemoverPanelProps) {
                 </select>
                 <span className="mt-1.5 block text-xs font-normal leading-relaxed text-monokai-fg/55">{copy.resolutionOptions[resolution].description}</span>
               </label>
-              <fieldset>
-                <legend className="mb-2 text-sm font-semibold text-monokai-fg">{copy.formatLabel}</legend>
-                <div className="grid grid-cols-2 gap-2">
-                  {(['image/png', 'image/webp'] as BackgroundRemovalOutputFormat[]).map((format) => (
-                    <label key={format} className={cn('cursor-pointer rounded-xl border px-3 py-2.5 text-center text-sm font-semibold transition-colors', outputFormat === format ? 'border-monokai-green bg-monokai-green/10 text-monokai-green' : 'border-monokai-fg/15 text-monokai-fg')}>
-                      <input type="radio" name="output-format" value={format} checked={outputFormat === format} onChange={() => setOutputFormat(format)} className="sr-only" />
-                      {format === 'image/png' ? copy.formatOptions.png : copy.formatOptions.webp}
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
               <Button type="button" onClick={handleProcess} className="min-h-11 whitespace-nowrap !bg-monokai-green font-bold !text-monokai-bg hover:!bg-monokai-green/85" icon={<Sparkles className="h-5 w-5" />}>{copy.processLabel}</Button>
             </div>
           ) : null}
@@ -282,10 +269,14 @@ export function BackgroundRemoverPanel({ copy }: BackgroundRemoverPanelProps) {
           {activeOutput && originalUrl && resultUrl ? (
             <div className="mt-5 space-y-4 border-t border-monokai-fg/10 pt-5">
               <BackgroundComparison originalUrl={originalUrl} resultUrl={resultUrl} originalAlt={`${copy.beforeLabel}: ${activeItem.file.name}`} resultAlt={`${copy.afterLabel}: ${activeItem.file.name}`} beforeLabel={copy.beforeLabel} afterLabel={copy.afterLabel} comparisonLabel={copy.comparisonLabel} />
-              <div className="flex flex-col justify-center gap-3 sm:flex-row">
+              <div className="flex flex-col items-stretch justify-center gap-2 sm:flex-row sm:items-center">
+                <label className="sr-only" htmlFor="background-output-format">{copy.formatLabel}</label>
+                <select id="background-output-format" value={outputFormat} onChange={(event) => setOutputFormat(event.currentTarget.value as BackgroundRemovalOutputFormat)} className="min-h-12 rounded-lg border border-monokai-fg/20 bg-monokai-bg px-3 text-sm font-semibold text-monokai-fg focus:border-monokai-green focus:outline-none focus:ring-2 focus:ring-monokai-green/30">
+                  <option value="image/png">{copy.formatOptions.png}</option>
+                  <option value="image/webp">{copy.formatOptions.webp}</option>
+                </select>
                 <Button type="button" size="lg" onClick={handleDownload} loading={isSaving} icon={<Download className="h-5 w-5" />} className="!bg-monokai-green font-bold !text-monokai-bg hover:!bg-monokai-green/85">{copy.downloadLabel}</Button>
                 <Button type="button" variant="ghost" size="lg" onClick={() => setIsEditing(true)} icon={<Paintbrush className="h-5 w-5" />}>{copy.editLabel}</Button>
-                <Button type="button" variant="ghost" size="lg" onClick={() => removeItem(activeId)} icon={<Trash2 className="h-5 w-5" />}>{copy.removeLabel}</Button>
               </div>
             </div>
           ) : null}

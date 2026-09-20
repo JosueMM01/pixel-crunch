@@ -34,14 +34,14 @@
     "description": "JPG/JPEG/JFIF, PNG, WebP, GIF, SVG"
   },
   "upload": {
-    "title": "Sube tus imágenes",
+    "title": "Seleccionar imágenes",
     "description": "Arrastra imágenes aquí para seleccionar.",
     "idleLabel": "Arrastra imágenes aquí",
     "draggingLabel": "Suelta los archivos para cargarlos",
     "processingLabel": "Procesando archivos...",
     "helperLabel": "Formatos compatibles: JPG/JPEG/JFIF, PNG, WebP, GIF y SVG",
-    "addMoreLabel": "Agregar",
-    "clearAllLabel": "Borrar",
+    "addMoreLabel": "Agregar imágenes",
+    "clearAllLabel": "Borrar todo",
     "compressLabel": "Comprimir",
     "saveLabel": "Guardar",
     "saveAllLabel": "Guardar todo",
@@ -54,14 +54,14 @@
   },
   "converter": {
     "upload": {
-      "title": "Sube tus imágenes",
+      "title": "Seleccionar imágenes",
       "description": "Arrastra imágenes aquí para convertir.",
       "idleLabel": "Arrastra imágenes aquí para convertir",
       "draggingLabel": "Suelta los archivos para convertir",
       "processingLabel": "Convirtiendo archivos...",
       "helperLabel": "Formatos compatibles: JPG/JPEG/JFIF, PNG, WebP, GIF y AVIF",
-      "addMoreLabel": "Agregar",
-      "clearAllLabel": "Borrar",
+      "addMoreLabel": "Agregar imágenes",
+      "clearAllLabel": "Borrar todo",
       "compressLabel": "Convertir",
       "saveLabel": "Guardar",
       "saveAllLabel": "Guardar todo",
@@ -139,10 +139,10 @@
     }
   },
   "backgroundRemoval": {
-    "uploadTitle": "Sube una imagen para quitar el fondo",
-    "uploadDescription": "Selecciona, arrastra o pega una imagen. El archivo se procesa en este navegador y no se envía a una API.",
-    "uploadButton": "Cargar imagen",
-    "dropLabel": "o arrastra una imagen aquí",
+    "uploadTitle": "Selecciona tus imágenes",
+    "uploadDescription": "Arrástralas aquí o pégalas desde el portapapeles.",
+    "uploadButton": "Seleccionar imágenes",
+    "dropLabel": "JPG, PNG o WebP",
     "pasteLabel": "También puedes pegar con Ctrl + V",
     "formatsLabel": "JPG, PNG o WebP · máximo 25 MB",
     "privacyLabel": "Procesamiento privado en tu navegador",
@@ -157,11 +157,11 @@
     "beforeLabel": "Original",
     "afterLabel": "Sin fondo",
     "comparisonLabel": "Comparar imagen original y resultado",
-    "resolutionLabel": "Resolución de salida",
+    "resolutionLabel": "Tamaño del resultado",
     "resolutionOptions": {
-      "original": { "label": "Original", "description": "Conserva las dimensiones cuando el dispositivo puede procesarlas." },
-      "optimized": { "label": "Optimizada", "description": "Limita el lado mayor a 4096 px para equilibrar detalle y memoria." },
-      "reduced": { "label": "Reducida", "description": "Limita el lado mayor a 2048 px para dispositivos con menos recursos." }
+      "original": { "label": "Original · tamaño completo", "description": "Mantiene las dimensiones. Las fotos grandes usan más memoria." },
+      "optimized": { "label": "Equilibrado · hasta 4096 px", "description": "Recomendado: limita el lado mayor sin ampliar imágenes pequeñas." },
+      "reduced": { "label": "Ligero · hasta 2048 px", "description": "Limita el lado mayor para usar menos memoria, sobre todo en móviles." }
     },
     "formatLabel": "Formato de descarga",
     "formatOptions": { "png": "PNG transparente", "webp": "WebP transparente" },

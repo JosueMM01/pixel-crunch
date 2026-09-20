@@ -367,8 +367,8 @@ export function ConverterPanel({
         onClearAll={handleClearAll}
         copy={resolvedUploadCopy}
         footerActions={(
-          <div className="flex w-full flex-col gap-3">
-            <div className="flex flex-wrap items-center justify-center gap-2">
+          <div className="flex w-full flex-col items-center justify-between gap-3 md:flex-row">
+            <div className="flex flex-wrap items-center justify-center gap-2 md:justify-start">
               <span className="text-xs font-semibold uppercase tracking-wide text-monokai-fg/70">
                 {resolvedConverterCopy.outputLabel}
               </span>
@@ -383,6 +383,7 @@ export function ConverterPanel({
                     variant="ghost"
                     size="sm"
                     disabled={isConverting || isSaving}
+                    aria-pressed={selected}
                     onClick={() => setOutputFormat(format.mimeType)}
                     className={selected
                       ? 'border border-monokai-cyan/45 bg-monokai-cyan/10 text-monokai-cyan'
@@ -394,7 +395,7 @@ export function ConverterPanel({
               })}
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-2">
+            <div className="flex flex-wrap items-center justify-center gap-2 md:justify-end">
               <Button
                 type="button"
                 variant="ghost"
@@ -426,17 +427,8 @@ export function ConverterPanel({
               </Button>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-monokai-fg/65">
-              <span>
-                {resolvedConverterCopy.pendingBadgeLabel}: {pendingFiles.length}
-              </span>
-              <span>
-                {resolvedConverterCopy.convertedBadgeLabel}: {convertedEntries.length}
-              </span>
-            </div>
-
-            <p className="text-center text-xs text-monokai-fg/60">
-              {resolvedConverterCopy.gifStrategyLabel}
+            <p className="sr-only" aria-live="polite">
+              {resolvedConverterCopy.pendingBadgeLabel}: {pendingFiles.length}. {resolvedConverterCopy.convertedBadgeLabel}: {convertedEntries.length}.
             </p>
           </div>
         )}

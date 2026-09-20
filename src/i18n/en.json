@@ -34,14 +34,14 @@
     "description": "JPG/JPEG/JFIF, PNG, WebP, GIF, SVG"
   },
   "upload": {
-    "title": "Upload your images",
+    "title": "Select images",
     "description": "Drag images here to select.",
     "idleLabel": "Drag images here",
     "draggingLabel": "Drop files to upload",
     "processingLabel": "Processing files...",
     "helperLabel": "Supported formats: JPG/JPEG/JFIF, PNG, WebP, GIF, and SVG",
-    "addMoreLabel": "Add",
-    "clearAllLabel": "Clear",
+    "addMoreLabel": "Add images",
+    "clearAllLabel": "Clear all",
     "compressLabel": "Compress",
     "saveLabel": "Save",
     "saveAllLabel": "Save all",
@@ -54,14 +54,14 @@
   },
   "converter": {
     "upload": {
-      "title": "Upload your images",
+      "title": "Select images",
       "description": "Drag images here to convert.",
       "idleLabel": "Drag images here to convert",
       "draggingLabel": "Drop files to convert",
       "processingLabel": "Converting files...",
       "helperLabel": "Supported formats: JPG/JPEG/JFIF, PNG, WebP, GIF, and AVIF",
-      "addMoreLabel": "Add",
-      "clearAllLabel": "Clear",
+      "addMoreLabel": "Add images",
+      "clearAllLabel": "Clear all",
       "compressLabel": "Convert",
       "saveLabel": "Save",
       "saveAllLabel": "Save all",
@@ -139,10 +139,10 @@
     }
   },
   "backgroundRemoval": {
-    "uploadTitle": "Upload an image to remove its background",
-    "uploadDescription": "Select, drag, or paste an image. The file is processed in this browser and is not sent to an API.",
-    "uploadButton": "Upload image",
-    "dropLabel": "or drag an image here",
+    "uploadTitle": "Select your images",
+    "uploadDescription": "Drop them here or paste them from the clipboard.",
+    "uploadButton": "Select images",
+    "dropLabel": "JPG, PNG, or WebP",
     "pasteLabel": "You can also paste with Ctrl + V",
     "formatsLabel": "JPG, PNG, or WebP · 25 MB maximum",
     "privacyLabel": "Private processing in your browser",
@@ -157,11 +157,11 @@
     "beforeLabel": "Original",
     "afterLabel": "Background removed",
     "comparisonLabel": "Compare the original image and result",
-    "resolutionLabel": "Output resolution",
+    "resolutionLabel": "Result size",
     "resolutionOptions": {
-      "original": { "label": "Original", "description": "Keeps the dimensions when the device can process them." },
-      "optimized": { "label": "Optimized", "description": "Limits the longest edge to 4096 px to balance detail and memory." },
-      "reduced": { "label": "Reduced", "description": "Limits the longest edge to 2048 px for devices with fewer resources." }
+      "original": { "label": "Original · full size", "description": "Keeps the dimensions. Large photos use more memory." },
+      "optimized": { "label": "Balanced · up to 4096 px", "description": "Recommended: limits the longest edge without enlarging small images." },
+      "reduced": { "label": "Light · up to 2048 px", "description": "Limits the longest edge to use less memory, especially on phones." }
     },
     "formatLabel": "Download format",
     "formatOptions": { "png": "Transparent PNG", "webp": "Transparent WebP" },

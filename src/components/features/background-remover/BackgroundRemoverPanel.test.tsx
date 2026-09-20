@@ -49,7 +49,7 @@ describe('BackgroundRemoverPanel', () => {
   it('offers picker, drag and clipboard entry points', () => {
     render(<BackgroundRemoverPanel copy={translations.backgroundRemoval} />);
 
-    expect(screen.getByRole('button', { name: 'Cargar imagen' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Seleccionar imágenes' })).toBeTruthy();
     expect(screen.getByText(/Ctrl \+ V/)).toBeTruthy();
     expect(screen.getByText(/JPG, PNG o WebP/)).toBeTruthy();
   });
@@ -61,7 +61,7 @@ describe('BackgroundRemoverPanel', () => {
     expect((await screen.findAllByText('portrait.png')).length).toBeGreaterThan(0);
     fireEvent.click(screen.getByRole('button', { name: 'Quitar fondo' }));
 
-    expect(process).toHaveBeenCalledWith(expect.any(File), 'original');
+    expect(process).toHaveBeenCalledWith(expect.any(File), 'optimized');
   });
 
   it('keeps multiple images until each one is removed', async () => {
@@ -115,9 +115,9 @@ describe('BackgroundRemoverPanel', () => {
     const view = render(<BackgroundRemoverPanel copy={translations.backgroundRemoval} />);
     pasteImage();
     await screen.findAllByText('portrait.png');
-    fireEvent.change(screen.getByRole('combobox', { name: /Resolución de salida/ }), { target: { value: 'optimized' } });
+    fireEvent.change(screen.getByRole('combobox', { name: /Tamaño del resultado/ }), { target: { value: 'original' } });
     fireEvent.click(screen.getByRole('button', { name: 'Quitar fondo' }));
-    expect(process).toHaveBeenLastCalledWith(expect.any(File), 'optimized');
+    expect(process).toHaveBeenLastCalledWith(expect.any(File), 'original');
 
     useBackgroundRemovalMock.mockReturnValue(engineState({
       status: 'error',

@@ -36,7 +36,7 @@ export function BackgroundComparison({
   return (
     <figure className="space-y-3">
       <div
-        className="relative mx-auto aspect-square w-full max-w-2xl overflow-hidden rounded-2xl border border-monokai-green/30 shadow-xl shadow-black/10"
+        className="relative mx-auto aspect-square w-full max-w-xl overflow-hidden rounded-2xl border border-monokai-green/30 shadow-xl shadow-black/10"
         style={checkerboard}
       >
         <img
