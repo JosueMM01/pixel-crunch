@@ -1,13 +1,33 @@
 {
   "name": "Pixel Crunch",
   "short_name": "Pixel Crunch",
-  "description": "Compresión y conversión de imágenes en tu navegador, gratis y privado.",
+  "description": "Comprime, convierte y quita fondos de imágenes en tu navegador, gratis y privado.",
   "lang": "es",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "background_color": "#272822",
   "theme_color": "#272822",
+  "shortcuts": [
+    {
+      "name": "Comprimir imágenes",
+      "short_name": "Comprimir",
+      "url": "/comprimir/",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Convertir imágenes",
+      "short_name": "Convertir",
+      "url": "/convertir/",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Quitar fondo",
+      "short_name": "Quitar fondo",
+      "url": "/quitar-fondo/",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ],
   "icons": [
     {
       "src": "/Logo.svg",

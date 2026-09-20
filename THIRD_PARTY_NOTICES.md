@@ -23,6 +23,14 @@ Pixel Crunch is licensed under `AGPL-3.0-only`. Third-party components remain un
 | SVGO | 4.1.0 | MIT |
 | tailwind-merge | 3.7.0 | MIT |
 
+## Fonts
+
+| Component | Version | License |
+| --- | --- | --- |
+| Fira Code variable webfont | 6.2 | SIL Open Font License 1.1 |
+
+Pixel Crunch serves Fira Code from the same origin at a versioned path. The upstream license text is preserved in [docs/licenses/FiraCode-OFL-1.1.txt](docs/licenses/FiraCode-OFL-1.1.txt).
+
 Transitive packages and development tools are not relicensed by Pixel Crunch. Their package manifests and license files remain authoritative; release validation uses `pnpm licenses list --prod --json`.
 
 ## Background-removal assets
