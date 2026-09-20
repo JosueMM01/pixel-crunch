@@ -1,5 +1,4 @@
 import { useCallback, useMemo, useState } from 'react';
-import JSZip from 'jszip';
 import { ImagePreview } from '../uploader/ImagePreview';
 import { UploadZone } from '../uploader/UploadZone';
 import { Button } from '@/components/ui/Button';
@@ -273,6 +272,7 @@ export function ConverterPanel({
         const [singleResult] = convertedEntries;
         saveFile(singleResult.outputFile, singleResult.outputFile.name);
       } else {
+        const { default: JSZip } = await import('jszip');
         const zip = new JSZip();
 
         convertedEntries.forEach((result, index) => {
