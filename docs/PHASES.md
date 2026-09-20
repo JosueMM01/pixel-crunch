@@ -70,12 +70,14 @@
 - [x] Selección, drag & drop/pegado, preview y dimensiones.
 - [x] Opciones de resolución explícitas, estados de descarga/procesamiento y cancelación.
 - [x] Comparación antes/después, transparencia visible y exportación PNG/WebP con MIME validado.
+- [x] Cola efímera de hasta 20 imágenes, cambio entre trabajos y eliminación individual.
+- [x] Editor local de máscara con restaurar/borrar, tamaño de pincel y deshacer/rehacer.
 - [x] Errores recuperables y diagnóstico técnico opcional.
 
 **Archivos:** background-remover, página, traducciones y tests.
 **Pruebas:** estados/acciones, teclado, formatos, tema y responsive.
 **Aceptación:** flujo completo sin persistir imágenes y sin porcentajes ficticios de inferencia.
-**Resultado provisional:** interfaz ES/EN con un archivo por operación, original y resultado en memoria, pegado desde portapapeles, resolución Original/Optimizada/Reducida y comparación accesible. Cache Storage conserva solo recursos públicos del modelo de forma best-effort y permite distinguir descarga de carga local. Falta la aprobación visual del propietario antes de promover la rama.
+**Resultado provisional:** interfaz ES/EN con hasta 20 imágenes y 200 MiB por sesión, una inferencia a la vez, resultados independientes, pegado, comparación y corrección local de máscara. El selector compacto explica Original/Optimizada/Reducida. Cache Storage conserva solo recursos públicos del modelo de forma best-effort y distingue descarga de carga local. Falta la aprobación visual del propietario antes de promover la rama.
 
 ## Fase 6 — Cloudflare, caché y rendimiento
 
@@ -105,4 +107,4 @@
 
 ## Después de 2.0
 
-Resize, crop, inspección/eliminación de metadatos, batch de IA y edición manual de máscaras, según necesidad y rendimiento medido.
+Resize, crop, inspección/eliminación de metadatos y automatización batch de IA, según necesidad y rendimiento medido.

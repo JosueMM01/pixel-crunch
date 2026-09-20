@@ -22,13 +22,13 @@
 | --- | --- | --- |
 | Comprimir | Reduce JPG, PNG, WebP, GIF y SVG, con comparación y batch/ZIP. | `/comprimir/` · `/en/compress/` |
 | Convertir | Exporta a JPG, PNG, WebP o AVIF cuando el navegador lo soporta. | `/convertir/` · `/en/convert/` |
-| Quitar fondo | Ejecuta segmentación local con salida transparente PNG o WebP. | `/quitar-fondo/` · `/en/remove-background/` |
+| Quitar fondo | Segmenta localmente, conserva hasta 20 imágenes por sesión y permite corregir la máscara. | `/quitar-fondo/` · `/en/remove-background/` |
 
 ## Privacidad desde el diseño
 
 Cloudflare Pages sirve HTML, CSS, JavaScript, WASM y modelos públicos. Las imágenes se leen y transforman en el navegador; Pixel Crunch no tiene un endpoint que las reciba.
 
-- Los archivos y resultados permanecen en memoria durante la página y se eliminan al limpiar o cerrar la pestaña.
+- Los archivos, resultados y correcciones permanecen en memoria durante la página y se eliminan individualmente o al cerrar la pestaña.
 - El modelo de quitar fondo se descarga solo al ejecutar la herramienta y puede persistir en Cache Storage para visitas posteriores.
 - El navegador puede eliminar esa caché según su cuota; offline no está garantizado en la primera visita.
 - No existen cuentas, historial de imágenes ni persistencia de nombres o metadatos.

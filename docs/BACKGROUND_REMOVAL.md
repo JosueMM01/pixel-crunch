@@ -32,4 +32,6 @@ El protocolo expone etapas reales: carga del runtime, descarga de assets, prepar
 
 La ruta CPU/WASM + `isnet_quint8` se ejecutó dos veces de extremo a extremo en el entorno Chromium local, usando assets del mismo origen y salida PNG. La matriz WebGPU y de navegadores físicos sigue siendo trabajo de QA; no se presenta como compatibilidad certificada.
 
-La interfaz acepta selector, drag & drop y pegado de imágenes del portapapeles. Mantiene un original y su resultado en memoria, revoca Blob URLs al reemplazar/limpiar/desmontar y mantiene cancelación durante preparación e inferencia. No persiste imágenes, máscaras ni nombres.
+La interfaz acepta selector múltiple, drag & drop y pegado desde el portapapeles. Mantiene hasta 20 imágenes y 200 MiB por sesión para cambiar entre trabajos sin perder resultados, pero procesa solo una imagen a la vez. Cada elemento se elimina de forma individual y todas las Blob URLs se revocan al borrarlo o desmontar la página.
+
+El editor local permite restaurar sujeto, borrar fondo, ajustar pincel y deshacer/rehacer hasta 30 trazos. La edición se compone en un canvas sobre el resultado y solo se conserva como Blob en memoria. No persiste imágenes, máscaras, nombres ni historial, y no integra servicios externos.
