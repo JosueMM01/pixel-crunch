@@ -19,8 +19,17 @@ function mockBitmap(width: number, height: number) {
 
 function mockCanvas(output: Blob | null, hasContext = true) {
   const drawImage = vi.fn();
+  const transparentNoise = new Uint8ClampedArray([
+    255, 255, 255, 0,
+    255, 255, 255, 24,
+    10, 20, 30, 25,
+  ]);
+  const getImageData = vi.fn(() => ({ data: transparentNoise }));
+  const putImageData = vi.fn();
   const context = hasContext ? {
     drawImage,
+    getImageData,
+    putImageData,
     imageSmoothingEnabled: false,
     imageSmoothingQuality: 'low',
   } : null;
@@ -31,7 +40,7 @@ function mockCanvas(output: Blob | null, hasContext = true) {
     toBlob: vi.fn((callback: BlobCallback) => callback(output)),
   };
   vi.spyOn(document, 'createElement').mockReturnValue(canvas as unknown as HTMLCanvasElement);
-  return { canvas, drawImage };
+  return { canvas, drawImage, getImageData, putImageData, transparentNoise };
 }
 
 describe('background-removal image output', () => {
@@ -92,6 +101,23 @@ describe('background-removal image output', () => {
     expect(canvas.height).toBe(480);
     expect(drawImage).toHaveBeenCalledOnce();
     expect(close).toHaveBeenCalledOnce();
+  });
+
+  it('clears nearly transparent RGB noise before encoding downloads', async () => {
+    mockBitmap(3, 1);
+    const encoded = new Blob(['webp'], { type: 'image/webp' });
+    const { putImageData, transparentNoise } = mockCanvas(encoded);
+
+    await expect(
+      encodeBackgroundRemovalOutput(new Blob(['result'], { type: 'image/png' }), 'image/webp'),
+    ).resolves.toBe(encoded);
+
+    expect(Array.from(transparentNoise)).toEqual([
+      0, 0, 0, 0,
+      0, 0, 0, 0,
+      10, 20, 30, 25,
+    ]);
+    expect(putImageData).toHaveBeenCalledOnce();
   });
 
   it('rejects unavailable canvas contexts and incorrect encoder output', async () => {

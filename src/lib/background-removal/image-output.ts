@@ -7,6 +7,30 @@ const MAX_EDGE_BY_RESOLUTION: Record<BackgroundRemovalResolution, number> = {
   reduced: 2048,
 };
 
+const TRANSPARENT_NOISE_ALPHA_THRESHOLD = 24;
+const ALPHA_CLEANUP_STRIP_HEIGHT = 256;
+
+function clearTransparentNoise(
+  context: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+): void {
+  for (let y = 0; y < height; y += ALPHA_CLEANUP_STRIP_HEIGHT) {
+    const stripHeight = Math.min(ALPHA_CLEANUP_STRIP_HEIGHT, height - y);
+    const imageData = context.getImageData(0, y, width, stripHeight);
+
+    for (let index = 3; index < imageData.data.length; index += 4) {
+      if (imageData.data[index] > TRANSPARENT_NOISE_ALPHA_THRESHOLD) continue;
+      imageData.data[index - 3] = 0;
+      imageData.data[index - 2] = 0;
+      imageData.data[index - 1] = 0;
+      imageData.data[index] = 0;
+    }
+
+    context.putImageData(imageData, 0, y);
+  }
+}
+
 function canvasToBlob(
   canvas: HTMLCanvasElement,
   type: BackgroundRemovalOutputFormat,
@@ -79,6 +103,7 @@ export async function encodeBackgroundRemovalOutput(
     const context = canvas.getContext('2d');
     if (!context) throw new Error('The browser could not prepare the output canvas.');
     context.drawImage(bitmap, 0, 0);
+    clearTransparentNoise(context, bitmap.width, bitmap.height);
     return canvasToBlob(canvas, format, format === 'image/webp' ? 0.95 : undefined);
   } finally {
     bitmap.close();
