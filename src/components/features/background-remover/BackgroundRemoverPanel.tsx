@@ -161,6 +161,8 @@ export function BackgroundRemoverPanel({ copy }: BackgroundRemoverPanelProps) {
       {!file ? (
         <section
           {...getRootProps({
+            role: 'region',
+            tabIndex: -1,
             className: cn(
               'relative overflow-hidden rounded-3xl border-2 border-dashed px-5 py-12 text-center transition-all md:px-10 md:py-16',
               'border-monokai-green/40 bg-monokai-bg/65 shadow-xl shadow-black/5',
@@ -170,7 +172,7 @@ export function BackgroundRemoverPanel({ copy }: BackgroundRemoverPanelProps) {
           })}
           aria-label={copy.uploadTitle}
         >
-          <input {...getInputProps()} aria-label={copy.uploadTitle} />
+          <input {...getInputProps()} aria-hidden="true" tabIndex={-1} />
           <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-monokai-green/10 blur-3xl" />
           <div className="relative mx-auto flex max-w-2xl flex-col items-center">
             <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-monokai-green/35 bg-monokai-green/10 px-3 py-1.5 text-xs font-semibold text-monokai-green">
@@ -186,7 +188,7 @@ export function BackgroundRemoverPanel({ copy }: BackgroundRemoverPanelProps) {
               type="button"
               onClick={open}
               size="lg"
-              className="mt-7 min-w-52 bg-monokai-green font-bold text-monokai-bg hover:bg-monokai-green/85"
+              className="mt-7 min-w-52 !bg-monokai-green font-bold !text-monokai-bg hover:!bg-monokai-green/85"
               icon={<ImagePlus className="h-5 w-5" />}
             >
               {copy.uploadButton}
@@ -302,7 +304,7 @@ export function BackgroundRemoverPanel({ copy }: BackgroundRemoverPanelProps) {
 
           {!isBusy && !engine.result ? (
             <div className="mt-6 flex justify-center">
-              <Button type="button" size="lg" onClick={handleProcess} className="min-w-56 bg-monokai-green font-bold text-monokai-bg hover:bg-monokai-green/85" icon={<Sparkles className="h-5 w-5" />}>
+              <Button type="button" size="lg" onClick={handleProcess} className="min-w-56 !bg-monokai-green font-bold !text-monokai-bg hover:!bg-monokai-green/85" icon={<Sparkles className="h-5 w-5" />}>
                 {copy.processLabel}
               </Button>
             </div>
@@ -326,7 +328,7 @@ export function BackgroundRemoverPanel({ copy }: BackgroundRemoverPanelProps) {
             comparisonLabel={copy.comparisonLabel}
           />
           <div className="flex flex-col justify-center gap-3 sm:flex-row">
-            <Button type="button" size="lg" onClick={handleDownload} loading={isSaving} icon={<Download className="h-5 w-5" />} className="bg-monokai-green font-bold text-monokai-bg hover:bg-monokai-green/85">
+            <Button type="button" size="lg" onClick={handleDownload} loading={isSaving} icon={<Download className="h-5 w-5" />} className="!bg-monokai-green font-bold !text-monokai-bg hover:!bg-monokai-green/85">
               {copy.downloadLabel}
             </Button>
             <Button type="button" variant="ghost" size="lg" onClick={clearImage} icon={<ImagePlus className="h-5 w-5" />}>
