@@ -9,9 +9,9 @@ Pixel Crunch se distribuye bajo `AGPL-3.0-only` desde la Fase 2. Se eligió la v
 - Las imágenes procesadas por el usuario no pasan a ser AGPL por usar la aplicación.
 - No se requieren cabeceras extensas en cada archivo; el aviso visible, `LICENSE`, el historial y [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md) concentran la información.
 
-## Artefactos de eliminación de fondo auditados
+## Artefactos de eliminación de fondo
 
-Todavía no forman parte del repositorio ni del despliegue. La Fase 4 debe usar exactamente estas versiones o repetir la auditoría.
+La Fase 4 fijó estas versiones. Las dependencias JS están en el lockfile; los modelos, WASM y avisos se generan durante el build desde el archivo auditado y no se guardan en Git. Otra versión exige repetir la auditoría.
 
 | Componente | Evidencia auditada | Licencia/aviso |
 | --- | --- | --- |
@@ -26,8 +26,8 @@ El manifiesto 1.7.0 reconstruye siete recursos: dos módulos JS de ONNX (49,241 
 
 ## Reglas de distribución
 
-1. El script de preparación de assets debe fijar versión y SHA-256 del archivo fuente, verificar cada fragmento contra `resources.json` y fallar ante cualquier diferencia.
-2. Al publicar los assets se deben copiar los avisos originales de IMG.LY, el aviso MIT de ONNX y el texto Apache-2.0 de DIS. No se debe corregir silenciosamente la afirmación MIT del proveedor.
+1. `scripts/prepare-background-removal-assets.mjs` fija versión y SHA-256 del archivo fuente, recalcula el hash y tamaño de cada fragmento declarado en `resources.json` y falla ante cualquier diferencia o archivo mayor de 25 MiB.
+2. El build copia `LICENSE.md` y `ThirdPartyLicenses.json` de IMG.LY al directorio público versionado. El repositorio conserva además el aviso MIT de ONNX y el texto Apache-2.0 de DIS; no corrige silenciosamente la afirmación MIT del proveedor.
 3. `pnpm-lock.yaml` fija las dependencias de cada release. Ejecutar `pnpm licenses list --prod --json` y revisar licencias nuevas antes de publicar.
 4. Cada despliegue debe corresponder a un commit etiquetado y a un GitHub Release que conserve el código, lockfile, scripts, avisos y hashes utilizados. El enlace “Código fuente” de la interfaz apunta al repositorio público.
 5. Una versión o asset diferente exige actualizar el inventario; una URL mutable no es evidencia suficiente.

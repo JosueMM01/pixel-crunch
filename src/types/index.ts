@@ -25,3 +25,17 @@ export type {
 	CompressionWorkerResponse,
 	UseImageCompressionReturn,
 } from './compression';
+
+export type {
+	BackgroundRemovalCapabilities,
+	BackgroundRemovalDevice,
+	BackgroundRemovalErrorCode,
+	BackgroundRemovalImageInfo,
+	BackgroundRemovalModel,
+	BackgroundRemovalProgress,
+	BackgroundRemovalResult,
+	BackgroundRemovalRoute,
+	BackgroundRemovalStage,
+	BackgroundRemovalWorkerRequest,
+	BackgroundRemovalWorkerResponse,
+} from './background-removal';
