@@ -4,6 +4,7 @@ import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import { Toaster } from '../components/ui/Toaster';
 import { getLocalizedRoute, type RouteKey } from '../i18n/routes';
+import { buildStructuredData, type FaqItem } from '../lib/seo';
 
 interface Props {
 	title?: string;
@@ -14,6 +15,8 @@ interface Props {
 	route?: RouteKey;
 	noindex?: boolean;
 	featureList?: string[];
+	pageName?: string;
+	faqItems?: readonly FaqItem[];
 }
 
 const {
@@ -24,7 +27,9 @@ const {
 	ogImage = '/Logo.png',
 	route = 'home',
 	noindex = false,
-	featureList
+	featureList,
+	pageName = 'Pixel Crunch',
+	faqItems,
 } = Astro.props;
 
 const siteUrl = Astro.site ?? new URL(Astro.url.origin);
@@ -34,26 +39,22 @@ const ogImageType = ogImageUrl.endsWith('.svg') ? 'image/svg+xml' : 'image/png';
 const isEnglish = lang.startsWith('en');
 const ogLocale = isEnglish ? 'en_US' : 'es_ES';
 const ogImageAlt = isEnglish ? 'Pixel Crunch logo' : 'Logo de Pixel Crunch';
-const keywords = isEnglish
-	? 'compress images, image optimizer, jpg compressor, png compressor, webp converter, avif converter, free tool, privacy, no server'
-	: 'comprimir imagenes, optimizar imagenes, compresor jpg, compresor png, convertir webp, convertir avif, herramienta gratuita, privacidad, sin servidor';
 const hreflangEs = new URL(getLocalizedRoute('es', route), siteUrl).toString();
 const hreflangEn = new URL(getLocalizedRoute('en', route), siteUrl).toString();
 const robotsContent = noindex
 	? 'noindex, follow'
 	: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
-const structuredData = {
-	'@context': 'https://schema.org',
-	'@type': 'WebApplication',
-	name: 'Pixel Crunch',
-	url: canonicalUrl,
-	applicationCategory: 'MultimediaApplication',
-	operatingSystem: 'Web',
+const structuredData = buildStructuredData({
+	siteUrl,
+	canonicalUrl,
+	imageUrl: ogImageUrl,
+	imageAlt: ogImageAlt,
+	lang,
+	route,
+	title,
 	description,
-	inLanguage: lang,
-	isAccessibleForFree: true,
-	image: ogImageUrl,
-	softwareVersion: '1.0.0',
+	pageName,
+	faqItems,
 	featureList: featureList ?? [
 		'JPG/JPEG/JFIF compression',
 		'PNG compression',
@@ -67,12 +68,7 @@ const structuredData = {
 		'Batch compression',
 		'ZIP download',
 	],
-	offers: {
-		'@type': 'Offer',
-		price: '0',
-		priceCurrency: 'USD'
-	}
-};
+});
 const structuredDataJson = JSON.stringify(structuredData);
 ---
 
@@ -84,7 +80,6 @@ const structuredDataJson = JSON.stringify(structuredData);
 		<meta name="description" content={description} />
 		
 		<!-- SEO Meta Tags -->
-		<meta name="keywords" content={keywords} />
 		<meta name="author" content="Pixel Crunch" />
 		<meta name="robots" content={robotsContent} />
 		<meta name="googlebot" content={robotsContent} />
@@ -113,7 +108,7 @@ const structuredDataJson = JSON.stringify(structuredData);
 		<meta property="og:image:height" content="133" />
 		
 		<!-- Twitter -->
-		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:card" content="summary" />
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={ogImageUrl} />

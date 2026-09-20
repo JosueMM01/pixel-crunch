@@ -8,8 +8,8 @@ import Layout from '../../layouts/Layout.astro';
 const content = siteContent.es.removeBackground;
 ---
 
-<Layout title={content.title} description={content.description} lang="es" route="removeBackground" featureList={[...content.bullets]}>
-  <ToolPage {...content} accent="green">
+<Layout title={content.title} description={content.description} lang="es" route="removeBackground" pageName={content.heading} featureList={[...content.bullets]} faqItems={content.faq}>
+  <ToolPage {...content} lang="es" route="removeBackground" accent="green">
     <BackgroundRemoverPanel client:load copy={translations.backgroundRemoval} />
   </ToolPage>
 </Layout>

@@ -18,6 +18,7 @@ interface ToolPageContent {
   formats?: string[];
   detailsTitle: string;
   details: string;
+  faq: Array<{ question: string; answer: string }>;
 }
 
 interface SiteContent {
@@ -87,8 +88,8 @@ interface SiteContent {
 export const siteContent = {
   es: {
     landing: {
-      title: 'Pixel Crunch — Herramientas privadas para imágenes',
-      description: 'Comprime, convierte y quita fondos de imágenes directamente en tu navegador, sin enviar tus archivos a una API de procesamiento.',
+      title: 'Pixel Crunch — Comprimir, convertir y quitar fondo',
+      description: 'Comprime, convierte y quita el fondo de imágenes gratis en tu navegador. Tus archivos se procesan localmente y no se envían a una API.',
       heading: 'Tus imágenes. Tu dispositivo. Tus herramientas.',
       intro: 'Pixel Crunch reúne herramientas pequeñas y rápidas para trabajar con imágenes sin enviarlas a una API de procesamiento.',
       privacyNote: 'El código y los recursos se descargan desde Pixel Crunch; tus imágenes permanecen en el navegador durante el procesamiento.',
@@ -201,39 +202,54 @@ export const siteContent = {
       },
     },
     compress: {
-      title: 'Comprimir imágenes en el navegador — Pixel Crunch',
-      description: 'Comprime JPG, PNG, WebP, GIF y SVG localmente con control de calidad, comparación y descarga ZIP.',
-      heading: 'Comprimir imágenes',
+      title: 'Comprimir imágenes online gratis — Pixel Crunch',
+      description: 'Comprime imágenes JPG, PNG, WebP, GIF y SVG gratis en tu navegador. Compara la calidad, procesa lotes y descarga un ZIP sin subir archivos.',
+      heading: 'Comprimir imágenes online gratis',
       intro: 'Reduce el peso de tus imágenes directamente en el navegador. Ajusta la calidad y revisa el resultado antes de descargarlo.',
       bullets: ['Procesamiento local sin subir imágenes.', 'Conserva animaciones GIF y optimiza SVG.', 'Procesamiento por lotes y descarga ZIP.'],
       formats: ['JPG/JPEG/JFIF', 'PNG', 'WebP', 'GIF', 'SVG'],
       detailsTitle: 'Compresión con control',
       details: 'La compresión mantiene cada archivo en memoria durante la sesión. Puedes comparar el resultado, ajustar calidad y guardar archivos individuales o un ZIP.',
+      faq: [
+        { question: '¿Cómo comprimir una imagen sin subirla a un servidor?', answer: 'Selecciona una o varias imágenes, ajusta la calidad y descarga el resultado. Pixel Crunch realiza la compresión dentro del navegador.' },
+        { question: '¿Qué formatos puede comprimir Pixel Crunch?', answer: 'Admite JPG, JPEG, JFIF, PNG, WebP, GIF y SVG. Conserva la animación de GIF y optimiza SVG sin rasterizarlo.' },
+        { question: '¿Comprimir reduce la calidad?', answer: 'Puede hacerlo en formatos con pérdida. La comparación y el control de calidad permiten decidir el equilibrio antes de descargar.' },
+      ],
     },
     convert: {
-      title: 'Convertir imágenes en el navegador — Pixel Crunch',
-      description: 'Convierte JPG, PNG, WebP, GIF y AVIF a formatos de salida compatibles con tu navegador, sin subir archivos.',
-      heading: 'Convertir imágenes',
+      title: 'Convertir imágenes online gratis — Pixel Crunch',
+      description: 'Convierte imágenes JPG, PNG, WebP, GIF y AVIF gratis en tu navegador. Exporta formatos compatibles sin subir tus archivos a un servidor.',
+      heading: 'Convertir imágenes online gratis',
       intro: 'Cambia el formato de imágenes que tu navegador puede decodificar. La disponibilidad de WebP y AVIF de salida depende del navegador.',
       bullets: ['Convierte a JPG, PNG, WebP o AVIF.', 'Los GIF animados exportan el primer fotograma.', 'Valida el MIME real antes de ofrecer la descarga.'],
       formats: ['JPG/JPEG/JFIF', 'PNG', 'WebP', 'GIF', 'AVIF'],
       detailsTitle: 'Compatibilidad honesta',
       details: 'Pixel Crunch usa los codecs del navegador. Si el navegador no puede decodificar una entrada o generar el formato elegido, muestra un error y no guarda un archivo con extensión incorrecta.',
+      faq: [
+        { question: '¿A qué formatos puedo convertir una imagen?', answer: 'Puedes exportar JPG, PNG, WebP o AVIF cuando el navegador admite ese codec. Pixel Crunch valida el formato real antes de descargar.' },
+        { question: '¿Puedo convertir PNG a JPG o WebP?', answer: 'Sí. El convertidor acepta PNG y permite elegir JPG o WebP, además de otros formatos compatibles con el navegador.' },
+        { question: '¿Qué ocurre con un GIF animado?', answer: 'El convertidor exporta sólo el primer fotograma. Usa el compresor si quieres conservar la animación del GIF.' },
+      ],
     },
     removeBackground: {
-      title: 'Quitar fondo en el navegador — Pixel Crunch',
-      description: 'Quita fondos localmente en el navegador mediante un modelo ejecutado en el dispositivo, sin una API remota de inferencia.',
-      heading: 'Quitar fondo',
+      title: 'Quitar fondo de imagen gratis — Pixel Crunch',
+      description: 'Quita el fondo de una imagen gratis y crea un PNG o WebP transparente. El modelo se ejecuta localmente en tu navegador, sin una API de inferencia.',
+      heading: 'Quitar fondo de una imagen gratis',
       intro: 'La herramienta ejecuta la segmentación en tu dispositivo y descarga el modelo sólo cuando inicias el proceso.',
       bullets: ['Inferencia completamente en el navegador.', 'Worker independiente y carga bajo demanda.', 'Salida transparente en PNG o WebP.'],
       detailsTitle: 'Privacidad desde el diseño',
       details: 'El modelo es un recurso estático servido por Pixel Crunch. Procesamiento local no significa que funcione offline desde la primera visita.',
+      faq: [
+        { question: '¿La imagen se envía a un servidor para quitar el fondo?', answer: 'No. El navegador descarga un modelo público y ejecuta la inferencia en tu dispositivo; la imagen no se envía a una API remota de procesamiento.' },
+        { question: '¿Por qué se descarga un modelo?', answer: 'El modelo contiene los datos necesarios para distinguir el sujeto del fondo. Se descarga al iniciar el proceso y el navegador puede conservarlo en caché.' },
+        { question: '¿En qué formato se descarga el resultado?', answer: 'Puedes descargar una imagen transparente en PNG o WebP. La disponibilidad de WebP depende del navegador.' },
+      ],
     },
   },
   en: {
     landing: {
-      title: 'Pixel Crunch — Private image tools',
-      description: 'Compress, convert, and remove image backgrounds directly in your browser without sending files to a processing API.',
+      title: 'Pixel Crunch — Image compressor, converter and background remover',
+      description: 'Compress, convert, and remove image backgrounds for free in your browser. Files are processed locally and are not sent to a processing API.',
       heading: 'Your images. Your device. Your tools.',
       intro: 'Pixel Crunch brings together focused image tools that work without sending your files to a processing API.',
       privacyNote: 'Code and resources are downloaded from Pixel Crunch; your images remain in the browser while they are processed.',
@@ -346,33 +362,48 @@ export const siteContent = {
       },
     },
     compress: {
-      title: 'Compress images in your browser — Pixel Crunch',
-      description: 'Compress JPG, PNG, WebP, GIF, and SVG locally with quality control, comparison, and ZIP downloads.',
-      heading: 'Compress images',
+      title: 'Free image compressor online — Pixel Crunch',
+      description: 'Compress JPG, PNG, WebP, GIF, and SVG images online for free. Compare quality, process batches, and download a ZIP without uploading files.',
+      heading: 'Free image compressor online',
       intro: 'Reduce image file size directly in your browser. Adjust quality and inspect the result before downloading.',
       bullets: ['Local processing without image uploads.', 'Preserves animated GIF files and optimizes SVG.', 'Batch processing and ZIP downloads.'],
       formats: ['JPG/JPEG/JFIF', 'PNG', 'WebP', 'GIF', 'SVG'],
       detailsTitle: 'Compression with control',
       details: 'Files remain in memory during the session. Compare output, adjust quality, and download individual files or a ZIP archive.',
+      faq: [
+        { question: 'How can I compress an image without uploading it?', answer: 'Select one or more images, adjust quality, and download the result. Pixel Crunch performs compression inside your browser.' },
+        { question: 'Which image formats can Pixel Crunch compress?', answer: 'It supports JPG, JPEG, JFIF, PNG, WebP, GIF, and SVG. GIF animation is preserved and SVG files stay vector-based.' },
+        { question: 'Does image compression reduce quality?', answer: 'It can in lossy formats. The comparison and quality control let you choose the balance before downloading.' },
+      ],
     },
     convert: {
-      title: 'Convert images in your browser — Pixel Crunch',
-      description: 'Convert JPG, PNG, WebP, GIF, and AVIF to output formats supported by your browser without uploading files.',
-      heading: 'Convert images',
+      title: 'Free image converter online — Pixel Crunch',
+      description: 'Convert JPG, PNG, WebP, GIF, and AVIF images online for free. Export supported formats in your browser without uploading files to a server.',
+      heading: 'Free image converter online',
       intro: 'Change the format of images your browser can decode. WebP and AVIF output availability depends on the browser.',
       bullets: ['Convert to JPG, PNG, WebP, or AVIF.', 'Animated GIF files export the first frame.', 'Checks the actual MIME type before download.'],
       formats: ['JPG/JPEG/JFIF', 'PNG', 'WebP', 'GIF', 'AVIF'],
       detailsTitle: 'Honest compatibility',
       details: 'Pixel Crunch uses browser codecs. If the browser cannot decode the input or create the selected output, it reports an error instead of saving a file with the wrong extension.',
+      faq: [
+        { question: 'Which formats can I convert an image to?', answer: 'You can export JPG, PNG, WebP, or AVIF when your browser supports that codec. Pixel Crunch verifies the real output format.' },
+        { question: 'Can I convert PNG to JPG or WebP?', answer: 'Yes. The converter accepts PNG and lets you choose JPG or WebP, along with other formats supported by your browser.' },
+        { question: 'What happens to an animated GIF?', answer: 'The converter exports only the first frame. Use the compressor when you need to preserve GIF animation.' },
+      ],
     },
     removeBackground: {
-      title: 'Remove image backgrounds in your browser — Pixel Crunch',
-      description: 'Remove backgrounds locally in the browser with a model running on the device and no remote inference API.',
-      heading: 'Remove background',
+      title: 'Remove image background free — Pixel Crunch',
+      description: 'Remove an image background online for free and create a transparent PNG or WebP. The model runs locally in your browser without a remote inference API.',
+      heading: 'Remove image backgrounds online for free',
       intro: 'The tool runs segmentation on your device and downloads its model only after you start processing.',
       bullets: ['Inference runs entirely in the browser.', 'Independent worker and on-demand loading.', 'Transparent PNG or WebP output.'],
       detailsTitle: 'Privacy by design',
       details: 'The model is a static resource served by Pixel Crunch. Local processing does not mean first-visit offline support.',
+      faq: [
+        { question: 'Is my image sent to a server for background removal?', answer: 'No. The browser downloads a public model and runs inference on your device; the image is not sent to a remote processing API.' },
+        { question: 'Why does the tool download a model?', answer: 'The model contains the data needed to separate a subject from its background. It loads when processing starts and can remain in browser cache.' },
+        { question: 'Which format is the background-free result?', answer: 'You can download a transparent PNG or WebP image. WebP availability depends on browser support.' },
+      ],
     },
   },
 } as const satisfies Record<Locale, SiteContent>;
