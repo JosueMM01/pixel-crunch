@@ -7,6 +7,9 @@
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
 
+/fonts/fira-code/6.2/*
+  Cache-Control: public, max-age=31536000, immutable
+
 /vendor/background-removal/*
   Cache-Control: public, max-age=31536000, immutable
 

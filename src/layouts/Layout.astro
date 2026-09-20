@@ -114,10 +114,8 @@ const structuredDataJson = JSON.stringify(structuredData);
 		<meta name="twitter:image" content={ogImageUrl} />
 		<meta name="twitter:image:alt" content={ogImageAlt} />
 		
-		<!-- Fonts -->
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet" />
+		<!-- Self-hosted font: avoids a render-blocking third-party request -->
+		<link rel="preload" href="/fonts/fira-code/6.2/FiraCode-VF.woff2" as="font" type="font/woff2" crossorigin />
 		
 		<!-- Favicons -->
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
