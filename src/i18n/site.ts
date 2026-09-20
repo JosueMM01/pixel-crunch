@@ -81,10 +81,7 @@ interface SiteContent {
   };
   compress: ToolPageContent;
   convert: ToolPageContent;
-  removeBackground: ToolPageContent & {
-    pendingLabel: string;
-    pendingDescription: string;
-  };
+  removeBackground: ToolPageContent;
 }
 
 export const siteContent = {
@@ -231,8 +228,6 @@ export const siteContent = {
       bullets: ['Inferencia completamente en el navegador.', 'Worker independiente y carga bajo demanda.', 'Salida transparente en PNG o WebP.'],
       detailsTitle: 'Privacidad desde el diseño',
       details: 'El modelo es un recurso estático servido por Pixel Crunch. Procesamiento local no significa que funcione offline desde la primera visita.',
-      pendingLabel: 'Procesamiento local',
-      pendingDescription: 'El modelo se descarga en el navegador y la imagen permanece en el dispositivo durante la segmentación y la exportación.',
     },
   },
   en: {
@@ -378,8 +373,6 @@ export const siteContent = {
       bullets: ['Inference runs entirely in the browser.', 'Independent worker and on-demand loading.', 'Transparent PNG or WebP output.'],
       detailsTitle: 'Privacy by design',
       details: 'The model is a static resource served by Pixel Crunch. Local processing does not mean first-visit offline support.',
-      pendingLabel: 'Local processing',
-      pendingDescription: 'The model is downloaded in the browser, and the image remains on the device during segmentation and export.',
     },
   },
 } as const satisfies Record<Locale, SiteContent>;

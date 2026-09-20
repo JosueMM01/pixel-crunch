@@ -1,6 +1,6 @@
 # Fases de Pixel Crunch 2.0
 
-**Estado:** Fases 1–4 completadas el 18/09/2026; Fases 5–7 pendientes. Cada fase incorpora pruebas y documentación.
+**Estado:** Fases 1–4 completadas; Fase 5 implementada localmente y pendiente de revisión visual; Fases 6–7 pendientes. Cada fase incorpora pruebas y documentación.
 
 ## Fase 1 — Modernización del stack y skills
 
@@ -67,14 +67,17 @@
 
 **Objetivo:** flujo sencillo y accesible en ES/EN.
 
-- [ ] Selección, drag & drop/pegado, preview y dimensiones.
-- [ ] Opciones de resolución explícitas, estados de descarga/procesamiento y cancelación.
-- [ ] Comparación antes/después, transparencia visible y exportación PNG/WebP verificada.
-- [ ] Errores recuperables y diagnóstico técnico opcional.
+- [x] Selección, drag & drop/pegado, preview y dimensiones.
+- [x] Opciones de resolución explícitas, estados de descarga/procesamiento y cancelación.
+- [x] Comparación antes/después, transparencia visible y exportación PNG/WebP con MIME validado.
+- [x] Cola efímera de hasta 20 imágenes, cambio entre trabajos y eliminación individual.
+- [x] Editor local de máscara con restaurar/borrar, tamaño de pincel y deshacer/rehacer.
+- [x] Errores recuperables y diagnóstico técnico opcional.
 
 **Archivos:** background-remover, página, traducciones y tests.
 **Pruebas:** estados/acciones, teclado, formatos, tema y responsive.
 **Aceptación:** flujo completo sin persistir imágenes y sin porcentajes ficticios de inferencia.
+**Resultado provisional:** las tres herramientas usan páginas operativas compactas; la documentación extensa permanece en la landing. Quitar fondo mantiene hasta 20 imágenes y 200 MiB por sesión, una inferencia a la vez, resultados independientes, pegado, comparación y corrección local. El selector explica Original/Equilibrado/Ligero y recomienda 4096 px. Cache Storage conserva solo recursos públicos del modelo de forma best-effort y distingue descarga de carga local. Falta la aprobación visual del propietario antes de promover la rama.
 
 ## Fase 6 — Cloudflare, caché y rendimiento
 
@@ -104,4 +107,4 @@
 
 ## Después de 2.0
 
-Resize, crop, inspección/eliminación de metadatos, batch de IA y edición manual de máscaras, según necesidad y rendimiento medido.
+Resize, crop, inspección/eliminación de metadatos y automatización batch de IA, según necesidad y rendimiento medido.

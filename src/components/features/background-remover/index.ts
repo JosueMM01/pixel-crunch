@@ -1,0 +1,1 @@
+export { BackgroundRemoverPanel } from './BackgroundRemoverPanel';

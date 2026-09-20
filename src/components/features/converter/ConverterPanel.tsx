@@ -1,11 +1,11 @@
-import { useCallback, useMemo, useState } from 'react';
-import JSZip from 'jszip';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ImagePreview } from '../uploader/ImagePreview';
 import { UploadZone } from '../uploader/UploadZone';
 import { Button } from '@/components/ui/Button';
 import {
   CONVERTER_INPUT_FORMATS,
   CONVERTER_OUTPUT_FORMATS,
+  canEncodeImageType,
   convertImageFile,
   type ConverterOutputMimeType,
 } from '@/lib/imageConversion';
@@ -64,6 +64,7 @@ const DEFAULT_CONVERTER_COPY: ConverterPanelCopy = {
   saveErrorLabel: 'No se pudieron guardar los archivos convertidos.',
   animatedGifWarningLabel: 'Se detectaron {count} GIF animado(s). Se exportó solo el primer fotograma.',
   gifStrategyLabel: 'Nota GIF: si el archivo es animado, la conversión exporta el primer fotograma para mantener compatibilidad de salida.',
+  unsupportedFormatLabel: 'No disponible en este navegador',
   outputFormats: {
     jpg: 'JPG',
     png: 'PNG',
@@ -138,6 +139,15 @@ export function ConverterPanel({
   const [convertedById, setConvertedById] = useState<Record<string, ConvertedFileEntry>>({});
   const [isConverting, setIsConverting] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [avifEncodingSupported, setAvifEncodingSupported] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    void canEncodeImageType('image/avif').then((supported) => {
+      if (!cancelled) setAvifEncodingSupported(supported);
+    });
+    return () => { cancelled = true; };
+  }, []);
 
   const pendingFiles = useMemo(
     () => files.filter((item) => convertedById[item.id]?.outputFormat !== outputFormat),
@@ -273,6 +283,7 @@ export function ConverterPanel({
         const [singleResult] = convertedEntries;
         saveFile(singleResult.outputFile, singleResult.outputFile.name);
       } else {
+        const { default: JSZip } = await import('jszip');
         const zip = new JSZip();
 
         convertedEntries.forEach((result, index) => {
@@ -367,14 +378,16 @@ export function ConverterPanel({
         onClearAll={handleClearAll}
         copy={resolvedUploadCopy}
         footerActions={(
-          <div className="flex w-full flex-col gap-3">
-            <div className="flex flex-wrap items-center justify-center gap-2">
+          <div className="flex w-full flex-col items-center justify-between gap-3 md:flex-row">
+            <div className="flex flex-wrap items-center justify-center gap-2 md:justify-start">
               <span className="text-xs font-semibold uppercase tracking-wide text-monokai-fg/70">
                 {resolvedConverterCopy.outputLabel}
               </span>
 
               {CONVERTER_OUTPUT_FORMATS.map((format) => {
                 const selected = outputFormat === format.mimeType;
+                const supported = format.mimeType !== 'image/avif' || avifEncodingSupported;
+                const label = getOutputFormatLabel(format.mimeType, resolvedConverterCopy.outputFormats);
 
                 return (
                   <Button
@@ -382,19 +395,22 @@ export function ConverterPanel({
                     type="button"
                     variant="ghost"
                     size="sm"
-                    disabled={isConverting || isSaving}
+                    disabled={isConverting || isSaving || !supported}
+                    aria-pressed={selected}
+                    aria-label={supported ? label : `${label}: ${resolvedConverterCopy.unsupportedFormatLabel}`}
+                    title={supported ? undefined : resolvedConverterCopy.unsupportedFormatLabel}
                     onClick={() => setOutputFormat(format.mimeType)}
                     className={selected
                       ? 'border border-monokai-cyan/45 bg-monokai-cyan/10 text-monokai-cyan'
                       : 'border border-monokai-fg/25 text-monokai-fg/75 hover:border-monokai-cyan/35 hover:text-monokai-cyan'}
                   >
-                    {getOutputFormatLabel(format.mimeType, resolvedConverterCopy.outputFormats)}
+                    {label}
                   </Button>
                 );
               })}
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-2">
+            <div className="flex flex-wrap items-center justify-center gap-2 md:justify-end">
               <Button
                 type="button"
                 variant="ghost"
@@ -426,17 +442,8 @@ export function ConverterPanel({
               </Button>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-monokai-fg/65">
-              <span>
-                {resolvedConverterCopy.pendingBadgeLabel}: {pendingFiles.length}
-              </span>
-              <span>
-                {resolvedConverterCopy.convertedBadgeLabel}: {convertedEntries.length}
-              </span>
-            </div>
-
-            <p className="text-center text-xs text-monokai-fg/60">
-              {resolvedConverterCopy.gifStrategyLabel}
+            <p className="sr-only" aria-live="polite">
+              {resolvedConverterCopy.pendingBadgeLabel}: {pendingFiles.length}. {resolvedConverterCopy.convertedBadgeLabel}: {convertedEntries.length}.
             </p>
           </div>
         )}

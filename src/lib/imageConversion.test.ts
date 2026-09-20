@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   CONVERTER_INPUT_FORMATS,
   CONVERTER_OUTPUT_FORMATS,
+  canEncodeImageType,
   convertImageFile,
   countGifFrames,
   isAnimatedGif,
@@ -232,6 +233,17 @@ describe('isSupportedConverterInput', () => {
     });
 
     expect(isSupportedConverterInput(spoofed)).toBe(false);
+  });
+});
+
+describe('canEncodeImageType', () => {
+  it('reports whether canvas returns the requested MIME type', async () => {
+    installCanvasMock({ outputBlob: new Blob(['fallback'], { type: 'image/png' }) });
+    await expect(canEncodeImageType('image/avif')).resolves.toBe(false);
+
+    vi.restoreAllMocks();
+    installCanvasMock({ outputBlob: new Blob(['avif'], { type: 'image/avif' }) });
+    await expect(canEncodeImageType('image/avif')).resolves.toBe(true);
   });
 });
 

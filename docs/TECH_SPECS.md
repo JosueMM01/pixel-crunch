@@ -14,6 +14,8 @@ Comandos: `pnpm install --frozen-lockfile`, `pnpm dev`, `pnpm typecheck`, `pnpm 
 
 Typecheck es independiente de build. Vitest 5 y Testing Library cubren la base actual. CI usa Node 24 y pnpm 12.4.2; no mezclar lockfiles.
 
+Vite prepara las dependencias de los workers con `optimizeDeps.include` para evitar invalidaciones tardías que interrumpan otras herramientas. Esto ocurre solo en el servidor de desarrollo: no adelanta la descarga de IA al navegador. Si una sesión antigua devuelve `504 Outdated Optimize Dep`, reiniciar el servidor y recargar la página. [Optimización de dependencias](https://vite.dev/config/dep-optimization-options.html).
+
 ## Cloudflare Pages
 
 Pages anuncia **solicitudes estáticas y transferencia ilimitadas**, sin una cuota mensual de GB publicada para este servicio. Es adecuado para servir modelos como assets de la herramienta; no se necesita un servidor de inferencia ni R2 por este motivo. [Oferta oficial](https://pages.cloudflare.com/).
