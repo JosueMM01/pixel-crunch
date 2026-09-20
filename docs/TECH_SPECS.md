@@ -44,7 +44,9 @@ La transferencia del alojamiento no elimina tiempo/datos móviles ni consumo de 
 | Operaciones IA simultáneas | 1 |
 | Precache IA | 0 archivos |
 | JS inicial de herramientas existentes | No aumentar por el motor IA; comparar con baseline de fase 1 |
-| Modelos, tiempo y memoria | Medir por ruta CPU/GPU y dispositivo; fijar límites en fase 4 |
+| Entrada de quitar fondo | <=25 MiB; <=24 MP o <=12 MP en perfil limitado |
+| Timeout del motor | 120 s por intento salvo configuración explícita |
+| Modelos, tiempo y memoria | Medir por ruta CPU/GPU y dispositivo antes del release |
 | Repetición y cancelación | Sin crecimiento sostenido de recursos ni resultados tardíos en UI |
 
 No establecer techos de RAM o tiempos universales sin medición. Separar pruebas frías/calientes y memoria total del proceso de heap JavaScript.

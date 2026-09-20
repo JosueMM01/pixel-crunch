@@ -1,36 +1,33 @@
 # Eliminación de fondo en navegador
 
-## Motor
+## Motor entregado
 
-Usar una biblioteca estable de segmentación local, con IMG.LY/ONNX como candidata. Fijar versiones compatibles y resolver sus licencias antes de distribuir assets. No introducir un backend ni reimplementar inferencia sin una ventaja comprobada.
+Pixel Crunch fija `@imgly/background-removal` 1.7.0 y su peer `onnxruntime-web` 1.21.0. Los modelos, WASM y avisos 1.7.0 se preparan desde un archivo con SHA-256 fijo y se sirven desde `/vendor/background-removal/1.7.0/`. No existe API de inferencia.
 
-Worker exclusivo creado al pulsar Quitar fondo; imports dinámicos del motor/runtime y modelos del mismo origen. Una imagen a la vez, protocolo con id/etapa/resultado/error, cancelación y terminación al finalizar.
+La aplicación crea un worker exclusivo al ejecutar la operación. El worker importa IMG.LY bajo demanda, procesa una imagen y se termina tras éxito, error, cancelación o timeout. Landing, compresión y conversión no importan el motor ni solicitan modelos.
 
-## Estrategia óptima por dispositivo
+## Política adaptativa
 
-- Detectar adaptador GPU en el contexto real y comprobar que puede ejecutar el modelo; navigator.gpu por sí solo no basta.
-- Preferir GPU cuando las pruebas demuestren mejora y estabilidad; CPU/WASM como fallback.
-- En memoria limitada o capacidades desconocidas, comenzar con el modelo pequeño. Comparar isnet, fp16 y quint8 si la versión elegida los ofrece.
-- Elegir por calidad, latencia, memoria y descarga; transferencia ilimitada en Pages no vuelve gratuita la descarga para el visitante.
-- Recordar éxitos/fallos solo en memoria de sesión. No descargar todas las variantes ni reintentar rutas indefinidamente.
-- Un error de entrada termina la operación; descarga transitoria puede reintentarse una vez. OOM solo permite una ruta más ligera o pedir reducción explícita.
+- Escritorio con adaptador WebGPU verificado: GPU + `isnet_fp16`, CPU + `isnet_fp16`, CPU + `isnet_quint8`.
+- Móvil, memoria <=4 GiB o <=4 hilos lógicos: CPU + `isnet_quint8`; GPU + `isnet_quint8` queda como fallback si existe adaptador.
+- Capacidades desconocidas sin señales de restricción: ruta de escritorio, sin asumir WebGPU.
 
-La política final se fija con pruebas de fase 4, no con una cascada predeterminada. Terminar un worker ayuda a liberar recursos, pero no garantiza liberación instantánea de GPU/GC.
+`isnet` completo no entra en la cascada automática: pesa ~176 MiB reconstruido frente a ~88 MiB de fp16 y ~44 MiB de quint8, con mayor presión de memoria. Añadirlo requerirá demostrar una mejora visual que justifique el coste.
 
-## Resolución y calidad
+La detección solicita un adaptador real; el worker vuelve a comprobarlo. Un fallo GPU continúa en CPU. Una descarga puede reintentarse una vez en la misma ruta; falta de memoria salta a quint8. Entrada inválida y cancelación no reintentan. El timeout predeterminado es 120 segundos y nunca hay reintentos infinitos.
 
-IMG.LY 1.7.0 infiere internamente a 1024 × 1024 y puede reescalar la máscara al tamaño de entrada. Verificarlo en la versión seleccionada; conservar dimensiones originales no equivale a segmentar cada píxel original. [Inferencia oficial](https://raw.githubusercontent.com/imgly/background-removal-js/main/packages/web/src/inference.ts).
+## Resolución y límites
 
-Probar primero la API directa sobre originales acotados. Adoptar máscara temporal + composición sobre original solo si reduce memoria o mejora el resultado de forma medible.
+La API directa de IMG.LY compone la máscara sobre la imagen de entrada y conserva sus dimensiones. El modelo segmenta internamente a 1024 × 1024, por lo que preservar la salida no significa inferencia por cada píxel original. Esta ruta es más simple que duplicar superficies para componer una máscara manual.
 
-Ofrecer **Original** y una resolución reducida explícita cuando sea necesaria. Validar bytes, dimensiones y área antes/después de decodificar; preservar orientación y alfa previo. Una sola superficie RGBA de 12 MP ocupa ~46 MiB, sin contar copias/modelo/runtime. No fijar límites solo por tamaño del JPEG ni reducir silenciosamente a 1080 px.
+Se aceptan JPG, PNG y WebP de hasta 25 MiB. El encabezado real debe coincidir con el MIME y declarar dimensiones válidas antes de decodificar. El límite es 24 MP en equipos capaces y 12 MP en dispositivos restringidos. Pixel Crunch rechaza el archivo con un mensaje claro; no reduce silenciosamente a 1080 px.
 
-## Experiencia
+PNG transparente es la salida del motor. WebP y opciones de resolución pertenecen a la interfaz de la Fase 5 y deben validar el MIME real del encoder.
 
-Seleccionar/arrastrar/pegar → preview y dimensiones → Quitar fondo → descarga/preparación/inferencia → comparar → descargar.
+## Progreso y errores
 
-PNG transparente por defecto; WebP solo si el encoder produce el MIME correcto. JPG/PNG/WebP como entradas iniciales; ampliar formatos tras validarlos. Sin animación ni batch de IA inicial.
+El protocolo expone etapas reales: carga del runtime, descarga de assets, preparación, inferencia, aplicación de transparencia y codificación. Los porcentajes solo se muestran cuando IMG.LY entrega bytes actuales y totales. El cliente clasifica entrada inválida, descarga, memoria, WebGPU, inferencia, worker, timeout y cancelación.
 
-Mostrar descarga real por bytes y estados de inferencia sin porcentajes inventados. Cancelar siempre disponible, errores accionables ES/EN, checkerboard, comparación accesible y diagnóstico avanzado opcional. No prometer recortes perfectos de cabello, transparencias o fondos complejos.
+La ruta CPU/WASM + `isnet_quint8` se ejecutó dos veces de extremo a extremo en el entorno Chromium local, usando assets del mismo origen y salida PNG. La matriz WebGPU y de navegadores físicos sigue siendo trabajo de QA; no se presenta como compatibilidad certificada.
 
-No persistir imágenes, máscaras ni nombres; cerrar bitmaps y revocar Blob URLs al limpiar.
+No se persisten imágenes, máscaras ni nombres. La interfaz debe revocar Blob URLs al limpiar y mantener siempre disponible la cancelación.
