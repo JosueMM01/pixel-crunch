@@ -18,7 +18,7 @@ self.addEventListener('fetch', (event) => {
 
     const response = await fetch(request);
     if (response.ok) {
-      event.waitUntil(cache.put(request, response.clone()).catch(() => undefined));
+      await cache.put(request, response.clone()).catch(() => undefined);
     }
     return response;
   })());
