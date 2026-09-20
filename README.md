@@ -1,39 +1,79 @@
-# Pixel Crunch
+<p align="center">
+  <img src="public/Logo.svg" width="112" alt="Pixel Crunch" />
+</p>
 
-Herramientas para procesar imágenes en el navegador, sin subirlas a una API de procesamiento.
+<h1 align="center">Pixel Crunch</h1>
 
-## Estado
+<p align="center">
+  Suite pequeña para procesar imágenes directamente en el navegador.<br />
+  Sin cuentas, sin API de procesamiento y sin subir tus archivos.
+</p>
 
-El código actual ofrece compresión y conversión, ES/EN, tema claro/oscuro y descargas individuales/ZIP. Usa Astro 7, React 19, Tailwind CSS 4 y pnpm 12.
+<p align="center">
+  <a href="https://pixel-crunch.josuem01.dev/">Abrir Pixel Crunch</a> ·
+  <a href="docs/ARCHITECTURE.md">Arquitectura</a> ·
+  <a href="docs/PRIVACY.md">Privacidad</a> ·
+  <a href="docs/PHASES.md">Roadmap</a>
+</p>
 
-La modernización, la migración de licencia, las rutas independientes y el motor local de eliminación de fondo están completos. La interfaz de quitar fondo y su validación multidispositivo continúan en las fases siguientes.
+## Herramientas
 
-## Privacidad y compatibilidad
+| Herramienta | Qué hace | Ruta ES / EN |
+| --- | --- | --- |
+| Comprimir | Reduce JPG, PNG, WebP, GIF y SVG, con comparación y batch/ZIP. | `/comprimir/` · `/en/compress/` |
+| Convertir | Exporta a JPG, PNG, WebP o AVIF cuando el navegador lo soporta. | `/convertir/` · `/en/convert/` |
+| Quitar fondo | Ejecuta segmentación local con salida transparente PNG o WebP. | `/quitar-fondo/` · `/en/remove-background/` |
 
-Las imágenes se procesan localmente. El sitio necesita descargar sus recursos; offline depende de la caché disponible. La entrada/salida de formatos depende de los codecs del navegador. [Privacidad](docs/PRIVACY.md) · [Compatibilidad](docs/BROWSER_COMPATIBILITY.md).
+## Privacidad desde el diseño
+
+Cloudflare Pages sirve HTML, CSS, JavaScript, WASM y modelos públicos. Las imágenes se leen y transforman en el navegador; Pixel Crunch no tiene un endpoint que las reciba.
+
+- Los archivos y resultados permanecen en memoria durante la página y se eliminan al limpiar o cerrar la pestaña.
+- El modelo de quitar fondo se descarga solo al ejecutar la herramienta y puede persistir en Cache Storage para visitas posteriores.
+- El navegador puede eliminar esa caché según su cuota; offline no está garantizado en la primera visita.
+- No existen cuentas, historial de imágenes ni persistencia de nombres o metadatos.
+
+## Arquitectura
+
+Pixel Crunch usa Astro 7 como sitio estático, React 19 para islas interactivas, Tailwind CSS 4 y workers separados para las tareas pesadas. El motor de quitar fondo carga IMG.LY y ONNX bajo demanda, selecciona WebGPU o CPU/WASM según capacidades y termina el worker después de cada intento.
+
+```text
+Cloudflare Pages ── entrega recursos públicos
+        │
+        ▼
+Navegador ── procesa la imagen en memoria
+        │
+        ▼
+Blob local ── descarga del resultado
+```
+
+Más detalles en [ARCHITECTURE.md](docs/ARCHITECTURE.md), [BACKGROUND_REMOVAL.md](docs/BACKGROUND_REMOVAL.md) y [BROWSER_COMPATIBILITY.md](docs/BROWSER_COMPATIBILITY.md).
 
 ## Desarrollo
 
-Requiere Node 24 y pnpm 12.4.2: `pnpm install --frozen-lockfile`, `pnpm dev` y `pnpm verify`.
+Requiere Node 24 y pnpm 12.4.2.
 
-Los checks son typecheck, test:coverage y build. [Especificaciones](docs/TECH_SPECS.md) · [Pruebas](docs/TESTING_STRATEGY.md).
+```bash
+pnpm install --frozen-lockfile
+pnpm dev
+pnpm verify
+```
 
-## Licencia
+`pnpm verify` ejecuta typecheck, cobertura y build. El build prepara los assets de eliminación de fondo desde un archivo fijado por versión y SHA-256; los modelos generados no se guardan en Git.
 
-Copyright © 2026 Josue Martinez Moreno (JosueMM01). Pixel Crunch se distribuye bajo [GNU AGPL v3 únicamente](LICENSE) (`AGPL-3.0-only`). Las versiones publicadas anteriormente bajo MIT conservan esa licencia. Las dependencias, modelos y assets mantienen sus propias licencias; consulta [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) y [la política de distribución](docs/LICENSING.md).
+## Licencia y terceros
 
-El código fuente correspondiente a la versión desplegada debe estar disponible mediante el repositorio y el tag o release asociado; una rama mutable no sustituye ese registro.
+Copyright © 2026 Josue Martinez Moreno (JosueMM01).
+
+Pixel Crunch se distribuye bajo [GNU AGPL v3 únicamente](LICENSE) (`AGPL-3.0-only`). Las versiones publicadas anteriormente bajo MIT conservan esa licencia. Dependencias, modelos y assets mantienen sus propias licencias; consulta [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) y [LICENSING.md](docs/LICENSING.md).
 
 ## Documentación
 
-- [Objetivo y alcance](docs/PROJECT_CONTEXT.md).
-- [Fases y criterios de aceptación](docs/PHASES.md).
-- [Arquitectura y carpetas](docs/ARCHITECTURE.md).
-- [Eliminación de fondo](docs/BACKGROUND_REMOVAL.md).
-- [Plan de implementación](docs/IMPLEMENTATION_PLAN.md).
-- [Licencias y distribución de terceros](docs/LICENSING.md).
-- [ADR de licencia](docs/decisions/ADR-001-AGPL-AND-THIRD-PARTY-DISTRIBUTION.md).
-- [ADR del motor local](docs/decisions/ADR-002-LOCAL-BACKGROUND-REMOVAL-ENGINE.md).
-- [Flujo de contribución](docs/GIT_WORKFLOW.md).
+La carpeta [`docs/`](docs) forma parte del repositorio porque registra decisiones, límites, licencias, arquitectura y criterios de aceptación que deben versionarse junto al código.
 
-[Aplicación](https://pixel-crunch.josuem01.dev/) · [Repositorio](https://github.com/JosueMM01/pixel-crunch)
+- [Objetivo y alcance](docs/PROJECT_CONTEXT.md)
+- [Fases de implementación](docs/PHASES.md)
+- [Pruebas y CI](docs/TESTING_STRATEGY.md)
+- [Especificaciones técnicas](docs/TECH_SPECS.md)
+- [Flujo de contribución](docs/GIT_WORKFLOW.md)
+- [Decisiones arquitectónicas](docs/decisions)

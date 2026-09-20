@@ -6,6 +6,8 @@ Pixel Crunch fija `@imgly/background-removal` 1.7.0 y su peer `onnxruntime-web` 
 
 La aplicación crea un worker exclusivo al ejecutar la operación. El worker importa IMG.LY bajo demanda, procesa una imagen y se termina tras éxito, error, cancelación o timeout. Landing, compresión y conversión no importan el motor ni solicitan modelos.
 
+El Service Worker aplica cache-first únicamente a `/vendor/background-removal/1.7.0/dist/`. Los fragmentos descargados pueden persistir entre visitas hasta que el navegador los elimine por cuota o política. Antes de procesar, la interfaz comprueba si runtime y modelo de la primera ruta están completos para mostrar “Descargando modelo” o “Cargando modelo guardado”. La caché es una optimización, no un requisito para usar la herramienta.
+
 ## Política adaptativa
 
 - Escritorio con adaptador WebGPU verificado: GPU + `isnet_fp16`, CPU + `isnet_fp16`, CPU + `isnet_quint8`.
@@ -22,7 +24,7 @@ La API directa de IMG.LY compone la máscara sobre la imagen de entrada y conser
 
 Se aceptan JPG, PNG y WebP de hasta 25 MiB. El encabezado real debe coincidir con el MIME y declarar dimensiones válidas antes de decodificar. El límite es 24 MP en equipos capaces y 12 MP en dispositivos restringidos. Pixel Crunch rechaza el archivo con un mensaje claro; no reduce silenciosamente a 1080 px.
 
-PNG transparente es la salida del motor. WebP y opciones de resolución pertenecen a la interfaz de la Fase 5 y deben validar el MIME real del encoder.
+PNG transparente es la salida del motor. La interfaz permite descargar PNG o WebP y valida el MIME real del encoder. **Original** conserva dimensiones; **Optimizada** limita el lado mayor a 4096 px y **Reducida** a 2048 px. Las opciones pequeñas nunca amplían una imagen.
 
 ## Progreso y errores
 
@@ -30,4 +32,4 @@ El protocolo expone etapas reales: carga del runtime, descarga de assets, prepar
 
 La ruta CPU/WASM + `isnet_quint8` se ejecutó dos veces de extremo a extremo en el entorno Chromium local, usando assets del mismo origen y salida PNG. La matriz WebGPU y de navegadores físicos sigue siendo trabajo de QA; no se presenta como compatibilidad certificada.
 
-No se persisten imágenes, máscaras ni nombres. La interfaz debe revocar Blob URLs al limpiar y mantener siempre disponible la cancelación.
+La interfaz acepta selector, drag & drop y pegado de imágenes del portapapeles. Mantiene un original y su resultado en memoria, revoca Blob URLs al reemplazar/limpiar/desmontar y mantiene cancelación durante preparación e inferencia. No persiste imágenes, máscaras ni nombres.

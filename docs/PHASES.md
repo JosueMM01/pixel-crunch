@@ -1,6 +1,6 @@
 # Fases de Pixel Crunch 2.0
 
-**Estado:** Fases 1–4 completadas el 18/09/2026; Fases 5–7 pendientes. Cada fase incorpora pruebas y documentación.
+**Estado:** Fases 1–4 completadas; Fase 5 implementada localmente y pendiente de revisión visual; Fases 6–7 pendientes. Cada fase incorpora pruebas y documentación.
 
 ## Fase 1 — Modernización del stack y skills
 
@@ -67,14 +67,15 @@
 
 **Objetivo:** flujo sencillo y accesible en ES/EN.
 
-- [ ] Selección, drag & drop/pegado, preview y dimensiones.
-- [ ] Opciones de resolución explícitas, estados de descarga/procesamiento y cancelación.
-- [ ] Comparación antes/después, transparencia visible y exportación PNG/WebP verificada.
-- [ ] Errores recuperables y diagnóstico técnico opcional.
+- [x] Selección, drag & drop/pegado, preview y dimensiones.
+- [x] Opciones de resolución explícitas, estados de descarga/procesamiento y cancelación.
+- [x] Comparación antes/después, transparencia visible y exportación PNG/WebP con MIME validado.
+- [x] Errores recuperables y diagnóstico técnico opcional.
 
 **Archivos:** background-remover, página, traducciones y tests.
 **Pruebas:** estados/acciones, teclado, formatos, tema y responsive.
 **Aceptación:** flujo completo sin persistir imágenes y sin porcentajes ficticios de inferencia.
+**Resultado provisional:** interfaz ES/EN con un archivo por operación, original y resultado en memoria, pegado desde portapapeles, resolución Original/Optimizada/Reducida y comparación accesible. Cache Storage conserva solo recursos públicos del modelo de forma best-effort y permite distinguir descarga de carga local. Falta la aprobación visual del propietario antes de promover la rama.
 
 ## Fase 6 — Cloudflare, caché y rendimiento
 

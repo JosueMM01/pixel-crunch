@@ -8,7 +8,7 @@ Cloudflare sirve HTML, JS, WASM y modelos públicos. Descargar el motor no impli
 
 ## Almacenamiento y offline
 
-Se permiten preferencias de tema/idioma y caché de assets/modelos públicos. Las imágenes y los resultados permanecen en memoria hasta limpiar o abandonar la página.
+Se permiten preferencias de tema/idioma y caché de assets/modelos públicos. El Service Worker limita su caché runtime a la ruta versionada del motor; no intercepta ni almacena imágenes elegidas o pegadas. Las imágenes y los resultados permanecen en memoria hasta limpiar o abandonar la página.
 
 Offline requiere aplicación y motor descargados; cuotas, modo privado o evicción pueden impedirlo. Procesamiento local no significa offline desde la primera visita.
 
