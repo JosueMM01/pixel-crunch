@@ -4,7 +4,7 @@
 
 Suite pequeña, privada y gratuita para **comprimir, convertir y quitar fondo** en el navegador. Cada herramienta tendrá su propia ruta y versión ES/EN.
 
-La base actual tiene compresión/conversión y el stack modernizado. Quitar fondo y la separación de rutas siguen pendientes; [PHASES.md](PHASES.md) define la ejecución.
+La base actual tiene compresión y conversión en rutas independientes con el stack modernizado. La ruta informativa de quitar fondo ya existe; el motor y su interfaz siguen pendientes. [PHASES.md](PHASES.md) define la ejecución.
 
 ## Decisiones de producto
 

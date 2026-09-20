@@ -40,6 +40,10 @@ export interface ImagePreviewCopy {
   removeLabel: string;
   previewAltPrefix: string;
   saveSingleLabel?: string;
+  previousImageLabel: string;
+  nextImageLabel: string;
+  carouselLabel: string;
+  viewImageLabel: string;
 }
 
 export interface ImagePreviewCompressionMeta {
@@ -144,7 +148,7 @@ export interface CompressionProgressProps {
   compact?: boolean;
 }
 
-export interface UploaderPanelProps {
+export interface CompressorPanelProps {
   uploadCopy?: Partial<UploadZoneCopy>;
   previewCopy?: Partial<ImagePreviewCopy>;
   qualityCopy?: Partial<QualitySliderCopy>;
@@ -158,6 +162,7 @@ export interface ConverterPanelCopy {
   convertingLabel: string;
   saveAllLabel: string;
   savingLabel: string;
+  convertedZipName: string;
   convertedBadgeLabel: string;
   pendingBadgeLabel: string;
   noPendingLabel: string;

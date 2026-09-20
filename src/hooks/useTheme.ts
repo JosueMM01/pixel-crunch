@@ -11,6 +11,7 @@ interface UseThemeReturn {
 
 const STORAGE_KEY = 'theme';
 const MEDIA_QUERY = '(prefers-color-scheme: dark)';
+const THEME_CHANGE_EVENT = 'pixel-crunch:theme-change';
 
 function getSystemTheme(): ResolvedTheme {
   if (typeof window === 'undefined') {
@@ -71,10 +72,18 @@ export function useTheme(): UseThemeReturn {
       setResolvedTheme(applyThemeClass('system'));
     };
 
+    const onThemeChange = (event: Event) => {
+      const nextTheme = (event as CustomEvent<Theme>).detail;
+      setThemeState(nextTheme);
+      setResolvedTheme(applyThemeClass(nextTheme));
+    };
+
     mediaQuery.addEventListener('change', onSystemThemeChange);
+    window.addEventListener(THEME_CHANGE_EVENT, onThemeChange);
 
     return () => {
       mediaQuery.removeEventListener('change', onSystemThemeChange);
+      window.removeEventListener(THEME_CHANGE_EVENT, onThemeChange);
     };
   }, []);
 
@@ -82,6 +91,7 @@ export function useTheme(): UseThemeReturn {
     setThemeState(nextTheme);
     localStorage.setItem(STORAGE_KEY, nextTheme);
     setResolvedTheme(applyThemeClass(nextTheme));
+    window.dispatchEvent(new CustomEvent<Theme>(THEME_CHANGE_EVENT, { detail: nextTheme }));
   }, []);
 
   return {
