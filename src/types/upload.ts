@@ -172,6 +172,7 @@ export interface ConverterPanelCopy {
   saveErrorLabel: string;
   animatedGifWarningLabel: string;
   gifStrategyLabel: string;
+  unsupportedFormatLabel: string;
   outputFormats: {
     jpg: string;
     png: string;

@@ -39,3 +39,9 @@ export type {
 	BackgroundRemovalWorkerRequest,
 	BackgroundRemovalWorkerResponse,
 } from './background-removal';
+
+export type {
+  BackgroundRemovalQueueItem,
+  BackgroundRemovalPanelCopy,
+  BackgroundRemoverPanelProps,
+} from './background-removal-ui';

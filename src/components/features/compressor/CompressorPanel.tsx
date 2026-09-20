@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import JSZip from 'jszip';
 import imageCompression from 'browser-image-compression';
 import { ImagePreview } from '../uploader/ImagePreview';
 import { UploadZone } from '../uploader/UploadZone';
@@ -621,7 +620,8 @@ export function CompressorPanel({
   const comparisonSavingsPercent = comparisonOriginalBytes > 0
     ? ((comparisonOriginalBytes - comparisonCompressedBytes) / comparisonOriginalBytes) * 100
     : 0;
-  const comparisonSavingsText = `${comparisonSavingsPercent.toFixed(1)}%`;
+  const comparisonSizeDeltaPercent = -comparisonSavingsPercent;
+  const comparisonSavingsText = `${comparisonSizeDeltaPercent > 0 ? '+' : ''}${comparisonSizeDeltaPercent.toFixed(1)}%`;
   const isEstimatedPreview = Boolean(livePreviewResult?.outputFile);
   const comparisonOriginalMeta = formatBytes(comparisonOriginalBytes, 1);
   const comparisonCompressedMeta = `${isEstimatedPreview ? '≈ ' : ''}${formatBytes(comparisonCompressedBytes, 1)} (${comparisonSavingsText})`;
@@ -874,6 +874,7 @@ export function CompressorPanel({
 
         saveFile(outputFile, buildCompressedFileName(inputName, extension, compressedFileSuffix));
       } else {
+        const { default: JSZip } = await import('jszip');
         const zip = new JSZip();
 
         downloadableResults.forEach((result, index) => {

@@ -4,7 +4,7 @@
 
 Suite pequeña, privada y gratuita para **comprimir, convertir y quitar fondo** en el navegador. Cada herramienta tendrá su propia ruta y versión ES/EN.
 
-La base actual tiene compresión y conversión en rutas independientes con el stack modernizado. La ruta informativa y el motor local de quitar fondo ya existen; su interfaz sigue pendiente. [PHASES.md](PHASES.md) define la ejecución.
+La base actual tiene compresión, conversión y eliminación local de fondo en rutas independientes con el stack modernizado. La interfaz de quitar fondo está implementada en Fase 5 y pendiente de aprobación visual. [PHASES.md](PHASES.md) define la ejecución.
 
 ## Decisiones de producto
 
@@ -19,6 +19,6 @@ La idea inicial orienta el diseño; la implementación y las decisiones técnica
 
 ## Alcance inicial
 
-Una imagen por operación de quitar fondo, comparación y exportación PNG/WebP. Preservar batch/ZIP del compresor. Resize, crop, EXIF, batch de IA y edición manual de máscaras quedan para fases posteriores.
+Una imagen por operación de quitar fondo, con una cola en memoria de hasta 20 archivos para cambiar entre resultados. Incluye comparación, corrección manual de máscara y exportación PNG/WebP. Preservar batch/ZIP del compresor; no ejecutar inferencias de IA en paralelo. Resize, crop, EXIF y automatización batch de IA quedan para fases posteriores.
 
 Pixel Crunch usa `AGPL-3.0-only`. Las dependencias y modelos conservan sus licencias; ver [LICENSING.md](LICENSING.md) y [los avisos de terceros](../THIRD_PARTY_NOTICES.md).

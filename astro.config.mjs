@@ -12,9 +12,7 @@ export default defineConfig({
   site: 'https://pixel-crunch.josuem01.dev',
   integrations: [
     react(),
-    sitemap({
-      filter: (page) => !page.endsWith('/quitar-fondo/') && !page.endsWith('/en/remove-background/')
-    })
+    sitemap()
   ],
 
   devToolbar: {
@@ -22,6 +20,21 @@ export default defineConfig({
   },
 
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    optimizeDeps: {
+      // Worker imports escape the initial crawl. Prepare them on the dev server
+      // so first use does not invalidate active pages; browser loading stays lazy.
+      include: [
+        'browser-image-compression',
+        '@imgly/background-removal',
+        'jszip',
+        'react-dropzone',
+        'lucide-react',
+        'sonner',
+        'gifenc/dist/gifenc.esm.js',
+        'gifuct-js',
+        'file-saver',
+      ]
+    }
   }
 });

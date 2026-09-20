@@ -15,7 +15,7 @@ Cada ruta tiene canonical, hreflang, título y contenido propios. El selector de
 
 ## Estructura de carpetas
 
-Las herramientas tienen módulos independientes. La Fase 4 añadió el motor de eliminación de fondo; su interfaz se incorpora en la Fase 5.
+Las herramientas tienen módulos independientes. El motor y la interfaz de eliminación de fondo viven en módulos propios.
 
 - **src/**
   - **components/**
@@ -25,7 +25,7 @@ Las herramientas tienen módulos independientes. La Fase 4 añadió el motor de 
       - **uploader/** — selección, drag & drop y preview reutilizables.
       - **compressor/** — panel y controles exclusivos de compresión.
       - **converter/** — panel y controles exclusivos de conversión.
-      - **background-remover/** — interfaz de eliminación de fondo (fase 5).
+      - **background-remover/** — carga/pegado, opciones, progreso, comparación y descarga.
   - **hooks/** — coordinación y estado por herramienta.
   - **lib/**
     - **compression/** — utilidades específicas de compresión.
@@ -49,6 +49,6 @@ Mover archivos al separar responsabilidades, no crear carpetas vacías ni abstra
 
 La isla de cada herramienta usa `client:load` para responder al usuario. El cliente de quitar fondo es liviano: el worker se crea y el motor se importa solo al ejecutar la operación. IMG.LY, ONNX y los modelos no se importan desde módulos compartidos ni se precargan.
 
-Una operación de IA a la vez, con id, progreso, resultado/error y cancelación. Terminar worker y liberar Blob URLs/bitmaps al finalizar o abandonar. El worker de compresión permanece independiente.
+Una operación de IA a la vez, con id, progreso, resultado/error y cancelación. Terminar worker y liberar Blob URLs/bitmaps al finalizar o abandonar. El Service Worker conserva únicamente fragmentos públicos del modelo en Cache Storage; las imágenes no entran en esa caché. El worker de compresión permanece independiente.
 
 Estado de imágenes en memoria; avisar al navegar con trabajo pendiente. Compartir UI y helpers pequeños, no el estado o motor de cada herramienta.
